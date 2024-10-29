@@ -8,4 +8,10 @@ class Produk extends CI_Controller
 		$data['title'] = 'Produk Ruko';
 		$this->load->view('produk/ruko', $data);
 	}
+
+	public function lapak()
+	{
+		$data['title'] = 'Produk Lapak';
+		$this->load->view('produk/Lapak', $data);
+	}
 }

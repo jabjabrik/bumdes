@@ -19,7 +19,7 @@
                 <nav class="breadcrumbs">
                     <ol>
                         <li><a href="<?= base_url(); ?>">Beranda</a></li>
-                        <li class="current">Ruko</li>
+                        <li class="current">Lapak</li>
                     </ol>
                 </nav>
             </div>
@@ -27,8 +27,8 @@
 
         <section class="section">
             <div class="container section-title pb-3" data-aos="fade-up">
-                <h2>Daftar Rumah Toko (Ruko)</h2>
-                <p>Daftar Ruko BUMDes Bantaran, Kecamatan Bantaran, Kabupaten Probolinggo</p>
+                <h2>Daftar Lapak</h2>
+                <p>Daftar Lapak BUMDes Bantaran, Kecamatan Bantaran, Kabupaten Probolinggo</p>
             </div>
             <!-- Projects Section -->
             <section id="projects" class="projects section">
@@ -49,9 +49,9 @@
 
                             <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-remodeling">
                                 <div class="portfolio-content h-100 bg-secondary">
-                                    <img src="<?= base_url('assets/img/ruko1.jpg'); ?>" class="img-fluid" alt="">
+                                    <img src="<?= base_url('assets/img/lapak/lapak1.jpg'); ?>" class="img-fluid" alt="">
                                     <div class="portfolio-info">
-                                        <h4>Ruko 1</h4>
+                                        <h4>Lapak 1</h4>
                                         <p>Lorem ipsum, dolor sit amet consectetur</p>
                                         <a href="assets/img/projects/remodeling-1.jpg" title="App 1" data-gallery="portfolio-gallery-app" class="glightbox preview-link"><i class="bi bi-zoom-in"></i></a>
                                         <a href="project-details.html" title="More Details" class="details-link"><i class="bi bi-link-45deg"></i></a>
@@ -61,9 +61,9 @@
 
                             <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-construction">
                                 <div class="portfolio-content h-100 bg-secondary">
-                                    <img src="<?= base_url('assets/img/ruko2.jpg'); ?>" class="img-fluid" alt="">
+                                    <img src="<?= base_url('assets/img/lapak/lapak2.jpg'); ?>" class="img-fluid" alt="">
                                     <div class="portfolio-info">
-                                        <h4>Ruko 2</h4>
+                                        <h4>Lapak 2</h4>
                                         <p>Lorem ipsum, dolor sit amet consectetur</p>
                                         <a href="assets/img/projects/construction-1.jpg" title="Product 1" data-gallery="portfolio-gallery-product" class="glightbox preview-link"><i class="bi bi-zoom-in"></i></a>
                                         <a href="project-details.html" title="More Details" class="details-link"><i class="bi bi-link-45deg"></i></a>
@@ -73,9 +73,9 @@
 
                             <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-repairs">
                                 <div class="portfolio-content h-100 bg-secondary">
-                                    <img src="<?= base_url('assets/img/ruko3.jpg'); ?>" class="img-fluid" alt="">
+                                    <img src="<?= base_url('assets/img/lapak/lapak3.jpg'); ?>" class="img-fluid" alt="">
                                     <div class="portfolio-info">
-                                        <h4>Ruko 3</h4>
+                                        <h4>Lapak 3</h4>
                                         <p>Lorem ipsum, dolor sit amet consectetur</p>
                                         <a href="assets/img/projects/repairs-1.jpg" title="Branding 1" data-gallery="portfolio-gallery-branding" class="glightbox preview-link"><i class="bi bi-zoom-in"></i></a>
                                         <a href="project-details.html" title="More Details" class="details-link"><i class="bi bi-link-45deg"></i></a>
@@ -85,9 +85,9 @@
 
                             <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-design">
                                 <div class="portfolio-content h-100 bg-secondary">
-                                    <img src="<?= base_url('assets/img/ruko1.jpg'); ?>" class="img-fluid" alt="">
+                                    <img src="<?= base_url('assets/img/lapak/lapak1.jpg'); ?>" class="img-fluid" alt="">
                                     <div class="portfolio-info">
-                                        <h4>Ruko 4</h4>
+                                        <h4>Lapak 4</h4>
                                         <p>Lorem ipsum, dolor sit amet consectetur</p>
                                         <a href="assets/img/projects/design-1.jpg" title="Branding 1" data-gallery="portfolio-gallery-book" class="glightbox preview-link"><i class="bi bi-zoom-in"></i></a>
                                         <a href="project-details.html" title="More Details" class="details-link"><i class="bi bi-link-45deg"></i></a>
@@ -97,9 +97,9 @@
 
                             <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-remodeling">
                                 <div class="portfolio-content h-100 bg-secondary">
-                                    <img src="<?= base_url('assets/img/ruko2.jpg'); ?>" class="img-fluid" alt="">
+                                    <img src="<?= base_url('assets/img/lapak/lapak2.jpg'); ?>" class="img-fluid" alt="">
                                     <div class="portfolio-info">
-                                        <h4>Ruko 5</h4>
+                                        <h4>Lapak 5</h4>
                                         <p>Lorem ipsum, dolor sit amet consectetur</p>
                                         <a href="assets/img/projects/remodeling-2.jpg" title="App 2" data-gallery="portfolio-gallery-app" class="glightbox preview-link"><i class="bi bi-zoom-in"></i></a>
                                         <a href="project-details.html" title="More Details" class="details-link"><i class="bi bi-link-45deg"></i></a>
@@ -109,9 +109,9 @@
 
                             <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-construction">
                                 <div class="portfolio-content h-100 bg-secondary">
-                                    <img src="<?= base_url('assets/img/ruko3.jpg'); ?>" class="img-fluid" alt="">
+                                    <img src="<?= base_url('assets/img/lapak/lapak3.jpg'); ?>" class="img-fluid" alt="">
                                     <div class="portfolio-info">
-                                        <h4>Ruko 6</h4>
+                                        <h4>Lapak 6</h4>
                                         <p>Lorem ipsum, dolor sit amet consectetur</p>
                                         <a href="assets/img/projects/construction-2.jpg" title="Product 2" data-gallery="portfolio-gallery-product" class="glightbox preview-link"><i class="bi bi-zoom-in"></i></a>
                                         <a href="project-details.html" title="More Details" class="details-link"><i class="bi bi-link-45deg"></i></a>
