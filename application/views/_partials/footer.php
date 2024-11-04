@@ -3,7 +3,7 @@
 		<div class="row gy-4">
 			<div class="col-md-6 col-12 footer-about">
 				<a href="<?= base_url(); ?>" class="logo d-flex align-items-center">
-					<img src="<?= base_url('assets/img/logo/logo_pemkab.png'); ?>" alt="logo_pemkab">
+					<img src="<?= base_url('assets/img/logo/logo_bantaran.png'); ?>" alt="logo_bantaran">
 					<span class="sitename">BUMDes Bantaran</span>
 				</a>
 				<div class="px-3 pt-3">

@@ -25,13 +25,29 @@
             </div>
         </div><!-- End Page Title -->
 
-        <section class="section">
-            <div class="container section-title pb-3" data-aos="fade-up">
+        <!-- Team Section -->
+        <section class="team section">
+
+            <!-- Section Title -->
+            <div class="container section-title pb-3 mb-5" data-aos="fade-up">
                 <h2>Struktur Organisasi</h2>
                 <p>Struktur Organisasi BUMDes Bantaran, Kecamatan Bantaran, Kabupaten Probolinggo</p>
             </div>
-            <div class="container p-4" data-aos="fade-up" data-aos-delay="100">
-                <img src="<?= base_url('assets/img/struktur.jpg') ?>" alt="" class="img-fluid">
+
+            <div class="container">
+                <div class="row gy-5">
+                    <?php foreach ($perangkat_desa as $item): ?>
+                        <div class="col-lg-4 col-md-6 member" data-aos="fade-up" data-aos-delay="100">
+                            <div class="member-img rounded shadow">
+                                <img src="<?= base_url("assets/img/perangkat_desa/$item->foto"); ?>" style="background-position: center; background-size: cover;" class="img-fluid" alt="">
+                            </div>
+                            <div class="member-info text-center">
+                                <h4><?= $item->nama ?></h4>
+                                <span><?= $item->jabatan ?></span>
+                            </div>
+                        </div>
+                    <?php endforeach ?>
+                </div>
             </div>
         </section>
     </main>
@@ -44,7 +60,7 @@
     <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
     <!-- Preloader -->
-    <!-- <div id="preloader"></div> -->
+    <div id="preloader"></div>
 
     <!-- Script -->
     <?php $this->view('_partials/script'); ?>
