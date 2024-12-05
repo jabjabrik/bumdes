@@ -6,6 +6,6 @@ class Home extends CI_Controller
 	public function index()
 	{
 		$data['title'] = 'Beranda';
-		$this->load->view('home/index', $data);
+		$this->load->view('profile_view/home/index', $data);
 	}
 }
