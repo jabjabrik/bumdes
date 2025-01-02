@@ -20,7 +20,7 @@
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-sm-6">
-                            <h3 class="mb-0">Ruko</h3>
+                            <h3 class="mb-0">Pembayaran</h3>
                         </div>
                     </div>
                 </div>

@@ -73,7 +73,7 @@ class Auth extends CI_Controller
             'is_login'     => TRUE,
             'username'     => $user->username,
             'id_user'   => $user->id_user,
-            'role'      => $user->role,
+            'user_role'      => $user->role,
             'nama_user' => $user->nama_user,
         ];
 

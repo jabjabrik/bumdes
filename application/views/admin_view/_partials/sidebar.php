@@ -12,17 +12,73 @@
                         <p>Dashboard</p>
                     </a>
                 </li>
-                <li class="nav-header">Master</li>
-                <li class="nav-item"> <a href="<?= base_url('user') ?>" class="nav-link <?= $title == 'User' ? 'active' : ''; ?>"> <i class="nav-icon bi bi-person-circle"></i>
-                        <p>User</p>
+                <?php if ($this->session->userdata('user_role') == 'admin'): ?>
+                    <li class="nav-header">Kelola User</li>
+                    <li class="nav-item"> <a href="<?= base_url('user') ?>" class="nav-link <?= $title == 'User' ? 'active' : ''; ?>"> <i class="nav-icon bi bi-person-circle"></i>
+                            <p>User</p>
+                        </a>
+                    </li>
+                    <li class="nav-header">Kelola Penyewa</li>
+                    <li class="nav-item">
+                        <a href="<?= base_url('penyewa'); ?>" class="nav-link <?= $title == 'Penyewa' ? 'active' : ''; ?>">
+                            <i class="bi bi-person-badge"></i>
+                            <p>Penyewa</p>
+                        </a>
+                    </li>
+                    <li class="nav-header">Kelola Properti</li>
+                    <li class="nav-item">
+                        <a href="<?= base_url('properti') ?>" class="nav-link <?= $title == 'Properti' ? 'active' : ''; ?>">
+                            <i class="bi bi-building-gear nav-icon"></i>
+                            <p>Properti</p>
+                        </a>
+                    </li>
+                <?php endif; ?>
+                <li class="nav-header">Sewa Properti</li>
+                <li class="nav-item">
+                    <a href="<?= base_url('sewa/utama') ?>" class="nav-link <?= $title == 'Utama' ? 'active' : ''; ?>">
+                        <i class="bi bi-house-door nav-icon"></i>
+                        <p>Utama</p>
                     </a>
                 </li>
-                <li class="nav-item"> <a href="<?= base_url('ruko') ?>" class="nav-link <?= $title == 'Ruko' ? 'active' : ''; ?>"> <i class="nav-icon bi bi-buildings"></i>
-                        <p>Ruko</p>
-                    </a>
-                </li>
-                <li class="nav-item"> <a href="<?= base_url('lapak') ?>" class="nav-link <?= $title == 'Lapak' ? 'active' : ''; ?>"> <i class="nav-icon bi bi-building"></i>
-                        <p>Lapak</p>
+                <?php if ($this->session->userdata('user_role') != 'kepala lapak'): ?>
+                    <li class="nav-item <?= $title == 'Sewa Ruko' ? 'menu-open' : ''; ?>">
+                        <a href="#" class="nav-link <?= $title == 'Sewa Ruko' ? 'active' : ''; ?>">
+                            <i class="bi bi-buildings nav-icon"></i>
+                            <p>Ruko <i class="nav-arrow bi bi-chevron-right"></i></p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <?php foreach ($ruko as $item): ?>
+                                <li class="nav-item">
+                                    <a href="<?= base_url("sewa?id_properti=$item->id_properti"); ?>" class="nav-link <?= $item->id_properti == $id_properti ? 'active' : '' ?>">
+                                        <p class="text-capitalize"><?= $item->nama_properti ?></p>
+                                    </a>
+                                </li>
+                            <?php endforeach; ?>
+                        </ul>
+                    </li>
+                <?php endif; ?>
+                <?php if ($this->session->userdata('user_role') != 'kepala ruko'): ?>
+                    <li class="nav-item <?= $title == 'Sewa Lapak' ? 'menu-open' : ''; ?>">
+                        <a href="#" class="nav-link <?= $title == 'Sewa Lapak' ? 'active' : ''; ?>">
+                            <i class="bi bi-buildings nav-icon"></i>
+                            <p>Lapak <i class="nav-arrow bi bi-chevron-right"></i></p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <?php foreach ($lapak as $item): ?>
+                                <li class="nav-item">
+                                    <a href="<?= base_url("sewa?id_properti=$item->id_properti"); ?>" class="nav-link <?= $item->id_properti == $id_properti ? 'active' : '' ?>">
+                                        <p class="text-capitalize"><?= $item->nama_properti ?></p>
+                                    </a>
+                                </li>
+                            <?php endforeach; ?>
+                        </ul>
+                    </li>
+                <?php endif; ?>
+                <li class="nav-header">Transaksi</li>
+                <li class="nav-item">
+                    <a href="<?= base_url('keuangan') ?>" class="nav-link <?= $title == 'Keuangan' ? 'active' : ''; ?>">
+                        <i class="bi bi-cash-stack"></i>
+                        <p>Laporan Keuangan</p>
                     </a>
                 </li>
                 <li class="nav-header">Akun</li>

@@ -31,15 +31,17 @@
                             <input id="password" name="password" type="password" placeholder="" class="form-control" value="<?= set_value('password'); ?>">
                             <label for="password">Password</label>
                             <?= form_error('password', '<small class="text-danger pl-3 mt-1 d-block" style="text-align: left;">', '</small>'); ?>
-
                         </div>
                         <div class="input-group-text">
                             <span class="bi bi-lock-fill"></span>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-4">
-                            <div class="d-grid gap-2"> <button type="submit" class="btn btn-primary mt-2">Login</button> </div>
+                        <div class="col-3">
+                            <button type="submit" class="btn btn-primary mt-2">Login</button>
+                        </div>
+                        <div class="col-3">
+                            <a href="<?= base_url(); ?>" class="btn btn-secondary mt-2">Kembali</a>
                         </div>
                     </div>
                 </form>
