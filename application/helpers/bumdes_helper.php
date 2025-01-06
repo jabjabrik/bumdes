@@ -13,8 +13,8 @@ function authorize_user($roles = 'admin')
     $CI = &get_instance();
     $user_role = $CI->session->userdata('user_role');
 
-    if (empty('user_role')) {
-        show_error('User tidak memiliki akses. Silakan login.', 403, 'Akses Ditolak');
+    if (!$user_role) {
+        redirect('auth');
     }
 
     if ($user_role === 'admin') {
@@ -27,7 +27,7 @@ function authorize_user($roles = 'admin')
 
     // Periksa apakah user memiliki salah satu role yang diizinkan
     if (!in_array($user_role, $roles)) {
-        show_error('Anda tidak memiliki akses untuk halaman ini.', 403, 'Akses Ditolak');
+        redirect('dashboard');
     }
 
     return true;
@@ -73,14 +73,15 @@ function hitung_lama_sewa($tanggal_awal, $tanggal_akhir, $jenis)
     $tanggal_awal = new DateTime($tanggal_awal);
     $tanggal_akhir = new DateTime($tanggal_akhir);
 
-    $interval = $tanggal_awal->diff($tanggal_akhir);
+    $interval = date_diff($tanggal_awal, $tanggal_akhir);
 
     $lama_sewa = "";
 
     if ($jenis == 'ruko') {
         $lama_sewa .= "$interval->y";
     } else {
-        $lama_sewa .=  ($interval->y * 12) + $interval->m;
+        $month = $interval->d == 0 ? $interval->m : $interval->m + 1;
+        $lama_sewa .=  ($interval->y * 12) + $month;
     }
     return $lama_sewa;
 }
@@ -120,4 +121,14 @@ function hitung_jumlah_periode_lunas($data)
         $jumlah_periode_lunas += (is_null($item->tanggal_pembayaran)) ? 0 : 1;
     }
     return $jumlah_periode_lunas;
+}
+
+function cek_status_lunas($pembayaran_sewa)
+{
+    foreach ($pembayaran_sewa as $item) {
+        if ($item->status_pembayaran == 'pending') {
+            return false;
+        }
+    }
+    return true;
 }

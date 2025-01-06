@@ -20,7 +20,7 @@
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-12">
-                            <h3 class="mb-0"><i class="bi bi-cash-stack me-1"></i> Laporan Keuangan BUMDes Tahun 2023 - 2025</h3>
+                            <h3 class="mb-0"><i class="bi bi-cash-stack me-1"></i> Laporan Keuangan BUMDes Tahun <?= $tahun ?></h3>
 
                             <!-- <h3 class="mb-0">Data Keuangan BUMDes Tahun 2024</h3> -->
                             <!-- <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#modal_form" onclick="setForm('insert')">
@@ -35,21 +35,18 @@
                     <div class="row gy-2">
                         <div class="col-12">
                             <div class="btn-group mb-2" role="group" aria-label="Button group with nested dropdown">
-                                <button type="button" disabled class="btn btn-secondary">Menampilkan Data Tahun 2023 - 2025</button>
+                                <button type="button" disabled class="btn btn-secondary">Menampilkan Data Tahun <?= $tahun ?></button>
                                 <!-- <button type="button" disabled class="btn btn-secondary">Tahun 2024</button> -->
                                 <div class="btn-group" role="group">
                                     <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                                         Pilih Tahun
                                     </button>
                                     <ul class="dropdown-menu">
-                                        <li> <a class="dropdown-item" href="#">2023</a> </li>
-                                        <li> <a class="dropdown-item" href="#">2024</a> </li>
-                                        <li> <a class="dropdown-item" href="#">2025</a> </li>
-                                        <li>
-                                            <hr class="dropdown-divider">
-                                        </li>
-                                        <li> <a class="dropdown-item" href="#">Tahun 2023 - 2025</a> </li>
-                                        <!-- <li> <a class="dropdown-item" href="#">Semua Data</a> </li> -->
+                                        <?php foreach ($tahun_pembayaran as $item): ?>
+                                            <li>
+                                                <a class="dropdown-item" href="<?= base_url("keuangan/laporan/$item"); ?>"><?= $item; ?></a>
+                                            </li>
+                                        <?php endforeach; ?>
                                     </ul>
                                 </div>
                             </div>
@@ -115,8 +112,7 @@
                                                             <h6 class="fw-bold mt-2">TAHUN</h6>
                                                         </div>
                                                         <div class="col-6 mb-0">
-                                                            <h6 class="fw-bold mt-2">2023 - 2025</h6>
-                                                            <!-- <input type="text" class="form-control" value="tahun 2023 - 2025"> -->
+                                                            <h6 class="fw-bold mt-2"><?= $tahun ?></h6>
                                                         </div>
                                                     </div>
                                                     <hr>
@@ -137,8 +133,8 @@
                                                     <hr>
                                                     <div class="row">
                                                         <div class="col-6 mb-0">
-                                                            <a href="<?= base_url("sewa/histori/$id_properti"); ?>" class="pt-2 btn btn-sm btn-success">
-                                                                <i class="bi bi-file-text me-1"></i> Generate Laporan
+                                                            <a href="<?= base_url("keuangan/report/$tahun"); ?>" target="_blank" class="pt-2 btn btn-sm btn-success">
+                                                                <i class="bi bi-file-text me-1"></i> Buat Laporan
                                                             </a>
                                                         </div>
                                                     </div>
@@ -151,6 +147,9 @@
                             </div>
                         </div>
                         <div class="col-12">
+                            <button type="button" class="mb-3 btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#modal_form">
+                                <i class="bi bi-plus-lg"></i> Input Keuangan
+                            </button>
                             <table id="datatables" class="table table-striped table-bordered text-capitalize" style="font-size: .9em;">
                                 <thead>
                                     <tr>
@@ -174,14 +173,14 @@
                                             <td><?= $item->jenis_transaksi == 'kredit' ? 'Rp' . number_format($item->jumlah, 0, ',', '.') : '-' ?></td>
                                             <td><span>Rp<?= number_format($item->total_saldo, 0, ',', '.');  ?></span></td>
                                             <td style="white-space: nowrap;">
-                                                <?php if ($item->id_sewa): ?>
+                                                <?php if ($item->id_pembayaran): ?>
                                                     Diproses oleh sistem
                                                 <?php else: ?>
                                                     <div class="btn-group btn-group-sm" role="group">
-                                                        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modal_form" onclick="setForm('edit')">
+                                                        <!-- <button type="button" class="btn btn-success me-1">
                                                             <i class="bi bi-pencil-square"></i> Edit
-                                                        </button>
-                                                        <a href="<?= base_url("penyewa/nonactive/"); ?>" class="btn btn-outline-danger" onclick="return confirm('Anda yakin ingin menghapus data?')">
+                                                        </button> -->
+                                                        <a href="<?= base_url("keuangan/keuangan_delete/$item->id_transaksi_keuangan"); ?>" class="btn btn-outline-danger" onclick="return confirm('Anda yakin ingin menghapus data?')">
                                                             <i class="bi bi-trash-fill"></i> Hapus
                                                         </a>
                                                     </div>
@@ -196,6 +195,48 @@
                 </div>
             </div>
         </main>
+
+        <div class="modal fade" id="modal_form" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5 text-capitalize" id="title_form">Form Input Keuangan</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form id="modal-form" method="POST" autocomplete="off" action="<?= base_url('keuangan/keuangan_insert'); ?>">
+                        <div class="modal-body">
+                            <div class="row g-3">
+                                <input name="tahun" hidden value="<?= $tahun ?>">
+                                <div class="form-group col-md-6">
+                                    <label for="jenis_transaksi" class="form-label">Jenis Transaksi</label>
+                                    <select name="jenis_transaksi" id="jenis_transaksi" class="form-control" required>
+                                        <option value="">-</option>
+                                        <option value="debit">Debit</option>
+                                        <option value="kredit">Kredit</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-6 col-12">
+                                    <label for="tanggal_transaksi" class="form-label">Tanggal Transaksi</label>
+                                    <input type="date" name="tanggal_transaksi" id="tanggal_transaksi" class="form-control" required>
+                                </div>
+                                <div class="form-group col-md-6 col-12">
+                                    <label for="deskripsi" class="form-label">Deskripsi</label>
+                                    <input type="text" name="deskripsi" id="deskripsi" class="form-control" required>
+                                </div>
+                                <div class="form-group col-md-6 col-12">
+                                    <label for="jumlah" class="form-label">Jumlah</label>
+                                    <input type="number" name="jumlah" id="jumlah" class="form-control" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                            <button type="submit" class="btn btn-primary">Simpan</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
 
         <!-- Script -->
         <?php $this->view('admin_view/_partials/script'); ?>

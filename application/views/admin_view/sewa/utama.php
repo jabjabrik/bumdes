@@ -55,7 +55,7 @@
                                     <td><?= $item->nama_penyewa ? $item->nama_penyewa : '-' ?></td>
                                     <td>
                                         <div class="btn-group btn-group-sm" role="group">
-                                            <a class="pb-0 px-2 btn btn-primary me-2" href="<?= base_url("sewa?id_properti=$item->id_properti_"); ?>">
+                                            <a class="pb-0 px-2 btn btn-primary me-2" href="<?= base_url("sewa/properti/$item->id_properti_"); ?>">
                                                 <i class="bi bi-info-circle"></i> Detail
                                             </a>
                                         </div>

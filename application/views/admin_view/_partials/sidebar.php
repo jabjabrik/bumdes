@@ -12,7 +12,8 @@
                         <p>Dashboard</p>
                     </a>
                 </li>
-                <?php if ($this->session->userdata('user_role') == 'admin'): ?>
+                <?php $user_role = $this->session->userdata('user_role'); ?>
+                <?php if ($user_role == 'admin'): ?>
                     <li class="nav-header">Kelola User</li>
                     <li class="nav-item"> <a href="<?= base_url('user') ?>" class="nav-link <?= $title == 'User' ? 'active' : ''; ?>"> <i class="nav-icon bi bi-person-circle"></i>
                             <p>User</p>
@@ -40,7 +41,7 @@
                         <p>Utama</p>
                     </a>
                 </li>
-                <?php if ($this->session->userdata('user_role') != 'kepala lapak'): ?>
+                <?php if ($user_role != 'kepala lapak'): ?>
                     <li class="nav-item <?= $title == 'Sewa Ruko' ? 'menu-open' : ''; ?>">
                         <a href="#" class="nav-link <?= $title == 'Sewa Ruko' ? 'active' : ''; ?>">
                             <i class="bi bi-buildings nav-icon"></i>
@@ -49,7 +50,7 @@
                         <ul class="nav nav-treeview">
                             <?php foreach ($ruko as $item): ?>
                                 <li class="nav-item">
-                                    <a href="<?= base_url("sewa?id_properti=$item->id_properti"); ?>" class="nav-link <?= $item->id_properti == $id_properti ? 'active' : '' ?>">
+                                    <a href="<?= base_url("sewa/properti/$item->id_properti"); ?>" class="nav-link <?= $item->id_properti == $id_properti ? 'active' : '' ?>">
                                         <p class="text-capitalize"><?= $item->nama_properti ?></p>
                                     </a>
                                 </li>
@@ -57,7 +58,7 @@
                         </ul>
                     </li>
                 <?php endif; ?>
-                <?php if ($this->session->userdata('user_role') != 'kepala ruko'): ?>
+                <?php if ($user_role != 'kepala ruko'): ?>
                     <li class="nav-item <?= $title == 'Sewa Lapak' ? 'menu-open' : ''; ?>">
                         <a href="#" class="nav-link <?= $title == 'Sewa Lapak' ? 'active' : ''; ?>">
                             <i class="bi bi-buildings nav-icon"></i>
@@ -66,7 +67,7 @@
                         <ul class="nav nav-treeview">
                             <?php foreach ($lapak as $item): ?>
                                 <li class="nav-item">
-                                    <a href="<?= base_url("sewa?id_properti=$item->id_properti"); ?>" class="nav-link <?= $item->id_properti == $id_properti ? 'active' : '' ?>">
+                                    <a href="<?= base_url("sewa/properti/$item->id_properti"); ?>" class="nav-link <?= $item->id_properti == $id_properti ? 'active' : '' ?>">
                                         <p class="text-capitalize"><?= $item->nama_properti ?></p>
                                     </a>
                                 </li>
@@ -74,13 +75,15 @@
                         </ul>
                     </li>
                 <?php endif; ?>
-                <li class="nav-header">Transaksi</li>
-                <li class="nav-item">
-                    <a href="<?= base_url('keuangan') ?>" class="nav-link <?= $title == 'Keuangan' ? 'active' : ''; ?>">
-                        <i class="bi bi-cash-stack"></i>
-                        <p>Laporan Keuangan</p>
-                    </a>
-                </li>
+                <?php if ($user_role == 'admin' || $user_role == 'bendahara'): ?>
+                    <li class="nav-header">Transaksi</li>
+                    <li class="nav-item">
+                        <a href="<?= base_url('keuangan/laporan') ?>" class="nav-link <?= $title == 'Keuangan' ? 'active' : ''; ?>">
+                            <i class="bi bi-cash-stack"></i>
+                            <p>Laporan Keuangan</p>
+                        </a>
+                    </li>
+                <?php endif; ?>
                 <li class="nav-header">Akun</li>
                 <li class="nav-item"> <a href="<?= base_url('auth/logout') ?>" class="nav-link"> <i class="nav-icon bi bi-box-arrow-right"></i>
                         <p>Logout</p>

@@ -23,17 +23,22 @@
                             <h3 class="mb-3 text-capitalize">Halaman Kelola Sewa <?= $data_result->jenis ?></h3>
                         </div>
                     </div>
-                    <a href="<?= base_url("sewa/histori/$id_properti"); ?>" class="pt-2 btn btn-sm btn-secondary">
+                    <a href="<?= base_url("sewa/riwayat/$id_properti"); ?>" class="pt-2 btn btn-sm btn-secondary">
                         <i class="bi bi-clock-history"></i> Lihat Histori
                     </a>
-                    <?php if (is_null($data_result->id_penyewa)): ?>
-                        <button type="button" class="pt-2 btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#modal_form_penyewa">
-                            <i class="bi bi-plus-circle"></i> Sewakan Properti
-                        </button>
-                    <?php else: ?>
-                        <a href="<?= base_url("sewa/sewa_delete/$data_result->id_sewa"); ?>" class="pt-2 btn btn-sm btn-outline-danger" onclick="return confirm('Anda yakin ingin menghapus data?')">
-                            <i class="bi bi-trash"></i> Pembatalan Sewa Properti
-                        </a>
+                    <?php if ($user_role != 'bendahara'): ?>
+                        <?php if (!isset($data_result->id_penyewa)): ?>
+                            <button type="button" class="pt-2 btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#modal_form_penyewa">
+                                <i class="bi bi-plus-circle"></i> Sewakan Properti
+                            </button>
+                        <?php else: ?>
+                            <a href="<?= base_url("sewa/sewa_delete/$data_result->id_sewa"); ?>" class="pt-2 btn btn-sm btn-outline-danger" onclick="return confirm('Anda yakin ingin menghapus data?')">
+                                <i class="bi bi-trash"></i> Pembatalan Sewa Properti
+                            </a>
+                            <a href="<?= base_url("sewa/sewa_selesai/$data_result->id_sewa"); ?>" class="pt-2 btn btn-sm btn-outline-primary" onclick="return confirm('Anda yakin ingin menghapus data?')">
+                                <i class="bi bi-check-circle"></i> Selesaikan Sewa Properti
+                            </a>
+                        <?php endif; ?>
                     <?php endif; ?>
                 </div>
             </div>
@@ -86,7 +91,7 @@
                                                     <h6 class="mb-0 fw-bold">Status</h6>
                                                 </div>
                                                 <div class="col-6 mb-0">
-                                                    <?php if (is_null($data_result->id_penyewa)): ?>
+                                                    <?php if (!isset($data_result->id_penyewa)): ?>
                                                         <span class="badge text-bg-danger">Belum Di Sewa</span>
                                                     <?php else: ?>
                                                         <span class="badge text-bg-success">Telah Di Sewa</span>
@@ -99,7 +104,7 @@
                                 </div>
                             </div>
                         </div>
-                        <?php if (!is_null($data_result->id_penyewa)): ?>
+                        <?php if (isset($data_result->id_penyewa)): ?>
                             <div class="col-12">
                                 <div class="card mb-3">
                                     <div class="card-body text-capitalize">
@@ -186,7 +191,7 @@
                                                         <h6 class="mb-0 fw-bold">Sisa Waktu Sewa</h6>
                                                     </div>
                                                     <div class="col-6 mb-0">
-                                                        <span><?= $sisa_waktu_sewa ?></span>
+                                                        <span><?= $data_result->tanggal_selesai < date('Y-m-d') ? '-' : $sisa_waktu_sewa  ?></span>
                                                     </div>
                                                 </div>
                                                 <hr>
@@ -204,7 +209,7 @@
                                                         <h6 class="mb-0 fw-bold">Metode Pembayaran</h6>
                                                     </div>
                                                     <div class="col-6 mb-0">
-                                                        <span class="text-capitalize"><?= $data_result->metode_pembayaran ?></span>
+                                                        <span class="text-capitalize badge text-bg-primary"><?= $data_result->metode_pembayaran ?></span>
                                                     </div>
                                                 </div>
                                                 <hr>
@@ -221,14 +226,14 @@
                                                 <div class="col">
                                                     <h6 class="my-1 fw-bolder text-center">INFORMASI PEMBAYARAN</h6>
                                                     <?php if ($user_role != 'kepala ruko' && $user_role != 'kepala lapak'): ?>
-                                                        <?php if (is_null($pembayaran_sewa)): ?>
-                                                            <button type="button" class="pt-2 btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#modal_form_pembayaran">
-                                                                <i class="bi bi-plus-circle me-1"></i> Input Pembayaran
-                                                            </button>
-                                                        <?php else: ?>
-                                                            <a href="<?= base_url("sewa/pembayaran_delete/$data_result->id_sewa"); ?>" class="pt-2 btn btn-sm btn-danger" onclick="return confirm('Anda yakin ingin menghapus data?')">
+                                                        <?php if ($pembayaran_sewa->status_pembayaran == 'lunas'): ?>
+                                                            <a href="<?= base_url("sewa/pembayaran_delete/$pembayaran_sewa->id_pembayaran"); ?>" class="pt-2 btn btn-sm btn-danger" onclick="return confirm('Anda yakin ingin menghapus data?')">
                                                                 <i class="bi bi-trash me-1"></i> Hapus Pembayaran
                                                             </a>
+                                                        <?php else: ?>
+                                                            <button type="button" class="pt-2 btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#modal_form_pembayaran" onclick="setFormPembayaran('<?= $pembayaran_sewa->id_pembayaran ?>')">
+                                                                <i class="bi bi-plus-circle me-1"></i> Input Pembayaran
+                                                            </button>
                                                         <?php endif; ?>
                                                     <?php endif; ?>
                                                     <hr>
@@ -242,10 +247,10 @@
                                                         </div>
                                                         <div class="col-6 mb-0">
                                                             <span>
-                                                                <?php if (is_null($pembayaran_sewa)): ?>
-                                                                    <span class="badge text-bg-warning">Pending</span>
-                                                                <?php else: ?>
+                                                                <?php if ($pembayaran_sewa->status_pembayaran == 'lunas'): ?>
                                                                     <span class="badge text-bg-success">Lunas</span>
+                                                                <?php else: ?>
+                                                                    <span class="badge text-bg-warning">Pending</span>
                                                                 <?php endif; ?>
                                                             </span>
                                                         </div>
@@ -265,7 +270,7 @@
                                                             <h6 class="mb-0 fw-bold">Tanggal Pembayaran</h6>
                                                         </div>
                                                         <div class="col-6 mb-0">
-                                                            <span><?= is_null($pembayaran_sewa) ? '-' : $pembayaran_sewa->tanggal_pembayaran ?></span>
+                                                            <span><?= $pembayaran_sewa->status_pembayaran == 'lunas' ?  $pembayaran_sewa->tanggal_pembayaran : '-'  ?></span>
                                                         </div>
                                                     </div>
                                                     <hr>
@@ -275,10 +280,10 @@
                                                         </div>
                                                         <div class="col-6 mb-0">
                                                             <span>
-                                                                <?php if (is_null($pembayaran_sewa)): ?>
-                                                                    <span>-</span>
-                                                                <?php else: ?>
+                                                                <?php if ($pembayaran_sewa->status_pembayaran == 'lunas'): ?>
                                                                     <a href="<?= base_url("file/$pembayaran_sewa->bukti_pembayaran"); ?>" target="_blank">Lihat Bukti Pembayaran</a>
+                                                                <?php else: ?>
+                                                                    <span>-</span>
                                                                 <?php endif; ?>
                                                             </span>
                                                         </div>
@@ -303,7 +308,7 @@
                                                 <div class="col-12">
                                                     <div class="row">
                                                         <div class="col-6 mb-0">
-                                                            <h6 class="mb-0 fw-bold">Total pembayaran yang harus di lunasi dalam <?= $lama_sewa ?> tahun</h6>
+                                                            <h6 class="mb-0 fw-bold">Total pembayaran yang harus di lunasi dalam <?= "$lama_sewa " . ($data_result->jenis == 'ruko' ? 'Tahun' : 'Bulan') ?></h6>
                                                         </div>
                                                         <div class="col-6 mb-0">
                                                             <span>Rp <?= number_format($lama_sewa * $data_result->harga, 0, ',', '.') ?></span>
@@ -315,7 +320,7 @@
                                                             <h6 class="mb-0 fw-bold">Pembayaran yang telah dibayar </h6>
                                                         </div>
                                                         <div class="col-6 mb-0">
-                                                            <span>Rp <?= number_format(($data_result->harga / count($pembayaran_sewa)) * hitung_jumlah_periode_lunas($pembayaran_sewa), 0, ',', '.') ?></span>
+                                                            <span>Rp <?= number_format(($data_result->harga * $lama_sewa / count($pembayaran_sewa)) * hitung_jumlah_periode_lunas($pembayaran_sewa), 0, ',', '.') ?></span>
                                                         </div>
                                                     </div>
                                                     <hr>
@@ -324,7 +329,31 @@
                                                             <h6 class="mb-0 fw-bold">Angsuran perbulan</h6>
                                                         </div>
                                                         <div class="col-6 mb-0">
-                                                            <span>Rp <?= number_format(($data_result->harga / count($pembayaran_sewa)), 0, ',', '.') ?></span>
+                                                            <span>Rp <?= number_format($angsuran_sebulan, 0, ',', '.') ?></span>
+                                                        </div>
+                                                    </div>
+                                                    <hr>
+                                                    <div class="row">
+                                                        <div class="col-6 mb-0">
+                                                            <h6 class="mb-0 fw-bold">Jumlah Angsuran</h6>
+                                                        </div>
+                                                        <div class="col-6 mb-0">
+                                                            <span><?= count($pembayaran_sewa) ?> Bulan</span>
+                                                        </div>
+                                                    </div>
+                                                    <hr>
+                                                    <div class="row">
+                                                        <div class="col-6 mb-0">
+                                                            <h6 class="mb-0 fw-bold">Status</h6>
+                                                        </div>
+                                                        <div class="col-6 mb-0">
+                                                            <span>
+                                                                <?php if (cek_status_lunas($pembayaran_sewa)): ?>
+                                                                    <span class="badge text-bg-success">Lunas</span>
+                                                                <?php else: ?>
+                                                                    <span class="badge text-bg-warning">Berlangsung</span>
+                                                                <?php endif; ?>
+                                                            </span>
                                                         </div>
                                                     </div>
                                                     <hr>
@@ -338,7 +367,9 @@
                                                                 <th class="no-sort">Tanggal Pembayaran</th>
                                                                 <th class="no-sort">Jumlah Pembayaran</th>
                                                                 <th class="no-sort">Bukti Pembayaran</th>
-                                                                <th class="no-sort">Aksi</th>
+                                                                <?php if ($user_role == 'admin' || $user_role == 'bendahara'): ?>
+                                                                    <th class="no-sort">Aksi</th>
+                                                                <?php endif; ?>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -356,23 +387,22 @@
                                                                             <a href="<?= base_url("file/$item->bukti_pembayaran"); ?>" target="_blank">Lihat Bukti</a>
                                                                         <?php endif; ?>
                                                                     </td>
-                                                                    <td>
-                                                                        <?php $params = "" ?>
-                                                                        <div class="btn-group btn-group-sm" role="group">
-                                                                            <?php if (is_null($item->tanggal_pembayaran)): ?>
-                                                                                <button type="button" class="pb-0 px-2 btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#modal_form_pembayaran"">
-                                                                                    <i class=" bi bi-plus-circle"></i>
-                                                                                </button>
-                                                                            <?php else: ?>
-                                                                                <button type="button" class="pb-0 px-2 btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#modal_form" onclick="setForm(<?= $params ?>)">
-                                                                                    <i class="bi bi-trash"></i>
-                                                                                </button>
-                                                                                <button type="button" class="pb-0 px-2 btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#modal_form" onclick="setForm(<?= $params ?>)">
-                                                                                    <i class="bi bi-pencil-square"></i>
-                                                                                </button>
-                                                                            <?php endif; ?>
-                                                                        </div>
-                                                                    </td>
+                                                                    <?php if ($user_role == 'admin' || $user_role == 'bendahara'): ?>
+                                                                        <td>
+                                                                            <?php $params = "" ?>
+                                                                            <div class="btn-group btn-group-sm" role="group">
+                                                                                <?php if (is_null($item->tanggal_pembayaran)): ?>
+                                                                                    <button type="button" class="pb-0 px-2 btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#modal_form_pembayaran" onclick="setFormPembayaran('<?= $item->id_pembayaran ?>')">
+                                                                                        <i class=" bi bi-plus-circle"></i>
+                                                                                    </button>
+                                                                                <?php else: ?>
+                                                                                    <a href="<?= base_url("sewa/pembayaran_delete/$item->id_pembayaran"); ?>" class="pb-0 px-2 btn btn-outline-danger" onclick="return confirm('Anda yakin ingin menghapus data?')">
+                                                                                        <i class="bi bi-trash"></i>
+                                                                                    </a>
+                                                                                <?php endif; ?>
+                                                                            </div>
+                                                                        </td>
+                                                                    <?php endif; ?>
                                                                 </tr>
                                                             <?php endforeach; ?>
                                                         </tbody>
@@ -412,6 +442,14 @@
                                     </select>
                                 </div>
                                 <div class="form-group col-md-6">
+                                    <label for="metode_pembayaran" class="form-label">Metode Pembayaran</label>
+                                    <select name="metode_pembayaran" id="metode_pembayaran" class="form-control" required>
+                                        <option value="">-</option>
+                                        <option value="periode bulanan">Periode Bulanan</option>
+                                        <option value="kontan">Kontan</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-6">
                                     <label for="tanggal_mulai" class="form-label">Tanggal Mulai Sewa</label>
                                     <input type="date" name="tanggal_mulai" id="tanggal_mulai" class="form-control" required>
                                 </div>
@@ -419,7 +457,7 @@
                                     <label for="lama_sewa" class="form-label">Lama Sewa (<?= $data_result->jenis == 'ruko' ? 'Tahun' : 'Bulan' ?>)</label>
                                     <input type="number" name="lama_sewa" id="lama_sewa" class="form-control" required min="1">
                                 </div>
-                                <div class="form-group col-md-6">
+                                <div class="form-group col-12">
                                     <label for="dokumen_perjanjian_sewa" class="form-label">Dokumen Perjanjian Sewa</label>
                                     <input type="file" name="dokumen_perjanjian_sewa" id="dokumen_perjanjian_sewa" class="form-control" accept="application/pdf" required>
                                 </div>
@@ -436,43 +474,53 @@
         <!-- End Modal Form Penyewa -->
 
         <!-- Modal Form Pembayaran -->
-        <div class="modal fade" id="modal_form_pembayaran" tabindex="-1" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 class="modal-title fs-5 text-capitalize" id="title_form">Form Pembayaran Sewa</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <form id="modal-form" method="POST" autocomplete="off" enctype="multipart/form-data" action="<?= base_url('sewa/pembayaran_insert'); ?>">
-                        <div class="modal-body">
-                            <div class="row g-3">
-                                <input type="text" name="id_sewa" hidden value="<?= $data_result->id_sewa ?>">
-                                <input type="text" name="estimasi_harga" hidden value="<?= $lama_sewa * $data_result->harga ?>">
-                                <div class="form-group col-md-6 col-12">
-                                    <label for="nominal_pembayaran" class="form-label">Nominal Pembayaran</label>
-                                    <input disabled type="text" id="nominal_pembayaran" class="form-control" value="<?= number_format($lama_sewa * $data_result->harga, 0, ',', '.') ?>">
-                                </div>
-                                <div class="form-group col-md-6 col-12">
-                                    <label for="tanggal_pembayaran" class="form-label">Tanggal Pembayaran</label>
-                                    <input type="date" name="tanggal_pembayaran" id="tanggal_pembayaran" class="form-control" required>
-                                </div>
-                                <div class="form-group col-12">
-                                    <label for="bukti_pembayaran" class="form-label">Bukti Pembayaran</label>
-                                    <input class="form-control" type="file" id="bukti_pembayaran" name="bukti_pembayaran" required accept="image/*">
+        <?php if (isset($data_result->id_penyewa)): ?>
+            <div class="modal fade" id="modal_form_pembayaran" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5 text-capitalize" id="title_form">Form Pembayaran Sewa</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <form id="modal-form" method="POST" autocomplete="off" enctype="multipart/form-data" action="<?= base_url('sewa/pembayaran_insert'); ?>">
+                            <div class="modal-body">
+                                <div class="row g-3">
+                                    <input name="id_pembayaran" id="id_pembayaran" hidden>
+                                    <input name="id_properti" id="id_properti" hidden value="<?= $data_result->id_properti ?>">
+                                    <input name="id_sewa" id="id_sewa" hidden value="<?= $data_result->id_sewa ?>">
+                                    <input name="metode_pembayaran" id="metode_pembayaran" hidden value="<?= $data_result->metode_pembayaran ?>">
+                                    <div class="form-group col-md-6 col-12">
+                                        <label for="nominal_pembayaran" class="form-label">Nominal Pembayaran</label>
+                                        <?php $nominal = $data_result->metode_pembayaran == 'kontan' ? $data_result->harga * $lama_sewa : $angsuran_sebulan ?>
+                                        <input name="nominal_pembayaran" hidden value="<?= $nominal; ?>">
+                                        <input disabled type="text" id="nominal_pembayaran" class="form-control" value="Rp<?= number_format($nominal, 0, ',', '.') ?>">
+                                    </div>
+                                    <div class="form-group col-md-6 col-12">
+                                        <label for="tanggal_pembayaran" class="form-label">Tanggal Pembayaran</label>
+                                        <input type="date" name="tanggal_pembayaran" id="tanggal_pembayaran" class="form-control" required>
+                                    </div>
+                                    <div class="form-group col-12">
+                                        <label for="bukti_pembayaran" class="form-label">Bukti Pembayaran</label>
+                                        <input class="form-control" type="file" id="bukti_pembayaran" name="bukti_pembayaran" required accept="image/*">
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                            <button type="submit" class="btn btn-primary">Simpan</button>
-                        </div>
-                    </form>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                                <button type="submit" class="btn btn-primary">Simpan</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
-        </div>
+        <?php endif; ?>
         <!-- End Modal Form Pembayaran -->
 
         <script>
+            const setFormPembayaran = (id_pembayaran) => {
+                document.querySelector('#id_pembayaran').value = id_pembayaran;
+            }
+
             <?php if ($this->session->flashdata('alert')): ?>
                 alert('<?= $this->session->flashdata('alert') ?>');
             <?php endif; ?>

@@ -17,35 +17,61 @@ class Sewa extends CI_Controller
         redirect('sewa/properti/1', 'refresh');
     }
 
-    public function properti($id_properti = null)
+    public function properti($id_properti = null, $id_sewa = null)
     {
         if (empty($id_properti)) {
             redirect('sewa/properti/1', 'refresh');
         }
 
-        $is_exist_id = $this->base_model->get_one_data_by('properti', 'id_properti', $id_properti);
+        $properti = $this->base_model->get_one_data_by('properti', 'id_properti', $id_properti);
+        $user_role = $this->session->userdata('user_role');
+        $sewa;
 
-        if (!$is_exist_id) {
+        if (is_null($properti)) {
             redirect('sewa/properti/1', 'refresh');
         }
 
-        $data_result = $this->sewa_model->get_sewa_properti($id_properti);
-        $data['pembayaran_sewa'] = $this->sewa_model->get_pembayaran_sewa($data_result->id_sewa, $data_result->metode_pembayaran);
+        if ($properti->jenis == 'ruko' && $user_role == 'kepala lapak') {
+            redirect('dashboard', 'refresh');
+        }
 
-        // dd($data['pembayaran_sewa']);
+        if ($properti->jenis == 'lapak' && $user_role == 'kepala ruko') {
+            redirect('dashboard', 'refresh');
+        }
 
+        if (!is_null($id_sewa)) {
+            $sewa = $this->base_model->get_one_data_by('sewa', 'id_sewa', $id_sewa);
+            if (is_null($sewa)) {
+                redirect('sewa/properti/1', 'refresh');
+            }
+        }
 
+        $status_sewa = $this->sewa_model->check_status_sewa($id_properti);
+        $data_result;
 
-        // dd($data['pembayaran_sewa']);
+        if ($status_sewa) {
+            $data_result = $this->sewa_model->get_sewa_properti($id_properti);
+            $data['pembayaran_sewa'] = $this->sewa_model->get_pembayaran_sewa($data_result->id_sewa, $data_result->metode_pembayaran);
+            $data['lama_sewa'] = hitung_lama_sewa($data_result->tanggal_mulai, $data_result->tanggal_selesai, $data_result->jenis);
+            $data['sisa_waktu_sewa'] = hitung_sisa_waktu_sewa($data_result->tanggal_mulai, $data_result->tanggal_selesai);
+            $angsuran_sebulan = '';
+            if ($data_result->metode_pembayaran == 'periode bulanan') {
+                if ($data_result->jenis == 'ruko') {
+                    $angsuran_sebulan .= $data_result->harga * $data['lama_sewa'] / count($data['pembayaran_sewa']);
+                } else {
+                    $angsuran_sebulan .= $data_result->harga;
+                }
+            }
+
+            $data['angsuran_sebulan'] = $angsuran_sebulan;
+        } else {
+            $data_result = $properti;
+        }
+
 
         $data['title'] = 'Sewa ' . ucfirst($data_result->jenis);
-        $data['user_role'] = $this->session->userdata('user_role');
+        $data['user_role'] = $user_role;
         $data['data_result'] = $data_result;
-
-        // dd($data);
-
-        $data['lama_sewa'] = hitung_lama_sewa($data_result->tanggal_mulai, $data_result->tanggal_selesai, $data_result->jenis);
-        $data['sisa_waktu_sewa'] = hitung_sisa_waktu_sewa($data_result->tanggal_mulai, $data_result->tanggal_selesai);
 
         $data['penyewa'] = $this->base_model->get_all('penyewa', true);
 
@@ -56,6 +82,31 @@ class Sewa extends CI_Controller
         $this->load->view('admin_view/sewa/index', $data);
     }
 
+    public function detail_riwayat($id_sewa = null)
+    {
+        if (empty($id_sewa)) {
+            redirect('sewa/properti/1', 'refresh');
+        }
+
+        $data_result = $this->sewa_model->get_riwayat_sewa($id_sewa);
+
+        if (is_null($data_result) || $data_result->status_sewa == 'berlangsung') {
+            redirect('sewa/properti/1', 'refresh');
+        }
+
+        $data['pembayaran_sewa'] = $this->sewa_model->get_pembayaran_sewa($data_result->id_sewa, $data_result->metode_pembayaran);
+        $data['lama_sewa'] = hitung_lama_sewa($data_result->tanggal_mulai, $data_result->tanggal_selesai, $data_result->jenis);
+
+
+        $data['title'] = 'Riwayat ' . ucfirst($data_result->jenis);
+        $data['data_result'] = $data_result;
+
+        $data['id_properti'] = '';
+        $data['ruko'] = $this->base_model->get_all_properti('ruko');
+        $data['lapak'] = $this->base_model->get_all_properti('lapak');
+
+        $this->load->view('admin_view/sewa/riwayat_detail', $data);
+    }
 
 
     public function utama()
@@ -81,22 +132,18 @@ class Sewa extends CI_Controller
         $this->load->view('admin_view/sewa/utama', $data);
     }
 
-    public function histori($id_properti = null)
+    public function riwayat($id_properti = null)
     {
         if (empty($id_properti)) show_404();
 
-        $data['title'] = 'Histori';
-        $data['data_result'] = $this->sewa_model->get_histori_properti($id_properti);
-
-        // dd($data);
-
-        // dd($data);
+        $data['title'] = 'Riwayat';
+        $data['data_result'] = $this->sewa_model->get_riwayat_properti($id_properti);
 
         $data['id_properti'] = $id_properti;
         $data['ruko'] = $this->base_model->get_all_properti('ruko');
         $data['lapak'] = $this->base_model->get_all_properti('lapak');
 
-        $this->load->view('admin_view/sewa/histori', $data);
+        $this->load->view('admin_view/sewa/riwayat', $data);
     }
 
     public function sewa_insert()
@@ -106,8 +153,8 @@ class Sewa extends CI_Controller
         $tanggal_mulai = trim($this->input->post('tanggal_mulai', true));
         $lama_sewa = trim($this->input->post('lama_sewa', true));
         $jenis = trim($this->input->post('jenis', true));
+        $metode_pembayaran = trim($this->input->post('metode_pembayaran', true));
 
-        // 
         // tangga_mulai + lama_sewa
         $date = new DateTime($tanggal_mulai);
 
@@ -124,50 +171,75 @@ class Sewa extends CI_Controller
             'id_penyewa' => $id_penyewa,
             'tanggal_mulai' => $tanggal_mulai,
             'tanggal_selesai' => $tanggal_selesai,
+            'metode_pembayaran' => $metode_pembayaran,
         ];
 
         $this->load->library('upload');
         $data['dokumen_perjanjian_sewa'] = upload_file('dokumen_perjanjian_sewa');
 
-        $this->base_model->insert('sewa', $data);
-        redirect("sewa?id_properti=$id_properti");
+        $this->sewa_model->insert_sewa_pembayaran($data, $jenis, $lama_sewa);
+        redirect("sewa/properti/$id_properti");
     }
 
     public function sewa_delete($id_sewa = null)
     {
-        if (is_null($id_sewa)) show_404();
+        if (is_null($id_sewa)) redirect('sewa/properti/1', 'refresh');
 
         $sewa = $this->base_model->get_one_data_by('sewa', 'id_sewa', $id_sewa);
         $id_properti = $sewa->id_properti;
-        $bukti_pembayaran = $sewa->bukti_pembayaran;
-        $dokumen_perjanjian_sewa = $sewa->dokumen_perjanjian_sewa;
 
-        unlink("./file/$dokumen_perjanjian_sewa");
-        $this->base_model->delete('transaksi_keuangan', $id_transaksi_keuangan);
-
-        $transaksi_keuangan = $this->base_model->get_one_data_by('transaksi_keuangan', 'id_sewa', $id_sewa);
-        $id_transaksi_keuangan = $transaksi_keuangan->id_transaksi_keuangan;
-
-        if (!is_null($id_transaksi_keuangan)) {
-            unlink("./file/$bukti_pembayaran");
-            $this->base_model->delete('sewa', $id_sewa);
+        if (is_null($sewa)) {
+            redirect('sewa/properti/1', 'refresh');
         }
 
-        redirect("sewa?id_properti=$id_properti");
+        $this->base_model->delete('sewa', $id_sewa);
+
+        redirect("sewa/properti/$id_properti");
+
+
+
+        // $bukti_pembayaran = $sewa->bukti_pembayaran;
+        // $dokumen_perjanjian_sewa = $sewa->dokumen_perjanjian_sewa;
+
+        // unlink("./file/$dokumen_perjanjian_sewa");
+        // $this->base_model->delete('transaksi_keuangan', $id_transaksi_keuangan);
+
+        // $transaksi_keuangan = $this->base_model->get_one_data_by('transaksi_keuangan', 'id_sewa', $id_sewa);
+        // $id_transaksi_keuangan = $transaksi_keuangan->id_transaksi_keuangan;
+
+        // if (!is_null($id_transaksi_keuangan)) {
+        //     unlink("./file/$bukti_pembayaran");
+        //     $this->base_model->delete('sewa', $id_sewa);
+        // }
+
+    }
+
+
+    public function sewa_selesai($id_sewa = null)
+    {
+        if (is_null($id_sewa)) redirect('sewa/properti/1', 'refresh');
+
+        $sewa = $this->base_model->get_one_data_by('sewa', 'id_sewa', $id_sewa);
+        $id_properti = $sewa->id_properti;
+
+        if (is_null($sewa)) {
+            redirect('sewa/properti/1', 'refresh');
+        }
+
+        $data = ['status_sewa ' => 'selesai'];
+        $this->base_model->update('sewa', $data, $id_sewa);
+
+        redirect("sewa/properti/$id_properti");
     }
 
     public function pembayaran_insert()
     {
+        $id_pembayaran = trim($this->input->post('id_pembayaran', true));
+        $id_properti = trim($this->input->post('id_properti', true));
         $id_sewa = trim($this->input->post('id_sewa', true));
-        $estimasi_harga = trim($this->input->post('estimasi_harga', true));
-        $nominal_pembayaran =  trim($this->input->post('nominal_pembayaran', true));
+        $periode = trim($this->input->post('periode', true));
         $tanggal_pembayaran = trim($this->input->post('tanggal_pembayaran', true));
-        $id_properti = $this->base_model->get_one_data_by('sewa', 'id_sewa', $id_sewa)->id_properti;
-
-        if ($estimasi_harga != $nominal_pembayaran) {
-            $this->session->set_flashdata('alert', 'Nominal harga harus sama dengan nilai estimasi harga');
-            redirect("sewa?id_properti=$id_properti");
-        }
+        $nominal_pembayaran = trim($this->input->post('nominal_pembayaran', true));
 
         $data = [
             'nominal_pembayaran' => $nominal_pembayaran,
@@ -178,31 +250,39 @@ class Sewa extends CI_Controller
         $this->load->library('upload');
         $data['bukti_pembayaran'] = upload_file('bukti_pembayaran');
 
-        $this->base_model->update('sewa', $data, $id_sewa);
+        $this->base_model->update('pembayaran', $data, $id_pembayaran);
 
-        $informasi_sewa = $this->sewa_model->get_informasi_sewa($id_sewa);
-        $jenis = $informasi_sewa->jenis;
-        $nama_properti = $informasi_sewa->nama_properti;
-        $tanggal_mulai = $informasi_sewa->tanggal_mulai;
-        $lama_bulan_sewa = hitung_selisih_bulan($informasi_sewa->tanggal_mulai, $informasi_sewa->tanggal_selesai);
-        $nama_penyewa = $informasi_sewa->nama_penyewa;
+        $informasi_pembayaran = $this->sewa_model->get_informasi_pembayaran($id_pembayaran);
+        $jenis = $informasi_pembayaran->jenis;
+        $nama_properti = $informasi_pembayaran->nama_properti;
+        $tanggal_mulai = $informasi_pembayaran->tanggal_mulai;
+        $lama_sewa = hitung_lama_sewa($informasi_pembayaran->tanggal_mulai, $informasi_pembayaran->tanggal_selesai, $jenis) . " " . ($jenis == 'ruko' ? 'tahun' : 'bulan');
+        $nama_penyewa = $informasi_pembayaran->nama_penyewa;
+        $metode_pembayaran = $informasi_pembayaran->metode_pembayaran;
+        $periode = sprintf("%02d", $informasi_pembayaran->periode);
 
-        $deskripsi = "Penerimaan dari hasil sewa properti $jenis ($nama_properti) mulai dari $tanggal_mulai selama $lama_bulan_sewa bulan oleh $nama_penyewa";
+        $deskripsi = "";
+
+        if ($metode_pembayaran == 'kontan') {
+            $deskripsi .= "Penerimaan dari pembayaran kontan $jenis ($nama_properti), dimulai dari $tanggal_mulai selama $lama_sewa, oleh $nama_penyewa";
+        } else {
+            $deskripsi .= "Penerimaan dari pembayaran cicilan $jenis ($nama_properti) periode bulan-$periode, dimulai dari $tanggal_mulai selama $lama_sewa, oleh $nama_penyewa";
+        }
 
         $data_transaksi = [
-            'id_sewa' => $id_sewa,
+            'id_pembayaran' => $id_pembayaran,
             'tanggal_transaksi' => $tanggal_pembayaran,
             'deskripsi' => $deskripsi,
             'jumlah' => $nominal_pembayaran
         ];
 
         $this->base_model->insert('transaksi_keuangan', $data_transaksi);
-        redirect("sewa?id_properti=$id_properti");
+        redirect("sewa/properti/$id_properti");
     }
 
-    public function pembayaran_delete($id_sewa = null)
+    public function pembayaran_delete($id_pembayaran = null)
     {
-        if (is_null($id_sewa)) show_404();
+        if (is_null($id_pembayaran)) redirect('sewa/properti/1', 'refresh');
 
         $data = [
             'nominal_pembayaran' => null,
@@ -211,18 +291,19 @@ class Sewa extends CI_Controller
             'status_pembayaran' => 'pending',
         ];
 
-        $sewa = $this->base_model->get_one_data_by('sewa', 'id_sewa', $id_sewa);
+        $pembayaran = $this->base_model->get_one_data_by('pembayaran', 'id_pembayaran', $id_pembayaran);
+        $sewa = $this->base_model->get_one_data_by('sewa', 'id_sewa', $pembayaran->id_sewa);
 
+        $bukti_pembayaran = $pembayaran->bukti_pembayaran;
         $id_properti = $sewa->id_properti;
-        $bukti_pembayaran = $sewa->bukti_pembayaran;
 
-        $transaksi_keuangan = $this->base_model->get_one_data_by('transaksi_keuangan', 'id_sewa', $id_sewa);
-        $id_transaksi_keuangan = $transaksi_keuangan->id_transaksi_keuangan;
+        // $transaksi_keuangan = $this->base_model->get_one_data_by('transaksi_keuangan', 'id_sewa', $id_sewa);
+        // $id_transaksi_keuangan = $transaksi_keuangan->id_transaksi_keuangan;
 
         unlink("./file/$bukti_pembayaran");
 
-        $this->base_model->update('sewa', $data, $id_sewa);
-        $this->base_model->delete('transaksi_keuangan', $id_transaksi_keuangan);
-        redirect("sewa?id_properti=$id_properti");
+        $this->base_model->update('pembayaran', $data, $id_pembayaran);
+        // $this->base_model->delete('transaksi_keuangan', $id_transaksi_keuangan);
+        redirect("sewa/properti/$id_properti");
     }
 }
