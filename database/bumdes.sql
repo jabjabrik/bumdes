@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 06, 2025 at 05:14 AM
+-- Generation Time: Jan 09, 2025 at 02:25 AM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 7.3.33
 
@@ -55,82 +55,6 @@ CREATE TABLE `pembayaran` (
   `nominal_pembayaran` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `bukti_pembayaran` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `pembayaran`
---
-
-INSERT INTO `pembayaran` (`id_pembayaran`, `id_sewa`, `periode`, `status_pembayaran`, `tanggal_pembayaran`, `nominal_pembayaran`, `bukti_pembayaran`) VALUES
-(1, 1, NULL, 'lunas', '2025-01-05', '500000', '1736063189.jpg'),
-(2, 2, NULL, 'lunas', '2025-01-05', '18000000', '1736063368.jpg'),
-(3, 3, '1', 'lunas', '2025-01-05', '550000', '1736063439.jpg'),
-(4, 3, '2', 'lunas', '2025-01-05', '550000', '1736063486.jpg'),
-(5, 3, '3', 'pending', NULL, NULL, NULL),
-(6, 3, '4', 'pending', NULL, NULL, NULL),
-(7, 3, '5', 'pending', NULL, NULL, NULL),
-(8, 3, '6', 'pending', NULL, NULL, NULL),
-(9, 3, '7', 'pending', NULL, NULL, NULL),
-(10, 3, '8', 'pending', NULL, NULL, NULL),
-(11, 3, '9', 'pending', NULL, NULL, NULL),
-(12, 3, '10', 'pending', NULL, NULL, NULL),
-(13, 3, '11', 'pending', NULL, NULL, NULL),
-(14, 3, '12', 'pending', NULL, NULL, NULL),
-(15, 3, '13', 'pending', NULL, NULL, NULL),
-(16, 3, '14', 'pending', NULL, NULL, NULL),
-(17, 3, '15', 'pending', NULL, NULL, NULL),
-(18, 3, '16', 'pending', NULL, NULL, NULL),
-(19, 3, '17', 'pending', NULL, NULL, NULL),
-(20, 3, '18', 'pending', NULL, NULL, NULL),
-(21, 3, '19', 'pending', NULL, NULL, NULL),
-(22, 3, '20', 'pending', NULL, NULL, NULL),
-(23, 3, '21', 'pending', NULL, NULL, NULL),
-(24, 3, '22', 'pending', NULL, NULL, NULL),
-(25, 3, '23', 'pending', NULL, NULL, NULL),
-(26, 3, '24', 'pending', NULL, NULL, NULL),
-(27, 4, NULL, 'lunas', '2025-01-05', '12000000', '1736076985.jpg'),
-(28, 5, NULL, 'lunas', '2025-01-05', '750000', '1736077129.jpg'),
-(29, 6, '1', 'lunas', '2024-10-05', '550000', '1736077395.jpg'),
-(30, 6, '2', 'lunas', '2025-11-05', '550000', '1736077431.jpg'),
-(31, 6, '3', 'pending', NULL, NULL, NULL),
-(32, 6, '4', 'pending', NULL, NULL, NULL),
-(33, 6, '5', 'pending', NULL, NULL, NULL),
-(34, 6, '6', 'pending', NULL, NULL, NULL),
-(35, 6, '7', 'pending', NULL, NULL, NULL),
-(36, 6, '8', 'pending', NULL, NULL, NULL),
-(37, 6, '9', 'pending', NULL, NULL, NULL),
-(38, 6, '10', 'pending', NULL, NULL, NULL),
-(39, 6, '11', 'pending', NULL, NULL, NULL),
-(40, 6, '12', 'pending', NULL, NULL, NULL),
-(41, 6, '13', 'pending', NULL, NULL, NULL),
-(42, 6, '14', 'pending', NULL, NULL, NULL),
-(43, 6, '15', 'pending', NULL, NULL, NULL),
-(44, 6, '16', 'pending', NULL, NULL, NULL),
-(45, 6, '17', 'pending', NULL, NULL, NULL),
-(46, 6, '18', 'pending', NULL, NULL, NULL),
-(47, 6, '19', 'pending', NULL, NULL, NULL),
-(48, 6, '20', 'pending', NULL, NULL, NULL),
-(49, 6, '21', 'pending', NULL, NULL, NULL),
-(50, 6, '22', 'pending', NULL, NULL, NULL),
-(51, 6, '23', 'pending', NULL, NULL, NULL),
-(52, 6, '24', 'pending', NULL, NULL, NULL),
-(53, 6, '25', 'pending', NULL, NULL, NULL),
-(54, 6, '26', 'pending', NULL, NULL, NULL),
-(55, 6, '27', 'pending', NULL, NULL, NULL),
-(56, 6, '28', 'pending', NULL, NULL, NULL),
-(57, 6, '29', 'pending', NULL, NULL, NULL),
-(58, 6, '30', 'pending', NULL, NULL, NULL),
-(59, 6, '31', 'pending', NULL, NULL, NULL),
-(60, 6, '32', 'pending', NULL, NULL, NULL),
-(61, 6, '33', 'pending', NULL, NULL, NULL),
-(62, 6, '34', 'pending', NULL, NULL, NULL),
-(63, 6, '35', 'pending', NULL, NULL, NULL),
-(64, 6, '36', 'pending', NULL, NULL, NULL),
-(65, 7, NULL, 'lunas', '2024-05-05', '500000', '1736077625.jpg'),
-(66, 8, NULL, 'pending', NULL, NULL, NULL),
-(67, 9, NULL, 'lunas', '2025-01-06', '12000000', '1736135350.jpg'),
-(68, 10, NULL, 'lunas', '2025-01-06', '13200000', '1736136305.jpg'),
-(69, 11, '1', 'lunas', '2024-11-02', '250000', '1736136758.jpg'),
-(70, 11, '2', 'lunas', '2024-12-03', '250000', '1736136779.jpg');
 
 -- --------------------------------------------------------
 
@@ -245,23 +169,6 @@ CREATE TABLE `sewa` (
   `metode_pembayaran` enum('periode bulanan','kontan') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'periode bulanan'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `sewa`
---
-
-INSERT INTO `sewa` (`id_sewa`, `id_properti`, `id_penyewa`, `tanggal_mulai`, `tanggal_selesai`, `status_sewa`, `dokumen_perjanjian_sewa`, `metode_pembayaran`) VALUES
-(1, 9, 1, '2025-01-05', '2025-03-05', 'berlangsung', '1736063176.pdf', 'kontan'),
-(2, 1, 1, '2025-01-08', '2028-01-08', 'selesai', '1736063319.pdf', 'kontan'),
-(3, 2, 2, '2025-01-05', '2027-01-05', 'selesai', '1736063414.pdf', 'periode bulanan'),
-(4, 3, 6, '2025-01-05', '2027-01-05', 'berlangsung', '1736076791.pdf', 'kontan'),
-(5, 11, 3, '2025-01-05', '2025-04-05', 'berlangsung', '1736077087.pdf', 'kontan'),
-(6, 6, 8, '2024-10-05', '2027-10-05', 'berlangsung', '1736077241.pdf', 'periode bulanan'),
-(7, 16, 3, '2024-05-05', '2024-07-05', 'selesai', '1736077608.pdf', 'kontan'),
-(8, 2, 1, '2025-01-06', '2026-01-06', 'berlangsung', '1736135145.pdf', 'kontan'),
-(9, 1, 2, '2025-01-06', '2027-01-06', 'berlangsung', '1736135338.pdf', 'kontan'),
-(10, 4, 1, '2025-01-06', '2027-01-06', 'berlangsung', '1736135807.pdf', 'kontan'),
-(11, 10, 1, '2024-11-02', '2025-01-02', 'selesai', '1736136599.pdf', 'periode bulanan');
-
 -- --------------------------------------------------------
 
 --
@@ -276,25 +183,6 @@ CREATE TABLE `transaksi_keuangan` (
   `deskripsi` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `jumlah` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `transaksi_keuangan`
---
-
-INSERT INTO `transaksi_keuangan` (`id_transaksi_keuangan`, `id_pembayaran`, `jenis_transaksi`, `tanggal_transaksi`, `deskripsi`, `jumlah`) VALUES
-(1, 1, 'debit', '2025-01-05', 'Penerimaan dari pembayaran kontan lapak (lapak 1), dimulai dari 2025-01-05 selama 2 bulan, oleh Ahmad Subekti', 500000),
-(2, 2, 'debit', '2025-01-05', 'Penerimaan dari pembayaran kontan ruko (ruko 1), dimulai dari 2025-01-08 selama 3 tahun, oleh Ahmad Subekti', 18000000),
-(3, 3, 'debit', '2025-01-05', 'Penerimaan dari pembayaran cicilan ruko (ruko 2) periode bulan-01, dimulai dari 2025-01-05 selama 2 tahun, oleh Fitri Handayani', 550000),
-(4, 4, 'debit', '2025-01-05', 'Penerimaan dari pembayaran cicilan ruko (ruko 2) periode bulan-02, dimulai dari 2025-01-05 selama 2 tahun, oleh Fitri Handayani', 550000),
-(8, NULL, 'kredit', '2025-01-06', 'Renovasi Ruko', 3500000),
-(9, 27, 'debit', '2025-01-05', 'Penerimaan dari pembayaran kontan ruko (ruko 3), dimulai dari 2025-01-05 selama 2 tahun, oleh Arif Setiawan', 12000000),
-(10, 28, 'debit', '2025-01-05', 'Penerimaan dari pembayaran kontan lapak (lapak 3), dimulai dari 2025-01-05 selama 3 bulan, oleh Siti Nur Azizah', 750000),
-(11, 29, 'debit', '2024-10-05', 'Penerimaan dari pembayaran cicilan ruko (ruko 6) periode bulan-01, dimulai dari 2024-10-05 selama 3 tahun, oleh Hasan Prasetyo', 550000),
-(13, 65, 'debit', '2024-05-05', 'Penerimaan dari pembayaran kontan lapak (lapak 8), dimulai dari 2024-05-05 selama 2 bulan, oleh Siti Nur Azizah', 500000),
-(14, 67, 'debit', '2025-01-06', 'Penerimaan dari pembayaran kontan ruko (ruko 1), dimulai dari 2025-01-06 selama 2 tahun, oleh Fitri Handayani', 12000000),
-(15, 68, 'debit', '2025-01-06', 'Penerimaan dari pembayaran kontan ruko (ruko 4), dimulai dari 2025-01-06 selama 2 tahun, oleh Ahmad Subekti', 13200000),
-(16, 69, 'debit', '2024-11-02', 'Penerimaan dari pembayaran cicilan lapak (lapak 2) periode bulan-01, dimulai dari 2024-11-02 selama 2 bulan, oleh Ahmad Subekti', 250000),
-(17, 70, 'debit', '2024-12-03', 'Penerimaan dari pembayaran cicilan lapak (lapak 2) periode bulan-02, dimulai dari 2024-11-02 selama 2 bulan, oleh Ahmad Subekti', 250000);
 
 -- --------------------------------------------------------
 
@@ -392,7 +280,7 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT for table `pembayaran`
 --
 ALTER TABLE `pembayaran`
-  MODIFY `id_pembayaran` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=71;
+  MODIFY `id_pembayaran` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `penyewa`
@@ -416,13 +304,13 @@ ALTER TABLE `properti`
 -- AUTO_INCREMENT for table `sewa`
 --
 ALTER TABLE `sewa`
-  MODIFY `id_sewa` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id_sewa` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `transaksi_keuangan`
 --
 ALTER TABLE `transaksi_keuangan`
-  MODIFY `id_transaksi_keuangan` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id_transaksi_keuangan` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `user`
@@ -451,7 +339,7 @@ ALTER TABLE `sewa`
 -- Constraints for table `transaksi_keuangan`
 --
 ALTER TABLE `transaksi_keuangan`
-  ADD CONSTRAINT `transaksi_keuangan_id_pembayaran_foreign` FOREIGN KEY (`id_pembayaran`) REFERENCES `pembayaran` (`id_pembayaran`);
+  ADD CONSTRAINT `transaksi_keuangan_id_pembayaran_foreign` FOREIGN KEY (`id_pembayaran`) REFERENCES `pembayaran` (`id_pembayaran`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -21,13 +21,14 @@ class Keuangan extends CI_Controller
     public function laporan($tahun = null)
     {
         $tahun_pembayaran = $this->keuangan_model->get_tahun_pembayaran();
+        if (!empty($tahun_pembayaran)) {
+            if (is_null($tahun)) {
+                redirect("keuangan/laporan/" . end($tahun_pembayaran), 'refresh');
+            }
 
-        if (is_null($tahun)) {
-            redirect("keuangan/laporan/" . end($tahun_pembayaran), 'refresh');
-        }
-
-        if (!in_array($tahun, $tahun_pembayaran)) {
-            redirect("keuangan/laporan/" . end($tahun_pembayaran), 'refresh');
+            if (!in_array($tahun, $tahun_pembayaran)) {
+                redirect("keuangan/laporan/" . end($tahun_pembayaran), 'refresh');
+            }
         }
 
         $data['data_result'] = $this->keuangan_model->get_transaksi_keuangan($tahun);
