@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 09, 2025 at 02:25 AM
+-- Generation Time: Mar 09, 2025 at 06:55 PM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 7.3.33
 
@@ -20,25 +20,6 @@ SET time_zone = "+00:00";
 --
 -- Database: `bumdes`
 --
-
--- --------------------------------------------------------
-
---
--- Table structure for table `migrations`
---
-
-CREATE TABLE `migrations` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `migration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `batch` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `migrations`
---
-
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
-(1, 'bumdes', 1);
 
 -- --------------------------------------------------------
 
@@ -84,32 +65,8 @@ INSERT INTO `penyewa` (`id_penyewa`, `nama_penyewa`, `no_telepon`, `alamat`, `is
 (7, 'Dewi Anggraini', '08123456711', 'besuk', '1'),
 (8, 'Hasan Prasetyo', '08123456712', 'bantaran', '1'),
 (9, 'Ratna Sari Dewi', '08123456713', 'bantaran', '1'),
-(10, 'Dedi Firmansyah', '08123456714', 'besuk', '1');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `perangkat_desa`
---
-
-CREATE TABLE `perangkat_desa` (
-  `id_perangkat_desa` bigint(20) UNSIGNED NOT NULL,
-  `nama` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `jabatan` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `foto` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `perangkat_desa`
---
-
-INSERT INTO `perangkat_desa` (`id_perangkat_desa`, `nama`, `jabatan`, `foto`) VALUES
-(1, 'Sri Rahayuningsih', 'Kepala Seksi Pemerintahan', '1.png'),
-(2, 'Moh. Ali', 'Kepala Seksi Kesejahteraan dan Pelayanan', '2.png'),
-(3, 'Faisol, S.Th.I', 'Sekretaris Desa', '3.png'),
-(4, 'Puji Sulistyaningsih', 'Staff Desa', '4.png'),
-(5, 'Puji Rakhmawati', 'Kepala Urusan Keuangan', '5.png'),
-(6, 'Bulyamin', 'Kepala Urusan Pembangunan dan Perencanaan', '6.png');
+(10, 'Dedi Firmansyah', '08123456714', 'besuk', '1'),
+(11, '123', '123', '123', '0');
 
 -- --------------------------------------------------------
 
@@ -172,6 +129,31 @@ CREATE TABLE `sewa` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `staff`
+--
+
+CREATE TABLE `staff` (
+  `id_staff` bigint(20) UNSIGNED NOT NULL,
+  `nama` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `jabatan` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `foto` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `staff`
+--
+
+INSERT INTO `staff` (`id_staff`, `nama`, `jabatan`, `foto`) VALUES
+(1, 'Sri Rahayuningsih', 'Kepala Seksi Pemerintahan', '1.png'),
+(2, 'Moh. Ali', 'Kepala Seksi Kesejahteraan dan Pelayanan', '2.png'),
+(3, 'Faisol, S.Th.I', 'Sekretaris Desa', '3.png'),
+(4, 'Puji Sulistyaningsih', 'Staff Desa', '4.png'),
+(5, 'Puji Rakhmawati', 'Kepala Urusan Keuangan', '5.png'),
+(6, 'Bulyamin', 'Kepala Urusan Pembangunan dan Perencanaan', '6.png');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `transaksi_keuangan`
 --
 
@@ -214,12 +196,6 @@ INSERT INTO `user` (`id_user`, `nama_user`, `username`, `password`, `role`, `is_
 --
 
 --
--- Indexes for table `migrations`
---
-ALTER TABLE `migrations`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Indexes for table `pembayaran`
 --
 ALTER TABLE `pembayaran`
@@ -231,12 +207,6 @@ ALTER TABLE `pembayaran`
 --
 ALTER TABLE `penyewa`
   ADD PRIMARY KEY (`id_penyewa`);
-
---
--- Indexes for table `perangkat_desa`
---
-ALTER TABLE `perangkat_desa`
-  ADD PRIMARY KEY (`id_perangkat_desa`);
 
 --
 -- Indexes for table `properti`
@@ -251,6 +221,12 @@ ALTER TABLE `sewa`
   ADD PRIMARY KEY (`id_sewa`),
   ADD KEY `sewa_id_properti_foreign` (`id_properti`),
   ADD KEY `sewa_id_penyewa_foreign` (`id_penyewa`);
+
+--
+-- Indexes for table `staff`
+--
+ALTER TABLE `staff`
+  ADD PRIMARY KEY (`id_staff`);
 
 --
 -- Indexes for table `transaksi_keuangan`
@@ -271,12 +247,6 @@ ALTER TABLE `user`
 --
 
 --
--- AUTO_INCREMENT for table `migrations`
---
-ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
 -- AUTO_INCREMENT for table `pembayaran`
 --
 ALTER TABLE `pembayaran`
@@ -286,13 +256,7 @@ ALTER TABLE `pembayaran`
 -- AUTO_INCREMENT for table `penyewa`
 --
 ALTER TABLE `penyewa`
-  MODIFY `id_penyewa` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
-
---
--- AUTO_INCREMENT for table `perangkat_desa`
---
-ALTER TABLE `perangkat_desa`
-  MODIFY `id_perangkat_desa` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_penyewa` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `properti`
@@ -307,6 +271,12 @@ ALTER TABLE `sewa`
   MODIFY `id_sewa` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `staff`
+--
+ALTER TABLE `staff`
+  MODIFY `id_staff` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+
+--
 -- AUTO_INCREMENT for table `transaksi_keuangan`
 --
 ALTER TABLE `transaksi_keuangan`
@@ -316,7 +286,7 @@ ALTER TABLE `transaksi_keuangan`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id_user` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_user` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- Constraints for dumped tables

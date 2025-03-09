@@ -25,42 +25,64 @@ class User extends CI_Controller
         $this->load->view('admin_view/user/index', $data);
     }
 
+    public function insert()
+    {
+        $username = htmlspecialchars($this->input->post('username', true));
+
+        $is_exist_username = (bool)$this->base_model->get_one_data_by('user', 'username', $username);
+        if ($is_exist_username) redirect('user');
+
+        $password = htmlspecialchars($this->input->post('password', true));
+        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+
+        $nama_user = htmlspecialchars($this->input->post('nama_user', true));
+        $role = htmlspecialchars($this->input->post('role', true));
+
+        $data = [
+            'username' => $username,
+            'password' => $hashed_password,
+            'nama_user' => $nama_user,
+            'role' => $role,
+        ];
+
+        $this->base_model->insert('user', $data);
+        redirect('user');
+    }
+
     public function edit()
     {
-        $id_user   = trim($this->input->post('id_user', true));
-        $nama_user = trim($this->input->post('nama_user', true));
-        $username  = trim($this->input->post('username', true));
-        $password  = trim($this->input->post('password', true));
+        $id_user = htmlspecialchars($this->input->post('id_user', true));
+        $username = htmlspecialchars($this->input->post('username'));
 
-        // if (strlen($username) < 5) {
-        //     set_toasts('Username harus minimal 8 karakter.', 'danger');
-        //     redirect($this->service_name);
-        // }
+        $is_exist_username = (bool)$this->base_model->get_one_data_by('user', 'username', $username);
+        $user = $this->base_model->get_one_data_by('user', 'id_user', $id_user);
 
-        $data = array(
-            'nama_user' => $nama_user,
+        if ($is_exist_username && $username != $user->username) redirect('user');
+
+        $nama_user = htmlspecialchars($this->input->post('nama_user', true));
+
+        $role = htmlspecialchars($this->input->post('role', true));
+
+        $data = [
             'username' => $username,
-        );
+            'nama_user' => $nama_user,
+            'role' => $role,
+        ];
 
-        if (!empty($password)) {
-            // if (strlen($password) < 8) {
-            //     set_toasts('Password harus minimal 8 karakter.', 'danger');
-            //     redirect($this->service_name);
-            // } else {
-            $data['password'] = password_hash($password, PASSWORD_DEFAULT);
-            // }
+        $password = htmlspecialchars($this->input->post('password', true));
+        if ($password) {
+            $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+            $data['password'] = $hashed_password;
         }
 
-        // $is_exist_username = (bool)$this->base_model->get_one_data_by($this->service_name, 'username', $username);
-        // $is_current_username = $this->base_model->get_one_data_by($this->service_name, 'id_user', $id_user)->username == $username;
-
-        // if ($is_exist_username && !$is_current_username) {
-        //     set_toasts("Username '$username' telah terpakai, Mohon gunakan username baru.", 'danger');
-        // } else {
         $this->base_model->update('user', $data, $id_user);
-        //     set_toasts('User Berhasil di Update', 'success');
-        // }
+        redirect('user');
+    }
 
+    public function delete($id_user = null)
+    {
+        if (is_null($id_user)) show_404();
+        $this->base_model->delete('user', $id_user);
         redirect('user');
     }
 }

@@ -13,4 +13,14 @@ class Properti_model extends CI_Model
         $result = $this->db->query($query)->row();
         return $result;
     }
+
+    public function get_properti_detail($jenis)
+    {
+        $query = "SELECT properti.nama_properti, properti.foto, properti.harga, penyewa.nama_penyewa 
+        FROM properti
+        LEFT JOIN sewa ON properti.id_properti = sewa.id_properti
+        LEFT JOIN penyewa ON sewa.id_penyewa = penyewa.id_penyewa
+        WHERE properti.jenis = '$jenis'";
+        return $this->db->query($query)->result();
+    }
 }

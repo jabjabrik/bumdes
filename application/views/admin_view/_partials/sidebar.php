@@ -14,23 +14,29 @@
                 </li>
                 <?php $user_role = $this->session->userdata('user_role'); ?>
                 <?php if ($user_role == 'admin'): ?>
-                    <li class="nav-header">Kelola User</li>
-                    <li class="nav-item"> <a href="<?= base_url('user') ?>" class="nav-link <?= $title == 'User' ? 'active' : ''; ?>"> <i class="nav-icon bi bi-person-circle"></i>
-                            <p>User</p>
+                    <li class="nav-header">Master Data</li>
+                    <li class="nav-item">
+                        <a href="<?= base_url('user') ?>" class="nav-link <?= $title == 'User' ? 'active' : ''; ?>">
+                            <i class="nav-icon bi bi-person-circle"></i>
+                            <p>Kelola User</p>
                         </a>
                     </li>
-                    <li class="nav-header">Kelola Penyewa</li>
+                    <li class="nav-item">
+                        <a href="<?= base_url('staff') ?>" class="nav-link <?= $title == 'Staff' ? 'active' : ''; ?>">
+                            <i class="nav-icon bi bi-person-lines-fill"></i>
+                            <p>Kelola Staff</p>
+                        </a>
+                    </li>
                     <li class="nav-item">
                         <a href="<?= base_url('penyewa'); ?>" class="nav-link <?= $title == 'Penyewa' ? 'active' : ''; ?>">
-                            <i class="bi bi-person-badge"></i>
-                            <p>Penyewa</p>
+                            <i class="bi bi-person-badge nav-icon"></i>
+                            <p>Kelola Penyewa</p>
                         </a>
                     </li>
-                    <li class="nav-header">Kelola Properti</li>
                     <li class="nav-item">
                         <a href="<?= base_url('properti') ?>" class="nav-link <?= $title == 'Properti' ? 'active' : ''; ?>">
                             <i class="bi bi-building-gear nav-icon"></i>
-                            <p>Properti</p>
+                            <p>Kelola Properti</p>
                         </a>
                     </li>
                 <?php endif; ?>

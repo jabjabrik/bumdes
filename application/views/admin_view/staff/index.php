@@ -20,7 +20,7 @@
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-sm-6">
-                            <h3 class="mb-0">Kelola Data User</h3>
+                            <h3 class="mb-0">Kelola Data Staff</h3>
                             <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#modal_form" onclick="setForm('insert')">
                                 <i class="bi bi-plus-lg"></i> Tambah
                             </button>
@@ -35,8 +35,8 @@
                             <tr>
                                 <th>No</th>
                                 <th>Nama</th>
-                                <th>Username</th>
-                                <th>Role</th>
+                                <th>Jabatan</th>
+                                <th>Foto</th>
                                 <th class="no-sort">Aksi</th>
                             </tr>
                         </thead>
@@ -45,16 +45,20 @@
                             <?php foreach ($data_result as $item) : ?>
                                 <tr>
                                     <td><?= $no ?></td>
-                                    <td><?= $item->nama_user ?></td>
-                                    <td class="text-lowercase"><?= $item->username ?></td>
-                                    <td><?= $item->role ?></td>
+                                    <td><?= $item->nama ?></td>
+                                    <td><?= $item->jabatan ?></td>
                                     <td>
-                                        <?php $params = "[`$item->id_user`,`$item->nama_user`,`$item->username`,`$item->role`]" ?>
+                                        <a href="<?= base_url("file/$item->foto"); ?>" target="_blank">
+                                            <img src="<?= base_url("file/$item->foto"); ?>" alt="foto_staff" class="img-fluid" width="100">
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <?php $params = "[`$item->id_staff`, `$item->nama`, `$item->jabatan`]" ?>
                                         <div class="btn-group btn-group-sm" role="group">
                                             <button type="button" class="pb-0 px-2 btn btn-success" data-bs-toggle="modal" data-bs-target="#modal_form" onclick="setForm('edit',<?= $params ?>)">
                                                 <i class="bi bi-pencil-square"></i> Edit
                                             </button>
-                                            <a href="<?= base_url("user/delete/$item->id_user"); ?>" class="btn btn-outline-danger" onclick="return confirm('Anda yakin ingin menghapus data?')">
+                                            <a href="<?= base_url("staff/delete/$item->id_staff"); ?>" class="btn btn-outline-danger" onclick="return confirm('Anda yakin ingin menghapus data?')">
                                                 <i class="bi bi-trash-fill"></i> Hapus
                                             </a>
                                         </div>
@@ -73,39 +77,24 @@
             <div class="modal-dialog modal-dialog-centered modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h1 class="modal-title fs-5 text-capitalize" id="title_form">Form Data User</h1>
+                        <h1 class="modal-title fs-5 text-capitalize" id="title_form">Form Data Staff</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <form id="modal-form" method="POST" autocomplete="off">
-                        <div class="modal-body">
+                    <form id="modal-form" method="POST" autocomplete="off" enctype="multipart/form-data">
+                        <div class=" modal-body">
                             <div class="row g-3">
-                                <input type="text" name="id_user" id="id_user" hidden>
+                                <input type="text" name="id_staff" id="id_staff" hidden>
                                 <div class="form-group col-md-6 col-12">
-                                    <label for="nama_user" class="form-label">Nama Lengkap</label>
-                                    <input type="text" name="nama_user" id="nama_user" class="form-control" required placeholder="Masukan Nama Lengkap">
+                                    <label for="nama" class="form-label">Nama Lengkap</label>
+                                    <input type="text" name="nama" id="nama" class="form-control" required>
                                 </div>
                                 <div class="form-group col-md-6 col-12">
-                                    <label for="username" class="form-label">Username</label>
-                                    <input type="text" name="username" id="username" class="form-control" required placeholder="Masukan Username">
+                                    <label for="jabatan" class="form-label">Jabatan</label>
+                                    <input type="text" name="jabatan" id="jabatan" class="form-control" required>
                                 </div>
-                                <div class="form-group col-md-6 col-12">
-                                    <label for="role" class="form-label">Role User</label>
-                                    <select name="role" id="role" class="form-control text-capitalize" required>
-                                        <option selected value="">-</option>
-                                        <option value="admin">admin</option>
-                                        <option value="bendahara">bendahara</option>
-                                        <option value="kepala lapak">kepala lapak</option>
-                                        <option value="kepala ruko">kepala ruko</option>
-                                    </select>
-                                </div>
-                                <div class="form-group col-md-6 col-12">
-                                    <label for="password" class="form-label">Masukan Password</label>
-                                    <input type="password" name="password" id="password" class="form-control" required>
-                                    <div style="position: relative;">
-                                        <i id="eye" hidden class="bi bi-eye" style="position: absolute; right: 10px; top: -30px; cursor: pointer;"></i>
-                                        <i id="eye" class="bi bi-eye-slash" style="position: absolute; right: 10px; top: -30px; cursor: pointer;"></i>
-                                    </div>
-                                    <div id="text_helper" class="form-text">Biarkan Input Password Kosong, Bila Tidak Ingin Merubah Password</div>
+                                <div class="form-group col-12">
+                                    <label for="foto" class="form-label">Pas Foto</label>
+                                    <input type="file" name="foto" id="foto" class="form-control" required accept="image/*">
                                 </div>
                             </div>
                         </div>
@@ -122,41 +111,22 @@
         <!-- Script Modal Form -->
         <script>
             const modal_form = document.querySelector('#modal_form');
+            const foto = modal_form.querySelector('#foto');
             const form = modal_form.querySelector('form');
-            const password = modal_form.querySelector('#password');
-            const text_helper = modal_form.querySelector('#text_helper');
 
             const setForm = (title, data) => {
-                const fields = ['id_user', 'nama_user', 'username', 'role'];
+                const fields = ['id_staff', 'nama', 'jabatan'];
                 fields.forEach((e, i) => {
                     const element = modal_form.querySelector(`#${e}`);
                     element.value = title == 'insert' ? '' : data[i];
                 })
 
-                form.setAttribute('action', `<?= base_url('user') ?>/${title}`)
-                password.value = '';
-                password.required = title == 'insert'
-                text_helper.hidden = title == 'insert'
+                form.setAttribute('action', `<?= base_url('staff') ?>/${title}`)
+                foto.required = title == 'insert'
+
             }
         </script>
         <!-- End Script Modal Form -->
-
-        <script>
-            const password_eye = document.querySelector('#password')
-            const [show, hidden] = document.querySelectorAll('#eye');
-
-            hidden.addEventListener('click', () => {
-                hidden.setAttribute('hidden', '')
-                show.removeAttribute('hidden');
-                password_eye.setAttribute('type', 'text')
-            })
-
-            show.addEventListener('click', () => {
-                show.setAttribute('hidden', '')
-                hidden.removeAttribute('hidden');
-                password_eye.setAttribute('type', 'password')
-            })
-        </script>
 
         <!-- Script -->
         <?php $this->view('admin_view/_partials/script'); ?>

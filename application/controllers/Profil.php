@@ -6,7 +6,7 @@ class Profil extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model('perangkat_desa_model');
+		$this->load->model('base_model');
 	}
 
 	public function sejarah()
@@ -18,7 +18,7 @@ class Profil extends CI_Controller
 	public function struktur()
 	{
 		$data['title'] 			= 'Profil Struktur';
-		$data['perangkat_desa'] = $this->perangkat_desa_model->get_all_perangkat_desa();
+		$data['staff'] = $this->base_model->get_all('staff');
 		$this->load->view('profile_view/profile/struktur', $data);
 	}
 

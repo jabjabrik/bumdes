@@ -41,7 +41,7 @@
                                         <img src="<?= base_url("file/$item->foto"); ?>" class="img-fluid" alt="">
                                         <div class="portfolio-info">
                                             <h4><?= $item->nama_properti ?></h4>
-                                            <a href="<?= base_url("file/$item->foto"); ?>" title="<?= $item->nama_properti ?>" data-gallery="portfolio-gallery-app" class="glightbox preview-link"><i class="bi bi-zoom-in"></i></a>
+                                            <a href="<?= base_url("file/$item->foto"); ?>" title="<?= "Nama Ruko : $item->nama_properti | harga Rp." . number_format($item->harga, 0, ',', '.') . " | Nama Penyewa : " . ($item->nama_penyewa ?? '(belum disewa)') ?>" data-gallery="portfolio-gallery-app" class="glightbox preview-link"><i class="bi bi-zoom-in"></i></a>
                                         </div>
                                     </div>
                                 </div>

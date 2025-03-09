@@ -36,10 +36,10 @@
 
             <div class="container">
                 <div class="row gy-5">
-                    <?php foreach ($perangkat_desa as $item): ?>
+                    <?php foreach ($staff as $item): ?>
                         <div class="col-lg-4 col-md-6 member" data-aos="fade-up" data-aos-delay="100">
                             <div class="member-img rounded shadow">
-                                <img src="<?= base_url("assets/profile/img/perangkat_desa/$item->foto"); ?>" style="background-position: center; background-size: cover;" class="img-fluid" alt="">
+                                <img src="<?= base_url("file/$item->foto"); ?>" style="background-position: center; background-size: cover;" class="img-fluid" alt="">
                             </div>
                             <div class="member-info text-center">
                                 <h4><?= $item->nama ?></h4>
