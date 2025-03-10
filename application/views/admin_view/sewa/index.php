@@ -79,6 +79,15 @@
                                             <hr>
                                             <div class="row">
                                                 <div class="col-6 mb-0">
+                                                    <h6 class="mb-0 fw-bold">Alamat</h6>
+                                                </div>
+                                                <div class="col-6 mb-0">
+                                                    <span><?= $data_result->alamat_properti ?></span>
+                                                </div>
+                                            </div>
+                                            <hr>
+                                            <div class="row">
+                                                <div class="col-6 mb-0">
                                                     <h6 class="mb-0 fw-bold">Harga Sewa Per <?= $data_result->jenis == 'ruko' ? 'Tahun' : 'Bulan' ?></h6>
                                                 </div>
                                                 <div class="col-6 mb-0">

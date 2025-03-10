@@ -8,6 +8,7 @@ class Properti extends CI_Controller
         parent::__construct();
         $this->load->library('form_validation');
         $this->load->model('base_model');
+        $this->load->library('upload');
         authorize_user();
     }
 
@@ -23,19 +24,32 @@ class Properti extends CI_Controller
         $this->load->view('admin_view/properti/index', $data);
     }
 
+    public function insert()
+    {
+        $data = [
+            'nama_properti' => trim($this->input->post('nama_properti', true)),
+            'jenis' => trim($this->input->post('jenis', true)),
+            'alamat_properti' => trim($this->input->post('alamat_properti', true)),
+            'harga' => trim($this->input->post('harga', true)),
+        ];
+
+        $data['foto'] = upload_file('foto');
+        $this->base_model->insert('properti', $data);
+        redirect('properti');
+    }
+
     public function edit()
     {
         $id_properti = trim($this->input->post('id_properti', true));
         $data = [
-            'id_properti' => trim($this->input->post('id_properti', true)),
             'nama_properti' => trim($this->input->post('nama_properti', true)),
             'jenis' => trim($this->input->post('jenis', true)),
+            'alamat_properti' => trim($this->input->post('alamat_properti', true)),
             'harga' => trim($this->input->post('harga', true)),
         ];
 
         $foto = $this->base_model->get_one_data_by('properti', 'id_properti', $id_properti)->foto;
 
-        $this->load->library('upload');
         if ($_FILES['foto']['name']) {
             unlink("./file/$foto");
             $data['foto'] = upload_file('foto');

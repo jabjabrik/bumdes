@@ -33,6 +33,7 @@
                                 <th>No</th>
                                 <th>Nama Properti</th>
                                 <th>Jenis Properti</th>
+                                <th>Alamat</th>
                                 <th>Status</th>
                                 <th>Nama Penyewa</th>
                                 <th>Aksi</th>
@@ -45,6 +46,7 @@
                                     <td><?= $no++ ?></td>
                                     <td><?= $item->nama_properti ?></td>
                                     <td><?= $item->jenis ?></td>
+                                    <td><?= $item->alamat_properti ?></td>
                                     <td>
                                         <?php if (is_null($item->id_penyewa)): ?>
                                             <span style="font-weight: 200;" class="badge text-bg-danger">Belum Di Sewa</span>

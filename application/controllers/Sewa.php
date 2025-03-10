@@ -108,7 +108,6 @@ class Sewa extends CI_Controller
         $this->load->view('admin_view/sewa/riwayat_detail', $data);
     }
 
-
     public function utama()
     {
         $data_result;

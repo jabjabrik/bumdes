@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 09, 2025 at 06:55 PM
+-- Generation Time: Mar 10, 2025 at 06:42 PM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 7.3.33
 
@@ -20,6 +20,25 @@ SET time_zone = "+00:00";
 --
 -- Database: `bumdes`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `migrations`
+--
+
+CREATE TABLE `migrations` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `migration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `batch` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `migrations`
+--
+
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
+(1, 'bumdes', 1);
 
 -- --------------------------------------------------------
 
@@ -65,8 +84,7 @@ INSERT INTO `penyewa` (`id_penyewa`, `nama_penyewa`, `no_telepon`, `alamat`, `is
 (7, 'Dewi Anggraini', '08123456711', 'besuk', '1'),
 (8, 'Hasan Prasetyo', '08123456712', 'bantaran', '1'),
 (9, 'Ratna Sari Dewi', '08123456713', 'bantaran', '1'),
-(10, 'Dedi Firmansyah', '08123456714', 'besuk', '1'),
-(11, '123', '123', '123', '0');
+(10, 'Dedi Firmansyah', '08123456714', 'besuk', '1');
 
 -- --------------------------------------------------------
 
@@ -78,6 +96,7 @@ CREATE TABLE `properti` (
   `id_properti` bigint(20) UNSIGNED NOT NULL,
   `nama_properti` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `jenis` enum('ruko','lapak') COLLATE utf8mb4_unicode_ci NOT NULL,
+  `alamat_properti` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `foto` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `harga` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `is_active` enum('0','1') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '1'
@@ -87,27 +106,27 @@ CREATE TABLE `properti` (
 -- Dumping data for table `properti`
 --
 
-INSERT INTO `properti` (`id_properti`, `nama_properti`, `jenis`, `foto`, `harga`, `is_active`) VALUES
-(1, 'ruko 1', 'ruko', 'ruko1.jpg', '6000000', '1'),
-(2, 'ruko 2', 'ruko', 'ruko2.jpg', '6600000', '1'),
-(3, 'ruko 3', 'ruko', 'ruko3.jpg', '6000000', '1'),
-(4, 'ruko 4', 'ruko', 'ruko4.jpg', '6600000', '1'),
-(5, 'ruko 5', 'ruko', 'ruko1.jpg', '6000000', '1'),
-(6, 'ruko 6', 'ruko', 'ruko2.jpg', '6600000', '1'),
-(7, 'ruko 7', 'ruko', 'ruko3.jpg', '6000000', '1'),
-(8, 'ruko 8', 'ruko', 'ruko4.jpg', '6600000', '1'),
-(9, 'lapak 1', 'lapak', 'lapak1.jpg', '250000', '1'),
-(10, 'lapak 2', 'lapak', 'lapak2.jpg', '250000', '1'),
-(11, 'lapak 3', 'lapak', 'lapak3.jpg', '250000', '1'),
-(12, 'lapak 4', 'lapak', 'lapak4.jpg', '250000', '1'),
-(13, 'lapak 5', 'lapak', 'lapak5.jpg', '250000', '1'),
-(14, 'lapak 6', 'lapak', 'lapak6.jpg', '250000', '1'),
-(15, 'lapak 7', 'lapak', 'lapak1.jpg', '250000', '1'),
-(16, 'lapak 8', 'lapak', 'lapak2.jpg', '250000', '1'),
-(17, 'lapak 9', 'lapak', 'lapak3.jpg', '250000', '1'),
-(18, 'lapak 10', 'lapak', 'lapak4.jpg', '250000', '1'),
-(19, 'lapak 11', 'lapak', 'lapak5.jpg', '250000', '1'),
-(20, 'lapak 12', 'lapak', 'lapak6.jpg', '250000', '1');
+INSERT INTO `properti` (`id_properti`, `nama_properti`, `jenis`, `alamat_properti`, `foto`, `harga`, `is_active`) VALUES
+(1, 'ruko 1', 'ruko', 'besuk', 'ruko1.jpg', '6000000', '1'),
+(2, 'ruko 2', 'ruko', 'karanganyar', 'ruko2.jpg', '6600000', '1'),
+(3, 'ruko 3', 'ruko', 'besuk', 'ruko3.jpg', '6000000', '1'),
+(4, 'ruko 4', 'ruko', 'karanganyar', 'ruko4.jpg', '6600000', '1'),
+(5, 'ruko 5', 'ruko', 'besuk', 'ruko1.jpg', '6000000', '1'),
+(6, 'ruko 6', 'ruko', 'karanganyar', 'ruko2.jpg', '6600000', '1'),
+(7, 'ruko 7', 'ruko', 'besuk', 'ruko3.jpg', '6000000', '1'),
+(8, 'ruko 8', 'ruko', 'bantaran', 'ruko4.jpg', '6600000', '1'),
+(9, 'lapak 1', 'lapak', 'bantaran', 'lapak1.jpg', '250000', '1'),
+(10, 'lapak 2', 'lapak', 'besuk', 'lapak2.jpg', '250000', '1'),
+(11, 'lapak 3', 'lapak', 'besuk', 'lapak3.jpg', '250000', '1'),
+(12, 'lapak 4', 'lapak', 'karanganyar', 'lapak4.jpg', '250000', '1'),
+(13, 'lapak 5', 'lapak', 'besuk', 'lapak5.jpg', '250000', '1'),
+(14, 'lapak 6', 'lapak', 'karanganyar', 'lapak6.jpg', '250000', '1'),
+(15, 'lapak 7', 'lapak', 'besuk', 'lapak1.jpg', '250000', '1'),
+(16, 'lapak 8', 'lapak', 'karanganyar', 'lapak2.jpg', '250000', '1'),
+(17, 'lapak 9', 'lapak', 'besuk', 'lapak3.jpg', '250000', '1'),
+(18, 'lapak 10', 'lapak', 'bantaran', 'lapak4.jpg', '250000', '1'),
+(19, 'lapak 11', 'lapak', 'bantaran', 'lapak5.jpg', '250000', '1'),
+(20, 'lapak 12', 'lapak', 'besuk', 'lapak6.jpg', '250000', '1');
 
 -- --------------------------------------------------------
 
@@ -196,6 +215,12 @@ INSERT INTO `user` (`id_user`, `nama_user`, `username`, `password`, `role`, `is_
 --
 
 --
+-- Indexes for table `migrations`
+--
+ALTER TABLE `migrations`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `pembayaran`
 --
 ALTER TABLE `pembayaran`
@@ -247,6 +272,12 @@ ALTER TABLE `user`
 --
 
 --
+-- AUTO_INCREMENT for table `migrations`
+--
+ALTER TABLE `migrations`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `pembayaran`
 --
 ALTER TABLE `pembayaran`
@@ -256,7 +287,7 @@ ALTER TABLE `pembayaran`
 -- AUTO_INCREMENT for table `penyewa`
 --
 ALTER TABLE `penyewa`
-  MODIFY `id_penyewa` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id_penyewa` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `properti`
@@ -274,7 +305,7 @@ ALTER TABLE `sewa`
 -- AUTO_INCREMENT for table `staff`
 --
 ALTER TABLE `staff`
-  MODIFY `id_staff` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id_staff` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `transaksi_keuangan`
@@ -286,7 +317,7 @@ ALTER TABLE `transaksi_keuangan`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id_user` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id_user` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Constraints for dumped tables

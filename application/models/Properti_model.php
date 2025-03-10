@@ -16,7 +16,7 @@ class Properti_model extends CI_Model
 
     public function get_properti_detail($jenis)
     {
-        $query = "SELECT properti.nama_properti, properti.foto, properti.harga, penyewa.nama_penyewa 
+        $query = "SELECT properti.*, penyewa.*
         FROM properti
         LEFT JOIN sewa ON properti.id_properti = sewa.id_properti
         LEFT JOIN penyewa ON sewa.id_penyewa = penyewa.id_penyewa
