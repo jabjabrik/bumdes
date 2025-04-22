@@ -52,7 +52,7 @@
                                     <td><?= $item->alamat_properti ?></td>
                                     <td>
                                         <a href="<?= base_url("file/$item->foto"); ?>" target="_blank">
-                                            <img src="<?= base_url("file/$item->foto"); ?>" alt="foto_staff" class="img-fluid" width="100">
+                                            <img src="<?= base_url("file/$item->foto"); ?>" alt="foto" class="img-fluid" width="100">
                                         </a>
                                     </td>
                                     <td>Rp.<?= number_format($item->harga, 0, ',', '.')  ?></td>

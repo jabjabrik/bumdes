@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Staff extends CI_Controller
+class Pengurus extends CI_Controller
 {
     public function __construct()
     {
@@ -13,16 +13,16 @@ class Staff extends CI_Controller
 
     public function index()
     {
-        $data['title'] = 'Staff';
+        $data['title'] = 'Pengurus';
 
-        $data['data_result'] = $this->base_model->get_all('staff');
+        $data['data_result'] = $this->base_model->get_all('pengurus');
 
         $data['ruko'] = $this->base_model->get_all_properti('ruko');
         $data['lapak'] = $this->base_model->get_all_properti('lapak');
 
         $data['id_properti'] = '';
 
-        $this->load->view('admin_view/staff/index', $data);
+        $this->load->view('admin_view/pengurus/index', $data);
     }
 
     public function insert()
@@ -34,13 +34,13 @@ class Staff extends CI_Controller
 
         $data['foto'] = upload_file('foto');
 
-        $this->base_model->insert('staff', $data);
-        redirect('staff');
+        $this->base_model->insert('pengurus', $data);
+        redirect('pengurus');
     }
 
     public function edit()
     {
-        $id_staff = trim($this->input->post('id_staff', true));
+        $id_pengurus = trim($this->input->post('id_pengurus', true));
 
         $data = [
             'nama' => trim($this->input->post('nama', true)),
@@ -49,21 +49,21 @@ class Staff extends CI_Controller
 
 
         if ($_FILES['foto']['name']) {
-            $foto = $this->base_model->get_one_data_by('staff', 'id_staff', $id_staff)->foto;
+            $foto = $this->base_model->get_one_data_by('pengurus', 'id_pengurus', $id_pengurus)->foto;
             unlink("./file/$foto");
             $data['foto'] = upload_file('foto');
         }
 
-        $this->base_model->update('staff', $data, $id_staff);
-        redirect('staff');
+        $this->base_model->update('pengurus', $data, $id_pengurus);
+        redirect('pengurus');
     }
 
-    public function delete($id_staff = null)
+    public function delete($id_pengurus = null)
     {
-        if (is_null($id_staff)) show_404();
-        $foto = $this->base_model->get_one_data_by('staff', 'id_staff', $id_staff)->foto;
+        if (is_null($id_pengurus)) show_404();
+        $foto = $this->base_model->get_one_data_by('pengurus', 'id_pengurus', $id_pengurus)->foto;
         unlink("./file/$foto");
-        $this->base_model->delete('staff', $id_staff);
-        redirect('staff');
+        $this->base_model->delete('pengurus', $id_pengurus);
+        redirect('pengurus');
     }
 }

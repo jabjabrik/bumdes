@@ -36,7 +36,7 @@
 
             <div class="container">
                 <div class="row gy-5">
-                    <?php foreach ($staff as $item): ?>
+                    <?php foreach ($pengurus as $item): ?>
                         <div class="col-lg-4 col-md-6 member" data-aos="fade-up" data-aos-delay="100">
                             <div class="member-img rounded shadow">
                                 <img src="<?= base_url("file/$item->foto"); ?>" style="background-position: center; background-size: cover;" class="img-fluid" alt="">

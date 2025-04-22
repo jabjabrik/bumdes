@@ -18,7 +18,7 @@ class Profil extends CI_Controller
 	public function struktur()
 	{
 		$data['title'] 			= 'Profil Struktur';
-		$data['staff'] = $this->base_model->get_all('staff');
+		$data['pengurus'] = $this->base_model->get_all('pengurus');
 		$this->load->view('profile_view/profile/struktur', $data);
 	}
 

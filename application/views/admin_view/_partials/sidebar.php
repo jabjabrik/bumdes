@@ -22,9 +22,9 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="<?= base_url('staff') ?>" class="nav-link <?= $title == 'Staff' ? 'active' : ''; ?>">
+                        <a href="<?= base_url('pengurus') ?>" class="nav-link <?= $title == 'Pengurus' ? 'active' : ''; ?>">
                             <i class="nav-icon bi bi-person-lines-fill"></i>
-                            <p>Kelola Staff</p>
+                            <p>Kelola Pengurus</p>
                         </a>
                     </li>
                     <li class="nav-item">
