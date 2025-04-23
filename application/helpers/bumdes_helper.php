@@ -1,12 +1,12 @@
 <?php
 
-// function is_logged_in()
-// {
-//     $CI = &get_instance();
-//     if (!$CI->session->userdata('is_login')) {
-//         redirect("/auth");
-//     }
-// }
+require_once APPPATH . 'third_party/PhpWord/PhpWordAutoloader.php';
+PhpWordAutoloader::register();
+
+
+use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\IOFactory;
+use PhpOffice\PhpWord\TemplateProcessor;
 
 function authorize_user($roles = 'admin')
 {
@@ -33,13 +33,6 @@ function authorize_user($roles = 'admin')
     return true;
 }
 
-
-// function authorize($_role = 'admin')
-// {
-//     $CI = &get_instance();
-//     $role = $CI->session->userdata('role');
-//     if ($role !=  $_role  && !($role == 'admin')) redirect('dashboard');
-// }
 
 function dd($data)
 {
@@ -131,4 +124,15 @@ function cek_status_lunas($pembayaran_sewa)
         }
     }
     return true;
+}
+
+function generate_kwitansi($data)
+{
+    $templateFile = "file/template/kuitansi.docx";
+    $templateProcessor = new TemplateProcessor($templateFile);
+    $templateProcessor->setValues($data);
+    $id = substr(bin2hex(random_bytes(7)), 0, 7);
+    $output_file = "$id.docx";
+    $templateProcessor->saveAs("file/$output_file");
+    return $output_file;
 }

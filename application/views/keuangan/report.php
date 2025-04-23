@@ -44,8 +44,8 @@
 </head>
 
 <body>
-    <h2>Laporan Transaksi Keuangan Tahun <?= $tahun ?></h2>
-    <h5>Total Saldo Rp <?= number_format(end($data_result)->total_saldo, '0', ',', '.') ?></h5>
+    <h2>Laporan Transaksi Keuangan <?= $tahun == 'all' ? "Semua Tahun" : "Tahun $tahun"  ?></h2>
+    <h5>Total Saldo Rp <?= empty($data_result) ? 0 : number_format(end($data_result)->total_saldo, '0', ',', '.') ?></h5>
 
     <table>
         <thead>
@@ -56,7 +56,7 @@
                 <th>Debit</th>
                 <th>Kredit</th>
                 <th>Saldo</th>
-                <th>Ket</th>
+                <th>Keterangan</th>
             </tr>
         </thead>
         <tbody>
@@ -72,16 +72,16 @@
                         <td><span>Rp<?= number_format($item->total_saldo, 0, ',', '.');  ?></span></td>
                         <td style="white-space: nowrap;">
                             <?php if ($item->id_pembayaran): ?>
-                                Oleh Sistem
+                                diproses oleh sistem
                             <?php else: ?>
-                                Oleh Bendahara
+                                diproses oleh bendahara
                             <?php endif; ?>
                         </td>
                     </tr>
                 <?php endforeach; ?>
             <?php else: ?>
                 <tr>
-                    <td colspan="4" style="text-align: center;">Tidak ada data tersedia.</td>
+                    <td colspan="7" style="text-align: center;">Tidak ada data tersedia.</td>
                 </tr>
             <?php endif; ?>
         </tbody>

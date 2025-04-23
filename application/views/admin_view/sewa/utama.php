@@ -48,7 +48,7 @@
                                     <td><?= $item->jenis ?></td>
                                     <td><?= $item->alamat_properti ?></td>
                                     <td>
-                                        <?php if (is_null($item->id_penyewa)): ?>
+                                        <?php if (is_null($item->id_sewa)): ?>
                                             <span style="font-weight: 200;" class="badge text-bg-danger">Belum Di Sewa</span>
                                         <?php else: ?>
                                             <span style="font-weight: 200;" class="badge text-bg-success">Telah Di Sewa</span>
@@ -57,7 +57,7 @@
                                     <td><?= $item->nama_penyewa ? $item->nama_penyewa : '-' ?></td>
                                     <td>
                                         <div class="btn-group btn-group-sm" role="group">
-                                            <a class="pb-0 px-2 btn btn-primary me-2" href="<?= base_url("sewa/properti/$item->id_properti_"); ?>">
+                                            <a class="pb-0 px-2 btn btn-primary me-2" href="<?= base_url("sewa/properti/$item->id_properti"); ?>">
                                                 <i class="bi bi-info-circle"></i> Detail
                                             </a>
                                         </div>

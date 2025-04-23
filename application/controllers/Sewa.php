@@ -6,7 +6,6 @@ class Sewa extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->library('form_validation');
         $this->load->model('base_model');
         $this->load->model('sewa_model');
         authorize_user(['bendahara', 'kepala lapak', 'kepala ruko']);
@@ -185,32 +184,23 @@ class Sewa extends CI_Controller
         if (is_null($id_sewa)) redirect('sewa/properti/1', 'refresh');
 
         $sewa = $this->base_model->get_one_data_by('sewa', 'id_sewa', $id_sewa);
+        $pembayaran = $this->base_model->get_one_data_by('pembayaran', 'id_sewa', $id_sewa);
         $id_properti = $sewa->id_properti;
 
         if (is_null($sewa)) {
             redirect('sewa/properti/1', 'refresh');
         }
 
+        $dokumen_perjanjian_sewa = $sewa->dokumen_perjanjian_sewa;
+        $bukti_pembayaran = $pembayaran->bukti_pembayaran;
+        $kwitansi_file = $pembayaran->kwitansi_file;
+
+        unlink("./file/$dokumen_perjanjian_sewa");
+        unlink("./file/$bukti_pembayaran");
+        unlink("./file/$kwitansi_file");
+
         $this->base_model->delete('sewa', $id_sewa);
-
         redirect("sewa/properti/$id_properti");
-
-
-
-        // $bukti_pembayaran = $sewa->bukti_pembayaran;
-        // $dokumen_perjanjian_sewa = $sewa->dokumen_perjanjian_sewa;
-
-        // unlink("./file/$dokumen_perjanjian_sewa");
-        // $this->base_model->delete('transaksi_keuangan', $id_transaksi_keuangan);
-
-        // $transaksi_keuangan = $this->base_model->get_one_data_by('transaksi_keuangan', 'id_sewa', $id_sewa);
-        // $id_transaksi_keuangan = $transaksi_keuangan->id_transaksi_keuangan;
-
-        // if (!is_null($id_transaksi_keuangan)) {
-        //     unlink("./file/$bukti_pembayaran");
-        //     $this->base_model->delete('sewa', $id_sewa);
-        // }
-
     }
 
 
@@ -233,23 +223,16 @@ class Sewa extends CI_Controller
 
     public function pembayaran_insert()
     {
+        $this->load->library('upload');
+
         $id_pembayaran = trim($this->input->post('id_pembayaran', true));
         $id_properti = trim($this->input->post('id_properti', true));
         $id_sewa = trim($this->input->post('id_sewa', true));
         $periode = trim($this->input->post('periode', true));
         $tanggal_pembayaran = trim($this->input->post('tanggal_pembayaran', true));
         $nominal_pembayaran = trim($this->input->post('nominal_pembayaran', true));
-
-        $data = [
-            'nominal_pembayaran' => $nominal_pembayaran,
-            'tanggal_pembayaran' => $tanggal_pembayaran,
-            'status_pembayaran' => 'lunas',
-        ];
-
-        $this->load->library('upload');
-        $data['bukti_pembayaran'] = upload_file('bukti_pembayaran');
-
-        $this->base_model->update('pembayaran', $data, $id_pembayaran);
+        $pembayaran_via = trim($this->input->post('pembayaran_via', true));
+        $bukti_pembayaran = upload_file('bukti_pembayaran');
 
         $informasi_pembayaran = $this->sewa_model->get_informasi_pembayaran($id_pembayaran);
         $jenis = $informasi_pembayaran->jenis;
@@ -276,6 +259,29 @@ class Sewa extends CI_Controller
         ];
 
         $this->base_model->insert('transaksi_keuangan', $data_transaksi);
+
+
+        $data_kwitansi = [
+            'nama_penyewa' => ucwords($nama_penyewa),
+            'nominal_pembayaran' => "Rp " . number_format($nominal_pembayaran, 0, ',', '.'),
+            'deskripsi' => $deskripsi,
+            'metode_pembayaran' => ucwords($metode_pembayaran),
+            'pembayaran_via' => ucwords($pembayaran_via),
+            'tanggal' => $tanggal_pembayaran,
+        ];
+
+        $kwitansi_file = generate_kwitansi($data_kwitansi);
+
+        $data_pembayaran = [
+            'tanggal_pembayaran' => $tanggal_pembayaran,
+            'nominal_pembayaran' => $nominal_pembayaran,
+            'pembayaran_via' => $pembayaran_via,
+            'status_pembayaran' => 'lunas',
+            'bukti_pembayaran' => $bukti_pembayaran,
+            'kwitansi_file' => $kwitansi_file,
+        ];
+
+        $this->base_model->update('pembayaran', $data_pembayaran, $id_pembayaran);
         redirect("sewa/properti/$id_properti");
     }
 
@@ -286,6 +292,7 @@ class Sewa extends CI_Controller
         $data = [
             'nominal_pembayaran' => null,
             'tanggal_pembayaran' => null,
+            'pembayaran_via' => null,
             'bukti_pembayaran' => null,
             'status_pembayaran' => 'pending',
         ];
@@ -294,15 +301,17 @@ class Sewa extends CI_Controller
         $sewa = $this->base_model->get_one_data_by('sewa', 'id_sewa', $pembayaran->id_sewa);
 
         $bukti_pembayaran = $pembayaran->bukti_pembayaran;
+        $kwitansi_file = $pembayaran->kwitansi_file;
         $id_properti = $sewa->id_properti;
 
-        // $transaksi_keuangan = $this->base_model->get_one_data_by('transaksi_keuangan', 'id_sewa', $id_sewa);
-        // $id_transaksi_keuangan = $transaksi_keuangan->id_transaksi_keuangan;
+        $transaksi_keuangan = $this->base_model->get_one_data_by('transaksi_keuangan', 'id_pembayaran', $id_pembayaran);
+        $id_transaksi_keuangan = $transaksi_keuangan->id_transaksi_keuangan;
 
         unlink("./file/$bukti_pembayaran");
+        unlink("./file/$kwitansi_file");
 
         $this->base_model->update('pembayaran', $data, $id_pembayaran);
-        // $this->base_model->delete('transaksi_keuangan', $id_transaksi_keuangan);
+        $this->base_model->delete('transaksi_keuangan', $id_transaksi_keuangan);
         redirect("sewa/properti/$id_properti");
     }
 }

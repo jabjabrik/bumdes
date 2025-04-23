@@ -6,7 +6,6 @@ class Keuangan extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->library('form_validation');
         $this->load->model('base_model');
         $this->load->model('keuangan_model');
         $this->load->library('Dompdf_lib');
@@ -20,26 +19,18 @@ class Keuangan extends CI_Controller
 
     public function laporan($tahun = null)
     {
-        $tahun_pembayaran = $this->keuangan_model->get_tahun_pembayaran();
-        if (!empty($tahun_pembayaran)) {
-            if (is_null($tahun)) {
-                redirect("keuangan/laporan/" . end($tahun_pembayaran), 'refresh');
-            }
+        if (is_null($tahun)) redirect('keuangan/laporan/all');
 
-            if (!in_array($tahun, $tahun_pembayaran)) {
-                redirect("keuangan/laporan/" . end($tahun_pembayaran), 'refresh');
-            }
+        $tahun_pembayaran = $this->keuangan_model->get_tahun_pembayaran();
+
+        if (!in_array($tahun, $tahun_pembayaran) && $tahun != 'all') {
+            redirect('keuangan/laporan/all');
         }
 
         $data['data_result'] = $this->keuangan_model->get_transaksi_keuangan($tahun);
         $data['transaksi_kas'] = $this->keuangan_model->get_transaksi_kas($tahun);
-        $data['total_saldo'] = end($data['data_result'])->total_saldo ?? 0;
         $data['tahun_pembayaran'] = $tahun_pembayaran;
         $data['tahun'] = $tahun;
-
-
-
-        // dd($data);
 
         $data['title'] = 'Keuangan';
 
@@ -52,8 +43,6 @@ class Keuangan extends CI_Controller
 
     public function keuangan_insert()
     {
-        $tahun = $this->input->post('tahun', true);
-
         $data = [
             'jenis_transaksi' => $this->input->post('jenis_transaksi', true),
             'tanggal_transaksi' => $this->input->post('tanggal_transaksi', true),
@@ -62,42 +51,35 @@ class Keuangan extends CI_Controller
         ];
 
         $this->base_model->insert('transaksi_keuangan', $data);
-        redirect("keuangan/laporan/$tahun");
+        redirect("keuangan/laporan");
     }
 
 
     public function keuangan_delete($id_transaksi_keuangan = null)
     {
-        if (is_null($id_transaksi_keuangan)) redirect('dashboard', 'refresh');
+        if (is_null($id_transaksi_keuangan)) redirect('keuangan/laporan');
 
         $transaksi_keuangan = $this->base_model->get_one_data_by('transaksi_keuangan', 'id_transaksi_keuangan', $id_transaksi_keuangan);
 
-        if (is_null($transaksi_keuangan)) redirect('dashboard', 'refresh');
-        $tanggal_transaksi  = $transaksi_keuangan->tanggal_transaksi;
-
-        $timestamp = strtotime($tanggal_transaksi);
-        $tahun = date("Y", $timestamp);
-
+        if (is_null($transaksi_keuangan)) redirect('keuangan_delete');
         $this->base_model->delete('transaksi_keuangan', $id_transaksi_keuangan);
-        redirect("keuangan/laporan/$tahun");
+        redirect("keuangan/laporan");
     }
 
     public function report($tahun = null)
     {
+        if (is_null($tahun)) redirect('keuangan/laporan');
+
         $tahun_pembayaran = $this->keuangan_model->get_tahun_pembayaran();
 
-        if (is_null($tahun)) {
-            redirect("keuangan/laporan/" . end($tahun_pembayaran), 'refresh');
-        }
-
-        if (!in_array($tahun, $tahun_pembayaran)) {
-            redirect("keuangan/laporan/" . end($tahun_pembayaran), 'refresh');
+        if (!in_array($tahun, $tahun_pembayaran) && $tahun != 'all') {
+            redirect('keuangan/laporan');
         }
 
         $data['data_result'] = $this->keuangan_model->get_transaksi_keuangan($tahun);
+        // dd($data);
         $data['tahun'] = $tahun;
 
-        // $html = $this->load->view('keuangan/report', $data);
         $html = $this->load->view('keuangan/report', $data, TRUE);
 
         // Atur DOMPDF

@@ -14,11 +14,21 @@ class Sewa_model extends CI_Model
             $where .= "AND properti.jenis = '$jenis_properti'";
         }
 
-        $query = "SELECT properti.id_properti AS id_properti_, properti.*, penyewa.*, sewa.*
+        // $query = "SELECT properti.id_properti AS id_properti_, properti.*, penyewa.*, sewa.*
+        // FROM properti
+        // LEFT JOIN sewa ON properti.id_properti = sewa.id_properti
+        // LEFT JOIN penyewa ON sewa.id_penyewa = penyewa.id_penyewa
+        // WHERE 1=1 $where";
+        $query = "SELECT properti.id_properti,properti.nama_properti, properti.jenis, properti.alamat_properti, sewa.id_sewa, penyewa.nama_penyewa
         FROM properti
-        LEFT JOIN sewa ON properti.id_properti = sewa.id_properti
+        LEFT JOIN (
+            SELECT *
+            FROM sewa
+            WHERE status_sewa = 'berlangsung'
+        ) AS sewa ON properti.id_properti = sewa.id_properti
         LEFT JOIN penyewa ON sewa.id_penyewa = penyewa.id_penyewa
-        WHERE 1=1 $where";
+        WHERE 1=1 $where
+        ORDER BY id_properti";
 
         $result = $this->db->query($query)->result();
         return $result;

@@ -20,12 +20,7 @@
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-12">
-                            <h3 class="mb-0"><i class="bi bi-cash-stack me-1"></i> Laporan Keuangan BUMDes Tahun <?= $tahun ?></h3>
-
-                            <!-- <h3 class="mb-0">Data Keuangan BUMDes Tahun 2024</h3> -->
-                            <!-- <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#modal_form" onclick="setForm('insert')">
-                                <i class="bi bi-plus-lg"></i> Tambah
-                            </button> -->
+                            <h3 class="mb-0"><i class="bi bi-cash-stack me-1"></i> Laporan Keuangan BUMDes <?= $tahun == 'all' ? "Semua Tahun" : "Tahun $tahun"  ?></h3>
                         </div>
                     </div>
                 </div>
@@ -35,16 +30,19 @@
                     <div class="row gy-2">
                         <div class="col-12">
                             <div class="btn-group mb-2" role="group" aria-label="Button group with nested dropdown">
-                                <button type="button" disabled class="btn btn-secondary">Menampilkan Data Tahun <?= $tahun ?></button>
+                                <button type="button" disabled class="btn btn-secondary">Menampilkan Data <?= $tahun == 'all' ? "Semua Tahun" : "Tahun $tahun"  ?></button>
                                 <!-- <button type="button" disabled class="btn btn-secondary">Tahun 2024</button> -->
                                 <div class="btn-group" role="group">
                                     <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                                         Pilih Tahun
                                     </button>
                                     <ul class="dropdown-menu">
+                                        <li>
+                                            <a class="dropdown-item" href="<?= base_url("keuangan/laporan/all"); ?>">Semua Tahun</a>
+                                        </li>
                                         <?php foreach ($tahun_pembayaran as $item): ?>
                                             <li>
-                                                <a class="dropdown-item" href="<?= base_url("keuangan/laporan/$item"); ?>"><?= $item; ?></a>
+                                                <a class="dropdown-item" href="<?= base_url("keuangan/laporan/$item"); ?>"><?= $item ?></a>
                                             </li>
                                         <?php endforeach; ?>
                                     </ul>
@@ -65,15 +63,6 @@
                                             <div class="row">
                                                 <div class="col">
                                                     <div class="row">
-                                                        <div class="col-6">
-                                                            <h6 class="fw-bold mt-2">TOTAL SALDO</h6>
-                                                        </div>
-                                                        <div class="col-6">
-                                                            <h6 class="fw-bold mt-2">Rp <?= number_format($total_saldo, 0, ',', '.') ?></h6>
-                                                        </div>
-                                                    </div>
-                                                    <hr>
-                                                    <div class="row">
                                                         <div class="col-6 ">
                                                             <h6 class="fw-bold mt-2">DEBIT</h6>
                                                         </div>
@@ -88,6 +77,15 @@
                                                         </div>
                                                         <div class="col-6">
                                                             <h6 class="fw-bold mt-2">Rp <?= number_format($transaksi_kas->kredit, 0, ',', '.') ?></h6>
+                                                        </div>
+                                                    </div>
+                                                    <hr>
+                                                    <div class="row">
+                                                        <div class="col-6">
+                                                            <h6 class="fw-bold mt-2">TOTAL SALDO</h6>
+                                                        </div>
+                                                        <div class="col-6">
+                                                            <h6 class="fw-bold mt-2">Rp <?= number_format($transaksi_kas->debit - $transaksi_kas->kredit, 0, ',', '.') ?></h6>
                                                         </div>
                                                     </div>
                                                     <hr>
@@ -109,24 +107,23 @@
                                                 <div class="col">
                                                     <div class="row">
                                                         <div class="col-6 mb-0">
-                                                            <h6 class="fw-bold mt-2">TAHUN</h6>
+                                                            <h6 class="fw-bold mt-2">JANGKA WAKTU</h6>
                                                         </div>
                                                         <div class="col-6 mb-0">
-                                                            <h6 class="fw-bold mt-2"><?= $tahun ?></h6>
+                                                            <h6 class="fw-bold mt-2"><?= $tahun == 'all' ? "Semua Tahun" : "Tahun $tahun"  ?></h6>
                                                         </div>
                                                     </div>
                                                     <hr>
                                                     <div class="row">
                                                         <div class="col-6 mb-0">
-                                                            <h6 class="fw-bold mt-2">Menampilkan</h6>
+                                                            <h6 class="fw-bold mt-2">MENAMPILKAN</h6>
                                                         </div>
                                                         <div class="col-6 mb-0">
                                                             <select class="form-select form-select-sm">
-                                                                <option value="1" selected>10</option>
-                                                                <option value="2">50</option>
-                                                                <option value="3">100</option>
+                                                                <option value="1" selected>50</option>
+                                                                <option value="2">100</option>
                                                                 <option value="3">200</option>
-                                                                <option value="3">Semua</option>
+                                                                <option value="4">Semua</option>
                                                             </select>
                                                         </div>
                                                     </div>
@@ -169,17 +166,14 @@
                                             <td><?= $no++ ?></td>
                                             <td style="white-space: nowrap;"><?= $item->tanggal_transaksi ?></td>
                                             <td><?= $item->deskripsi ?></td>
-                                            <td><?= $item->jenis_transaksi == 'debit' ? 'Rp' . number_format($item->jumlah, 0, ',', '.') : '-' ?></td>
-                                            <td><?= $item->jenis_transaksi == 'kredit' ? 'Rp' . number_format($item->jumlah, 0, ',', '.') : '-' ?></td>
-                                            <td><span>Rp<?= number_format($item->total_saldo, 0, ',', '.');  ?></span></td>
+                                            <td style="white-space: nowrap;"><?= $item->jenis_transaksi == 'debit' ? 'Rp' . number_format($item->jumlah, 0, ',', '.') : '-' ?></td>
+                                            <td style="white-space: nowrap;"><?= $item->jenis_transaksi == 'kredit' ? 'Rp' . number_format($item->jumlah, 0, ',', '.') : '-' ?></td>
+                                            <td style="white-space: nowrap;"><span>Rp<?= number_format($item->total_saldo, 0, ',', '.');  ?></span></td>
                                             <td style="white-space: nowrap;">
                                                 <?php if ($item->id_pembayaran): ?>
                                                     Diproses oleh sistem
                                                 <?php else: ?>
                                                     <div class="btn-group btn-group-sm" role="group">
-                                                        <!-- <button type="button" class="btn btn-success me-1">
-                                                            <i class="bi bi-pencil-square"></i> Edit
-                                                        </button> -->
                                                         <a href="<?= base_url("keuangan/keuangan_delete/$item->id_transaksi_keuangan"); ?>" class="btn btn-outline-danger" onclick="return confirm('Anda yakin ingin menghapus data?')">
                                                             <i class="bi bi-trash-fill"></i> Hapus
                                                         </a>
@@ -206,7 +200,6 @@
                     <form id="modal-form" method="POST" autocomplete="off" action="<?= base_url('keuangan/keuangan_insert'); ?>">
                         <div class="modal-body">
                             <div class="row g-3">
-                                <input name="tahun" hidden value="<?= $tahun ?>">
                                 <div class="form-group col-md-6">
                                     <label for="jenis_transaksi" class="form-label">Jenis Transaksi</label>
                                     <select name="jenis_transaksi" id="jenis_transaksi" class="form-control" required>

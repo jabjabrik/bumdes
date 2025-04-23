@@ -285,12 +285,36 @@
                                                     <hr>
                                                     <div class="row">
                                                         <div class="col-6 mb-0">
+                                                            <h6 class="mb-0 fw-bold">Pembayaran Via</h6>
+                                                        </div>
+                                                        <div class="col-6 mb-0">
+                                                            <span><?= $pembayaran_sewa->pembayaran_via ?? '-'  ?></span>
+                                                        </div>
+                                                    </div>
+                                                    <hr>
+                                                    <div class="row">
+                                                        <div class="col-6 mb-0">
                                                             <h6 class="mb-0 fw-bold">Bukti Pembayaran</h6>
                                                         </div>
                                                         <div class="col-6 mb-0">
                                                             <span>
                                                                 <?php if ($pembayaran_sewa->status_pembayaran == 'lunas'): ?>
                                                                     <a href="<?= base_url("file/$pembayaran_sewa->bukti_pembayaran"); ?>" target="_blank">Lihat Bukti Pembayaran</a>
+                                                                <?php else: ?>
+                                                                    <span>-</span>
+                                                                <?php endif; ?>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <hr>
+                                                    <div class="row">
+                                                        <div class="col-6 mb-0">
+                                                            <h6 class="mb-0 fw-bold">Kwitansi Pembayaran</h6>
+                                                        </div>
+                                                        <div class="col-6 mb-0">
+                                                            <span>
+                                                                <?php if ($pembayaran_sewa->status_pembayaran == 'lunas'): ?>
+                                                                    <a href="<?= base_url("file/$pembayaran_sewa->kwitansi_file"); ?>" target="_blank">Lihat Kwitansi Pembayaran</a>
                                                                 <?php else: ?>
                                                                     <span>-</span>
                                                                 <?php endif; ?>
@@ -375,7 +399,9 @@
                                                                 <th class="no-sort">Periode</th>
                                                                 <th class="no-sort">Tanggal Pembayaran</th>
                                                                 <th class="no-sort">Jumlah Pembayaran</th>
+                                                                <th class="no-sort">Pembayaran Via</th>
                                                                 <th class="no-sort">Bukti Pembayaran</th>
+                                                                <th class="no-sort">Kwitansi</th>
                                                                 <?php if ($user_role == 'admin' || $user_role == 'bendahara'): ?>
                                                                     <th class="no-sort">Aksi</th>
                                                                 <?php endif; ?>
@@ -389,11 +415,19 @@
                                                                     <td>Bulan ke-<?= sprintf("%02d", $item->periode) ?></td>
                                                                     <td><?= $item->tanggal_pembayaran ?? '-' ?></td>
                                                                     <td><?= $item->nominal_pembayaran ? 'Rp ' . number_format($item->nominal_pembayaran, 0, ',', '.') : '-' ?></td>
+                                                                    <td><?= $item->pembayaran_via ?? '-' ?></td>
                                                                     <td>
                                                                         <?php if (is_null($item->bukti_pembayaran)): ?>
                                                                             <span>-</span>
                                                                         <?php else: ?>
                                                                             <a href="<?= base_url("file/$item->bukti_pembayaran"); ?>" target="_blank">Lihat Bukti</a>
+                                                                        <?php endif; ?>
+                                                                    </td>
+                                                                    <td>
+                                                                        <?php if (is_null($item->kwitansi_file)): ?>
+                                                                            <span>-</span>
+                                                                        <?php else: ?>
+                                                                            <a href="<?= base_url("file/$item->kwitansi_file"); ?>" target="_blank">Lihat Kwitansi</a>
                                                                         <?php endif; ?>
                                                                     </td>
                                                                     <?php if ($user_role == 'admin' || $user_role == 'bendahara'): ?>
@@ -508,7 +542,15 @@
                                         <label for="tanggal_pembayaran" class="form-label">Tanggal Pembayaran</label>
                                         <input type="date" name="tanggal_pembayaran" id="tanggal_pembayaran" class="form-control" required>
                                     </div>
-                                    <div class="form-group col-12">
+                                    <div class="form-group col-md-6 col-12">
+                                        <label for="pembayaran_via" class="form-label">Pembayaran Via</label>
+                                        <select name="pembayaran_via" id="pembayaran_via" class="form-control" required>
+                                            <option value="">-</option>
+                                            <option value="transfer">Transfer</option>
+                                            <option value="cash">Cash</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-md-6 col-12">
                                         <label for="bukti_pembayaran" class="form-label">Bukti Pembayaran</label>
                                         <input class="form-control" type="file" id="bukti_pembayaran" name="bukti_pembayaran" required accept="image/*">
                                     </div>
