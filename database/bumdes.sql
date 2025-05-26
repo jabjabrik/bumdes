@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 23, 2025 at 12:05 PM
+-- Generation Time: May 26, 2025 at 03:38 PM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 7.3.33
 
@@ -33,7 +33,9 @@ CREATE TABLE `pembayaran` (
   `periode` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `status_pembayaran` enum('pending','lunas') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'pending',
   `tanggal_pembayaran` date DEFAULT NULL,
+  `jatuh_tempo` date DEFAULT NULL,
   `nominal_pembayaran` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `denda` int(11) DEFAULT NULL,
   `pembayaran_via` enum('cash','transfer') COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `bukti_pembayaran` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `kwitansi_file` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL
@@ -148,6 +150,7 @@ CREATE TABLE `sewa` (
   `id_penyewa` bigint(20) UNSIGNED NOT NULL,
   `tanggal_mulai` date NOT NULL,
   `tanggal_selesai` date NOT NULL,
+  `jenis_usaha` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `status_sewa` enum('berlangsung','selesai') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'berlangsung',
   `dokumen_perjanjian_sewa` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `metode_pembayaran` enum('periode bulanan','kontan') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'periode bulanan'
@@ -162,6 +165,7 @@ CREATE TABLE `sewa` (
 CREATE TABLE `transaksi_keuangan` (
   `id_transaksi_keuangan` bigint(20) UNSIGNED NOT NULL,
   `id_pembayaran` bigint(20) UNSIGNED DEFAULT NULL,
+  `kode` enum('PND1','PND2') COLLATE utf8mb4_unicode_ci NOT NULL,
   `jenis_transaksi` enum('debit','kredit') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'debit',
   `tanggal_transaksi` date NOT NULL,
   `deskripsi` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
