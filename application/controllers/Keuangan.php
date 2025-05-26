@@ -31,6 +31,7 @@ class Keuangan extends CI_Controller
         $data['transaksi_kas'] = $this->keuangan_model->get_transaksi_kas($tahun);
         $data['tahun_pembayaran'] = $tahun_pembayaran;
         $data['tahun'] = $tahun;
+        $data['user_role'] = $this->session->userdata('user_role');
 
         $data['title'] = 'Keuangan';
 
@@ -48,6 +49,7 @@ class Keuangan extends CI_Controller
             'tanggal_transaksi' => $this->input->post('tanggal_transaksi', true),
             'deskripsi' => $this->input->post('deskripsi', true),
             'jumlah' => $this->input->post('jumlah', true),
+            'kode' => $this->input->post('kode', true),
         ];
 
         $this->base_model->insert('transaksi_keuangan', $data);
@@ -77,10 +79,9 @@ class Keuangan extends CI_Controller
         }
 
         $data['data_result'] = $this->keuangan_model->get_transaksi_keuangan($tahun);
-        // dd($data);
         $data['tahun'] = $tahun;
 
-        $html = $this->load->view('keuangan/report', $data, TRUE);
+        $html = $this->load->view('admin_view/keuangan/report', $data, TRUE);
 
         // Atur DOMPDF
         $this->dompdf_lib->loadHtml($html);

@@ -99,7 +99,7 @@ class Sewa_model extends CI_Model
         return $this->db->query($query)->row();
     }
 
-    public function insert_sewa_pembayaran($data, $jenis, $lama_sewa): void
+    public function insert_sewa_pembayaran($data, $jenis, $lama_sewa, $tanggal_mulai): void
     {
         $metode_pembayaran = $data['metode_pembayaran'];
         $this->db->insert('sewa', $data);
@@ -107,7 +107,15 @@ class Sewa_model extends CI_Model
         if ($metode_pembayaran == 'periode bulanan') {
             $periode_bulan = $jenis == 'ruko' ? $lama_sewa * 12 : $lama_sewa;
             foreach (range(1, $periode_bulan) as $i) {
-                $data = ['id_sewa' => $id_sewa, 'periode' => $i];
+                $jatuh_tempo = new DateTime($tanggal_mulai);
+                $jatuh_tempo->modify('+' . ($i - 1) . ' month');
+                $tanggal_jatuh_tempo = $jatuh_tempo->format('Y-m-d'); // simpan sebagai string
+
+                $data = [
+                    'id_sewa' => $id_sewa,
+                    'periode' => $i,
+                    'jatuh_tempo' => $tanggal_jatuh_tempo,
+                ];
                 $this->db->insert('pembayaran', $data);
             }
         } else {

@@ -46,11 +46,11 @@
 <body>
     <h2>Laporan Transaksi Keuangan <?= $tahun == 'all' ? "Semua Tahun" : "Tahun $tahun"  ?></h2>
     <h5>Total Saldo Rp <?= empty($data_result) ? 0 : number_format(end($data_result)->total_saldo, '0', ',', '.') ?></h5>
-
-    <table>
+    <table style="font-size: .85em;">
         <thead>
             <tr>
                 <th>No</th>
+                <th>Kode</th>
                 <th>Tanggal</th>
                 <th>Deskripsi</th>
                 <th>Debit</th>
@@ -65,11 +65,12 @@
                 foreach ($data_result as $item): ?>
                     <tr>
                         <td><?= $no++ ?></td>
-                        <td style="white-space: nowrap;"><?= $item->tanggal_transaksi ?></td>
+                        <td class="text-center"><?= $item->kode ?? '-' ?></td>
+                        <td style="white-space: nowrap;"><?= date('d-m-Y', strtotime($item->tanggal_transaksi)) ?></td>
                         <td><?= $item->deskripsi ?></td>
-                        <td><?= $item->jenis_transaksi == 'debit' ? 'Rp' . number_format($item->jumlah, 0, ',', '.') : '-' ?></td>
-                        <td><?= $item->jenis_transaksi == 'kredit' ? 'Rp' . number_format($item->jumlah, 0, ',', '.') : '-' ?></td>
-                        <td><span>Rp<?= number_format($item->total_saldo, 0, ',', '.');  ?></span></td>
+                        <td style="white-space: nowrap;"><?= $item->jenis_transaksi == 'debit' ? 'Rp ' . number_format($item->jumlah, 0, ',', '.') : '-' ?></td>
+                        <td style="white-space: nowrap;"><?= $item->jenis_transaksi == 'kredit' ? 'Rp ' . number_format($item->jumlah, 0, ',', '.') : '-' ?></td>
+                        <td style="white-space: nowrap;"><span>Rp <?= number_format($item->total_saldo, 0, ',', '.');  ?></span></td>
                         <td style="white-space: nowrap;">
                             <?php if ($item->id_pembayaran): ?>
                                 diproses oleh sistem

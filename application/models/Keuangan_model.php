@@ -39,6 +39,7 @@ class Keuangan_model extends CI_Model
 
         $query = "SELECT 
         transaksi_keuangan.id_transaksi_keuangan,
+        transaksi_keuangan.kode,
         transaksi_keuangan.id_pembayaran,
         transaksi_keuangan.jenis_transaksi,
         transaksi_keuangan.tanggal_transaksi,

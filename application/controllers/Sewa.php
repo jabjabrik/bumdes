@@ -152,6 +152,7 @@ class Sewa extends CI_Controller
         $lama_sewa = trim($this->input->post('lama_sewa', true));
         $jenis = trim($this->input->post('jenis', true));
         $metode_pembayaran = trim($this->input->post('metode_pembayaran', true));
+        $jenis_usaha = trim($this->input->post('jenis_usaha', true));
 
         // tangga_mulai + lama_sewa
         $date = new DateTime($tanggal_mulai);
@@ -164,18 +165,30 @@ class Sewa extends CI_Controller
 
         $tanggal_selesai = $date->format('Y-m-d');
 
+        $nama_penyewa = $this->base_model->get_one_data_by('penyewa', 'id_penyewa', $id_penyewa)->nama_penyewa;
+        $jenis_properti = $this->base_model->get_one_data_by('properti', 'id_properti', $id_properti)->jenis;
+        $data_perjanjian = [
+            'nama_penyewa' => strtoupper($nama_penyewa),
+            'jenis_properti' => strtoupper($jenis_properti),
+            'jenis_usaha' => strtoupper($jenis_usaha),
+            'lama_sewa' => strtoupper($lama_sewa . " " . ($jenis_properti == 'ruko' ? 'tahun' : 'bulan')),
+            'tanggal_mulai' => date('d-m-Y', strtotime($tanggal_mulai)),
+            'tanggal_selesai' => date('d-m-Y', strtotime($tanggal_selesai)),
+        ];
+
+        $dokumen_perjanjian_sewa = generate_perjanjian($data_perjanjian);
+
         $data = [
             'id_properti' => $id_properti,
             'id_penyewa' => $id_penyewa,
             'tanggal_mulai' => $tanggal_mulai,
             'tanggal_selesai' => $tanggal_selesai,
             'metode_pembayaran' => $metode_pembayaran,
+            'dokumen_perjanjian_sewa' => $dokumen_perjanjian_sewa,
+            'jenis_usaha' => $jenis_usaha,
         ];
 
-        $this->load->library('upload');
-        $data['dokumen_perjanjian_sewa'] = upload_file('dokumen_perjanjian_sewa');
-
-        $this->sewa_model->insert_sewa_pembayaran($data, $jenis, $lama_sewa);
+        $this->sewa_model->insert_sewa_pembayaran($data, $jenis, $lama_sewa, $tanggal_mulai);
         redirect("sewa/properti/$id_properti");
     }
 
@@ -231,13 +244,14 @@ class Sewa extends CI_Controller
         $periode = trim($this->input->post('periode', true));
         $tanggal_pembayaran = trim($this->input->post('tanggal_pembayaran', true));
         $nominal_pembayaran = trim($this->input->post('nominal_pembayaran', true));
+        $denda = trim($this->input->post('denda', true));
         $pembayaran_via = trim($this->input->post('pembayaran_via', true));
         $bukti_pembayaran = upload_file('bukti_pembayaran');
 
         $informasi_pembayaran = $this->sewa_model->get_informasi_pembayaran($id_pembayaran);
         $jenis = $informasi_pembayaran->jenis;
         $nama_properti = $informasi_pembayaran->nama_properti;
-        $tanggal_mulai = $informasi_pembayaran->tanggal_mulai;
+        $tanggal_mulai = date('d-m-Y', strtotime($informasi_pembayaran->tanggal_mulai));
         $lama_sewa = hitung_lama_sewa($informasi_pembayaran->tanggal_mulai, $informasi_pembayaran->tanggal_selesai, $jenis) . " " . ($jenis == 'ruko' ? 'tahun' : 'bulan');
         $nama_penyewa = $informasi_pembayaran->nama_penyewa;
         $metode_pembayaran = $informasi_pembayaran->metode_pembayaran;
@@ -245,29 +259,30 @@ class Sewa extends CI_Controller
 
         $deskripsi = "";
 
+
         if ($metode_pembayaran == 'kontan') {
-            $deskripsi .= "Penerimaan dari pembayaran kontan $jenis ($nama_properti), dimulai dari $tanggal_mulai selama $lama_sewa, oleh $nama_penyewa";
+            $deskripsi .= "Penerimaan dari pembayaran kontan $jenis ($nama_properti) sebesar Rp " . number_format($nominal_pembayaran, '0', ',', '.') . ", dimulai dari $tanggal_mulai selama $lama_sewa, oleh $nama_penyewa";
         } else {
-            $deskripsi .= "Penerimaan dari pembayaran cicilan $jenis ($nama_properti) periode bulan-$periode, dimulai dari $tanggal_mulai selama $lama_sewa, oleh $nama_penyewa";
+            $deskripsi .= "Penerimaan dari pembayaran cicilan $jenis ($nama_properti) periode bulan-$periode sebesar Rp " . number_format($nominal_pembayaran, '0', ',', '.') . ", dimulai dari $tanggal_mulai selama $lama_sewa, oleh $nama_penyewa." . ($denda ?  " Serta denda keterlambatan sebesar Rp 50.000" : '');
         }
 
         $data_transaksi = [
+            'kode' => $jenis == 'ruko' ? 'PND1' : 'PND2',
             'id_pembayaran' => $id_pembayaran,
             'tanggal_transaksi' => $tanggal_pembayaran,
             'deskripsi' => $deskripsi,
-            'jumlah' => $nominal_pembayaran
+            'jumlah' => $nominal_pembayaran + $denda,
         ];
 
         $this->base_model->insert('transaksi_keuangan', $data_transaksi);
 
-
         $data_kwitansi = [
             'nama_penyewa' => ucwords($nama_penyewa),
-            'nominal_pembayaran' => "Rp " . number_format($nominal_pembayaran, 0, ',', '.'),
+            'nominal_pembayaran' => "Rp " . number_format($nominal_pembayaran + $denda, 0, ',', '.'),
             'deskripsi' => $deskripsi,
             'metode_pembayaran' => ucwords($metode_pembayaran),
             'pembayaran_via' => ucwords($pembayaran_via),
-            'tanggal' => $tanggal_pembayaran,
+            'tanggal' => date('d-m-Y', strtotime($tanggal_pembayaran)),
         ];
 
         $kwitansi_file = generate_kwitansi($data_kwitansi);
@@ -275,6 +290,7 @@ class Sewa extends CI_Controller
         $data_pembayaran = [
             'tanggal_pembayaran' => $tanggal_pembayaran,
             'nominal_pembayaran' => $nominal_pembayaran,
+            'denda' => $denda,
             'pembayaran_via' => $pembayaran_via,
             'status_pembayaran' => 'lunas',
             'bukti_pembayaran' => $bukti_pembayaran,
@@ -294,6 +310,8 @@ class Sewa extends CI_Controller
             'tanggal_pembayaran' => null,
             'pembayaran_via' => null,
             'bukti_pembayaran' => null,
+            'kwitansi_file' => null,
+            'denda' => null,
             'status_pembayaran' => 'pending',
         ];
 

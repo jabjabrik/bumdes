@@ -20,7 +20,7 @@
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-12">
-                            <h3 class="mb-0"><i class="bi bi-cash-stack me-1"></i> Laporan Keuangan BUMDes <?= $tahun == 'all' ? "Semua Tahun" : "Tahun $tahun"  ?></h3>
+                            <h3 class="mb-0"><i class="bi bi-cash-stack me-1"></i> Laporan Sewa BUMDes <?= $tahun == 'all' ? "Semua Tahun" : "Tahun $tahun"  ?></h3>
                         </div>
                     </div>
                 </div>
@@ -144,13 +144,16 @@
                             </div>
                         </div>
                         <div class="col-12">
-                            <button type="button" class="mb-3 btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#modal_form">
-                                <i class="bi bi-plus-lg"></i> Input Keuangan
-                            </button>
+                            <?php if ($user_role == 'bendahara'): ?>
+                                <button type="button" class="mb-3 btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#modal_form">
+                                    <i class="bi bi-plus-lg"></i> Input Keuangan
+                                </button>
+                            <?php endif; ?>
                             <table id="datatables" class="table table-striped table-bordered text-capitalize" style="font-size: .9em;">
                                 <thead>
                                     <tr>
                                         <th class="no-sort">No</th>
+                                        <th class="no-sort">Kode</th>
                                         <th class="no-sort">Tanggal</th>
                                         <th class="no-sort">Deskripsi</th>
                                         <th class="no-sort">Debit</th>
@@ -164,7 +167,8 @@
                                     <?php foreach ($data_result as $item) : ?>
                                         <tr>
                                             <td><?= $no++ ?></td>
-                                            <td style="white-space: nowrap;"><?= $item->tanggal_transaksi ?></td>
+                                            <td class="text-center"><?= $item->kode ?? '-' ?></td>
+                                            <td style="white-space: nowrap;"><?= date('d-m-Y', strtotime($item->tanggal_transaksi)) ?></td>
                                             <td><?= $item->deskripsi ?></td>
                                             <td style="white-space: nowrap;"><?= $item->jenis_transaksi == 'debit' ? 'Rp' . number_format($item->jumlah, 0, ',', '.') : '-' ?></td>
                                             <td style="white-space: nowrap;"><?= $item->jenis_transaksi == 'kredit' ? 'Rp' . number_format($item->jumlah, 0, ',', '.') : '-' ?></td>
@@ -173,11 +177,15 @@
                                                 <?php if ($item->id_pembayaran): ?>
                                                     Diproses oleh sistem
                                                 <?php else: ?>
-                                                    <div class="btn-group btn-group-sm" role="group">
-                                                        <a href="<?= base_url("keuangan/keuangan_delete/$item->id_transaksi_keuangan"); ?>" class="btn btn-outline-danger" onclick="return confirm('Anda yakin ingin menghapus data?')">
-                                                            <i class="bi bi-trash-fill"></i> Hapus
-                                                        </a>
-                                                    </div>
+                                                    <?php if ($user_role == 'bendahara'): ?>
+                                                        <div class="btn-group btn-group-sm" role="group">
+                                                            <a href="<?= base_url("keuangan/keuangan_delete/$item->id_transaksi_keuangan"); ?>" class="btn btn-outline-danger" onclick="return confirm('Anda yakin ingin menghapus data?')">
+                                                                <i class="bi bi-trash-fill"></i> Hapus
+                                                            </a>
+                                                        </div>
+                                                    <?php else: ?>
+                                                        Diproses oleh bendahara
+                                                    <?php endif; ?>
                                                 <?php endif; ?>
                                             </td>
                                         </tr>
@@ -212,9 +220,17 @@
                                     <label for="tanggal_transaksi" class="form-label">Tanggal Transaksi</label>
                                     <input type="date" name="tanggal_transaksi" id="tanggal_transaksi" class="form-control" required>
                                 </div>
-                                <div class="form-group col-md-6 col-12">
+                                <div class="form-group col-12">
                                     <label for="deskripsi" class="form-label">Deskripsi</label>
                                     <input type="text" name="deskripsi" id="deskripsi" class="form-control" required>
+                                </div>
+                                <div class="form-group col-md-6 col-12">
+                                    <label for="kode" class="form-label">Kode</label>
+                                    <select name="kode" id="kode" class="form-control" required>
+                                        <option value="">-</option>
+                                        <option value="PND1">PND1 | Ruko</option>
+                                        <option value="PND2">PND2 | Lapak</option>
+                                    </select>
                                 </div>
                                 <div class="form-group col-md-6 col-12">
                                     <label for="jumlah" class="form-label">Jumlah</label>

@@ -86,7 +86,7 @@
                     <li class="nav-item">
                         <a href="<?= base_url('keuangan/laporan') ?>" class="nav-link <?= $title == 'Keuangan' ? 'active' : ''; ?>">
                             <i class="bi bi-cash-stack"></i>
-                            <p>Laporan Keuangan</p>
+                            <p>Laporan Sewa</p>
                         </a>
                     </li>
                 <?php endif; ?>

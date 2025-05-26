@@ -26,7 +26,7 @@
                     <a href="<?= base_url("sewa/riwayat/$id_properti"); ?>" class="pt-2 btn btn-sm btn-secondary">
                         <i class="bi bi-clock-history"></i> Lihat Histori
                     </a>
-                    <?php if ($user_role != 'bendahara'): ?>
+                    <?php if ($user_role == 'kepala ruko' || $user_role == 'kepala lapak'): ?>
                         <?php if (!isset($data_result->id_penyewa)): ?>
                             <button type="button" class="pt-2 btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#modal_form_penyewa">
                                 <i class="bi bi-plus-circle"></i> Sewakan Properti
@@ -170,10 +170,19 @@
                                             <div class="col">
                                                 <div class="row">
                                                     <div class="col-6 mb-0">
+                                                        <h6 class="mb-0 fw-bold">Jenis Usaha</h6>
+                                                    </div>
+                                                    <div class="col-6 mb-0">
+                                                        <span><?= $data_result->jenis_usaha ?></span>
+                                                    </div>
+                                                </div>
+                                                <hr>
+                                                <div class="row">
+                                                    <div class="col-6 mb-0">
                                                         <h6 class="mb-0 fw-bold">Tanggal Mulai Sewa</h6>
                                                     </div>
                                                     <div class="col-6 mb-0">
-                                                        <span><?= $data_result->tanggal_mulai ?></span>
+                                                        <span><?= date('d-m-Y', strtotime($data_result->tanggal_mulai))  ?></span>
                                                     </div>
                                                 </div>
                                                 <hr>
@@ -182,7 +191,7 @@
                                                         <h6 class="mb-0 fw-bold">Tanggal Selesai Sewa</h6>
                                                     </div>
                                                     <div class="col-6 mb-0">
-                                                        <span><?= $data_result->tanggal_selesai ?></span>
+                                                        <span><?= date('d-m-Y', strtotime($data_result->tanggal_selesai)) ?></span>
                                                     </div>
                                                 </div>
                                                 <hr>
@@ -234,7 +243,7 @@
                                             <div class="row">
                                                 <div class="col">
                                                     <h6 class="my-1 fw-bolder text-center">INFORMASI PEMBAYARAN</h6>
-                                                    <?php if ($user_role != 'kepala ruko' && $user_role != 'kepala lapak'): ?>
+                                                    <?php if ($user_role == 'kepala ruko' || $user_role == 'kepala lapak'): ?>
                                                         <?php if ($pembayaran_sewa->status_pembayaran == 'lunas'): ?>
                                                             <a href="<?= base_url("sewa/pembayaran_delete/$pembayaran_sewa->id_pembayaran"); ?>" class="pt-2 btn btn-sm btn-danger" onclick="return confirm('Anda yakin ingin menghapus data?')">
                                                                 <i class="bi bi-trash me-1"></i> Hapus Pembayaran
@@ -392,17 +401,19 @@
                                                     <hr>
                                                 </div>
                                                 <div class="col-12">
-                                                    <table id="datatables" class="table table-striped text-center table-bordered text-capitalize" style="white-space: nowrap; font-size: 1em;">
+                                                    <table id="datatables" class="table table-striped text-center table-bordered text-capitalize" style="white-space: nowrap; font-size: .9em;">
                                                         <thead>
                                                             <tr>
                                                                 <th>No</th>
                                                                 <th class="no-sort">Periode</th>
-                                                                <th class="no-sort">Tanggal Pembayaran</th>
-                                                                <th class="no-sort">Jumlah Pembayaran</th>
+                                                                <th class="no-sort">Jatuh Tempo</th>
+                                                                <th class="no-sort">Tanggal Bayar</th>
+                                                                <th class="no-sort">Jumlah Bayar</th>
+                                                                <th class="no-sort">Denda</th>
                                                                 <th class="no-sort">Pembayaran Via</th>
-                                                                <th class="no-sort">Bukti Pembayaran</th>
+                                                                <th class="no-sort">Bukti</th>
                                                                 <th class="no-sort">Kwitansi</th>
-                                                                <?php if ($user_role == 'admin' || $user_role == 'bendahara'): ?>
+                                                                <?php if ($user_role == 'kepala ruko' || $user_role == 'kepala lapak'): ?>
                                                                     <th class="no-sort">Aksi</th>
                                                                 <?php endif; ?>
                                                             </tr>
@@ -413,8 +424,10 @@
                                                                 <tr>
                                                                     <td><?= $no++ ?></td>
                                                                     <td>Bulan ke-<?= sprintf("%02d", $item->periode) ?></td>
-                                                                    <td><?= $item->tanggal_pembayaran ?? '-' ?></td>
+                                                                    <td><?= date('d-m-Y', strtotime($item->jatuh_tempo)) ?></td>
+                                                                    <td><?= $item->tanggal_pembayaran ? date('d-m-Y', strtotime($item->tanggal_pembayaran)) : '-' ?></td>
                                                                     <td><?= $item->nominal_pembayaran ? 'Rp ' . number_format($item->nominal_pembayaran, 0, ',', '.') : '-' ?></td>
+                                                                    <td><?= is_null($item->denda) ? '-' : 'Rp ' . number_format($item->denda, 0, ',', '.') ?></td>
                                                                     <td><?= $item->pembayaran_via ?? '-' ?></td>
                                                                     <td>
                                                                         <?php if (is_null($item->bukti_pembayaran)): ?>
@@ -427,15 +440,15 @@
                                                                         <?php if (is_null($item->kwitansi_file)): ?>
                                                                             <span>-</span>
                                                                         <?php else: ?>
-                                                                            <a href="<?= base_url("file/$item->kwitansi_file"); ?>" target="_blank">Lihat Kwitansi</a>
+                                                                            <a href="<?= base_url("file/$item->kwitansi_file"); ?>" target="_blank">Unduh</a>
                                                                         <?php endif; ?>
                                                                     </td>
-                                                                    <?php if ($user_role == 'admin' || $user_role == 'bendahara'): ?>
+                                                                    <?php if ($user_role == 'kepala ruko' || $user_role == 'kepala lapak'): ?>
                                                                         <td>
                                                                             <?php $params = "" ?>
                                                                             <div class="btn-group btn-group-sm" role="group">
                                                                                 <?php if (is_null($item->tanggal_pembayaran)): ?>
-                                                                                    <button type="button" class="pb-0 px-2 btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#modal_form_pembayaran" onclick="setFormPembayaran('<?= $item->id_pembayaran ?>')">
+                                                                                    <button type="button" class="pb-0 px-2 btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#modal_form_pembayaran" onclick="setFormPembayaran('<?= $item->id_pembayaran ?>','<?= $item->jatuh_tempo ?>')">
                                                                                         <i class=" bi bi-plus-circle"></i>
                                                                                     </button>
                                                                                 <?php else: ?>
@@ -470,7 +483,7 @@
                         <h1 class="modal-title fs-5 text-capitalize" id="title_form">Form Sewa Properti</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <form id="modal-form" method="POST" autocomplete="off" action="<?= base_url('sewa/sewa_insert'); ?>" enctype="multipart/form-data">
+                    <form id="modal-form" method="POST" autocomplete="off" action="<?= base_url('sewa/sewa_insert'); ?>">
                         <div class="modal-body">
                             <div class="row g-3">
                                 <input name="id_properti" hidden value="<?= $id_properti ?>">
@@ -500,9 +513,9 @@
                                     <label for="lama_sewa" class="form-label">Lama Sewa (<?= $data_result->jenis == 'ruko' ? 'Tahun' : 'Bulan' ?>)</label>
                                     <input type="number" name="lama_sewa" id="lama_sewa" class="form-control" required min="1">
                                 </div>
-                                <div class="form-group col-12">
-                                    <label for="dokumen_perjanjian_sewa" class="form-label">Dokumen Perjanjian Sewa</label>
-                                    <input type="file" name="dokumen_perjanjian_sewa" id="dokumen_perjanjian_sewa" class="form-control" accept="application/pdf" required>
+                                <div class="form-group col-md-6">
+                                    <label for="jenis_usaha" class="form-label">Jenis Usaha</label>
+                                    <input type="text" name="jenis_usaha" id="jenis_usaha" class="form-control" required placeholder="Contoh: pedagang sayur">
                                 </div>
                             </div>
                         </div>
@@ -542,6 +555,13 @@
                                         <label for="tanggal_pembayaran" class="form-label">Tanggal Pembayaran</label>
                                         <input type="date" name="tanggal_pembayaran" id="tanggal_pembayaran" class="form-control" required>
                                     </div>
+                                    <?php if ($data_result->metode_pembayaran == 'periode bulanan'): ?>
+                                        <div class="form-group col-md-6 col-12">
+                                            <label for="denda" class="form-label">Denda</label>
+                                            <input name="denda" id="denda" hidden>
+                                            <input type="text" id="denda_show" class="form-control" disabled value="-">
+                                        </div>
+                                    <?php endif; ?>
                                     <div class="form-group col-md-6 col-12">
                                         <label for="pembayaran_via" class="form-label">Pembayaran Via</label>
                                         <select name="pembayaran_via" id="pembayaran_via" class="form-control" required>
@@ -568,12 +588,23 @@
         <!-- End Modal Form Pembayaran -->
 
         <script>
-            const setFormPembayaran = (id_pembayaran) => {
-                document.querySelector('#id_pembayaran').value = id_pembayaran;
-            }
+            const tanggal_pembayaran = document.querySelector('#tanggal_pembayaran');
 
-            <?php if ($this->session->flashdata('alert')): ?>
-                alert('<?= $this->session->flashdata('alert') ?>');
+            const setFormPembayaran = (id_pembayaran, jatuh_tempo) => {
+                document.querySelector('#id_pembayaran').value = id_pembayaran;
+                tanggal_pembayaran.setAttribute('data-jatuh_tempo', jatuh_tempo)
+
+            }
+            <?php if (isset($data_result->metode_pembayaran) && $data_result->metode_pembayaran == 'periode bulanan'): ?>
+                tanggal_pembayaran.addEventListener('change', (e) => {
+                    const jatuh_tempo = new Date(e.target.getAttribute('data-jatuh_tempo'));
+                    const tanggal_pembayaran = new Date(e.target.value);
+
+                    const denda = document.querySelector('#denda');
+                    const denda_show = document.querySelector('#denda_show');
+                    denda.value = tanggal_pembayaran > jatuh_tempo ? '50000' : '0'
+                    denda_show.value = tanggal_pembayaran > jatuh_tempo ? 'Rp 50.000' : 'Rp 0'
+                })
             <?php endif; ?>
         </script>
 

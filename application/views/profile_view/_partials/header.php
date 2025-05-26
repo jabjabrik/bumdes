@@ -13,7 +13,7 @@
                         <span>Profil Desa</span> <i class="bi bi-chevron-down toggle-dropdown"></i>
                     </a>
                     <ul>
-                        <li><a href="<?= base_url('profil/sejarah'); ?>">Sejarah Desa</a></li>
+                        <!-- <li><a href="<?= base_url('profil/sejarah'); ?>">Sejarah Desa</a></li> -->
                         <li><a href="<?= base_url('profil/struktur'); ?>">Struktur Organisasi</a></li>
                         <li><a href="<?= base_url('profil/visi_misi'); ?>">Visi & Misi</a></li>
                     </ul>

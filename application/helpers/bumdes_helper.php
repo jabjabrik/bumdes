@@ -136,3 +136,21 @@ function generate_kwitansi($data)
     $templateProcessor->saveAs("file/$output_file");
     return $output_file;
 }
+
+function generate_perjanjian($data)
+{
+    $templateFile = "file/template/dokumen_perjanjian_sewa.docx";
+    $templateProcessor = new TemplateProcessor($templateFile);
+    $templateProcessor->setValues($data);
+    $id = substr(bin2hex(random_bytes(7)), 0, 7);
+    $output_file = "$id.docx";
+    $templateProcessor->saveAs("file/$output_file");
+    return $output_file;
+}
+
+function hitung_jatuh_tempo($tanggal_mulai,  $periode)
+{
+    $jatuh_tempo = new DateTime($tanggal_mulai);
+    $jatuh_tempo->modify('+' . ($periode - 1) . ' month');
+    return $jatuh_tempo->format('d-m-Y');
+}
