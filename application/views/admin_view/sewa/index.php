@@ -26,7 +26,7 @@
                     <a href="<?= base_url("sewa/riwayat/$id_properti"); ?>" class="pt-2 btn btn-sm btn-secondary">
                         <i class="bi bi-clock-history"></i> Lihat Histori
                     </a>
-                    <?php if ($user_role == 'kepala ruko' || $user_role == 'kepala lapak'): ?>
+                    <?php if ($user_role == 'admin'): ?>
                         <?php if (!isset($data_result->id_penyewa)): ?>
                             <button type="button" class="pt-2 btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#modal_form_penyewa">
                                 <i class="bi bi-plus-circle"></i> Sewakan Properti
