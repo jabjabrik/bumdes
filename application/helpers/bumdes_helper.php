@@ -154,3 +154,35 @@ function hitung_jatuh_tempo($tanggal_mulai,  $periode)
     $jatuh_tempo->modify('+' . ($periode - 1) . ' month');
     return $jatuh_tempo->format('d-m-Y');
 }
+
+function nominal_ke_kalimat($angka)
+{
+    $angka = abs($angka);
+    $huruf = ["", "satu", "dua", "tiga", "empat", "lima", "enam", "tujuh", "delapan", "sembilan", "sepuluh", "sebelas"];
+
+    $temp = "";
+
+    if ($angka < 12) {
+        $temp = " " . $huruf[$angka];
+    } elseif ($angka < 20) {
+        $temp = nominal_ke_kalimat($angka - 10) . " belas ";
+    } elseif ($angka < 100) {
+        $temp = nominal_ke_kalimat($angka / 10) . " puluh " . nominal_ke_kalimat($angka % 10);
+    } elseif ($angka < 200) {
+        $temp = " seratus " . nominal_ke_kalimat($angka - 100);
+    } elseif ($angka < 1000) {
+        $temp = nominal_ke_kalimat($angka / 100) . " ratus " . nominal_ke_kalimat($angka % 100);
+    } elseif ($angka < 2000) {
+        $temp = " seribu" . nominal_ke_kalimat($angka - 1000);
+    } elseif ($angka < 1000000) {
+        $temp = nominal_ke_kalimat($angka / 1000) . " ribu " . nominal_ke_kalimat($angka % 1000);
+    } elseif ($angka < 1000000000) {
+        $temp = nominal_ke_kalimat($angka / 1000000) . " juta " . nominal_ke_kalimat($angka % 1000000);
+    } elseif ($angka < 1000000000000) {
+        $temp = nominal_ke_kalimat($angka / 1000000000) . " miliar " . nominal_ke_kalimat($angka % 1000000000);
+    } elseif ($angka < 1000000000000000) {
+        $temp = nominal_ke_kalimat($angka / 1000000000000) . " triliun " . nominal_ke_kalimat($angka % 1000000000000);
+    }
+
+    return trim($temp);
+}

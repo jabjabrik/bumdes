@@ -24,6 +24,7 @@
             border: 1px solid #ddd;
             padding: 7px;
             text-align: left;
+            vertical-align: top;
         }
 
         table th {

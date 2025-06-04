@@ -275,14 +275,18 @@ class Sewa extends CI_Controller
         ];
 
         $this->base_model->insert('transaksi_keuangan', $data_transaksi);
+        $nama_kepala = $this->base_model->get_one_data_by('user', 'role', "kepala $jenis")->nama_user;
 
         $data_kwitansi = [
             'nama_penyewa' => ucwords($nama_penyewa),
+            'nominal_pembayaran_text' => strtoupper(nominal_ke_kalimat($nominal_pembayaran + $denda)) . " RUPIAH",
             'nominal_pembayaran' => "Rp " . number_format($nominal_pembayaran + $denda, 0, ',', '.'),
             'deskripsi' => $deskripsi,
             'metode_pembayaran' => ucwords($metode_pembayaran),
             'pembayaran_via' => ucwords($pembayaran_via),
             'tanggal' => date('d-m-Y', strtotime($tanggal_pembayaran)),
+            'nama_kepala' => $nama_kepala,
+
         ];
 
         $kwitansi_file = generate_kwitansi($data_kwitansi);
