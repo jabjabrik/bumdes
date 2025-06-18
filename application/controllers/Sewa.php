@@ -176,7 +176,7 @@ class Sewa extends CI_Controller
             'tanggal_selesai' => date('d-m-Y', strtotime($tanggal_selesai)),
         ];
 
-        $dokumen_perjanjian_sewa = generate_perjanjian($data_perjanjian);
+        $dokumen_perjanjian_sewa = generate_perjanjian($data_perjanjian, $jenis_properti);
 
         $data = [
             'id_properti' => $id_properti,

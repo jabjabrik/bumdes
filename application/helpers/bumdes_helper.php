@@ -137,9 +137,9 @@ function generate_kwitansi($data)
     return $output_file;
 }
 
-function generate_perjanjian($data)
+function generate_perjanjian($data, $jenis_properti)
 {
-    $templateFile = "file/template/dokumen_perjanjian_sewa.docx";
+    $templateFile = "file/template/perjanjian_sewa_$jenis_properti.docx";
     $templateProcessor = new TemplateProcessor($templateFile);
     $templateProcessor->setValues($data);
     $id = substr(bin2hex(random_bytes(7)), 0, 7);
