@@ -29,18 +29,18 @@
 			<div id="hero-carousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000">
 
 				<div class="carousel-item">
-					<img src="<?= base_url('assets/profile/img/hero-carousel/hero-carousel-1.jpg'); ?>" alt="">
+					<img src="<?= base_url('assets/profile/img/hero-carousel/bumdes-01.jpg'); ?>" alt="">
 				</div>
 
 				<div class="carousel-item active">
-					<img src="<?= base_url('assets/profile/img/hero-carousel/hero-carousel-2.jpg'); ?>" alt="">
+					<img src="<?= base_url('assets/profile/img/hero-carousel/bumdes-02.jpg'); ?>" alt="">
 				</div>
 
 				<div class="carousel-item">
-					<img src="<?= base_url('assets/profile/img/hero-carousel/hero-carousel-3.jpg'); ?>" alt="">
+					<img src="<?= base_url('assets/profile/img/hero-carousel/bumdes-03.jpg'); ?>" alt="">
 				</div>
 				<div class="carousel-item">
-					<img src="<?= base_url('assets/profile/img/hero-carousel/hero-carousel-4.jpg'); ?>" alt="">
+					<img src="<?= base_url('assets/profile/img/hero-carousel/bumdes-04.jpg'); ?>" alt="">
 				</div>
 
 				<a class="carousel-control-prev" href="#hero-carousel" role="button" data-bs-slide="prev">

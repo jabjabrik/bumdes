@@ -10,7 +10,7 @@
                 <li><a href="<?= base_url(); ?>" class="<?= $title == 'Beranda' ? 'active' : '' ?>">Beranda</a></li>
                 <li class="dropdown">
                     <a href="#" class="<?= strstr($title, 'Profil') ? 'active' : '' ?>">
-                        <span>Profil Desa</span> <i class="bi bi-chevron-down toggle-dropdown"></i>
+                        <span>Profil BUMDes</span> <i class="bi bi-chevron-down toggle-dropdown"></i>
                     </a>
                     <ul>
                         <!-- <li><a href="<?= base_url('profil/sejarah'); ?>">Sejarah Desa</a></li> -->

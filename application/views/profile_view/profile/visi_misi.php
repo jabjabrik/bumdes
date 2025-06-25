@@ -33,16 +33,18 @@
             <div class="container px-5">
                 <div class="mt-4" data-aos="fade-up" data-aos-delay="100">
                     <h4 class="">Visi</h4>
-                    <p style="letter-spacing: .6px; line-height: 2;">Menjadi Badan Usaha Milik Desa yang berdaya saing tinggi, mandiri, dan inovatif dalam mengelola potensi lokal untuk mewujudkan kesejahteraan masyarakat Desa Bantaran yang berkelanjutan.</p>
+                    <p style="letter-spacing: .6px; line-height: 2;">Menjadi motor penggerak ekonomi desa yang profesional, inovatif, dan berkelanjutan untuk menciptakan desa yang mandiri, sejahtera, dan berdaya saing.</p>
                 </div>
                 <div class="mt-4" data-aos="fade-up" data-aos-delay="100">
                     <h4 class="">Misi</h4>
                     <ol>
-                        <li class="mt-2"><span class="fw-semibold" style="letter-spacing: .6px; line-height: 2;">Pengembangan Potensi Lokal: </span>Mengidentifikasi, mengembangkan, dan mengelola sumber daya serta potensi ekonomi lokal yang mampu meningkatkan pendapatan desa dan kesejahteraan masyarakat.</li>
-                        <li class="mt-2"><span class="fw-semibold" style="letter-spacing: .6px; line-height: 2;">Pemberdayaan Masyarakat: </span>Menciptakan program yang mendorong keterlibatan aktif masyarakat dalam kegiatan ekonomi desa dan meningkatkan kapasitas mereka melalui pelatihan dan pembinaan usaha.</li>
-                        <li class="mt-2"><span class="fw-semibold" style="letter-spacing: .6px; line-height: 2;">Peningkatan Kualitas Layanan: </span>Menyediakan layanan berkualitas yang mampu memenuhi kebutuhan masyarakat serta menjaga kepercayaan melalui transparansi dan akuntabilitas dalam pengelolaan BUMDes.</li>
-                        <li class="mt-2"><span class="fw-semibold" style="letter-spacing: .6px; line-height: 2;">Kemitraan dan Kolaborasi: </span>Menjalin kerja sama strategis dengan pihak pemerintah, swasta, dan komunitas lokal guna memperkuat posisi BUMDes dalam memajukan perekonomian desa.</li>
-                        <li class="mt-2"><span class="fw-semibold" style="letter-spacing: .6px; line-height: 2;">Keberlanjutan Lingkungan: </span>Mendorong praktik usaha yang ramah lingkungan dan mendukung pelestarian alam sebagai upaya menjaga keberlanjutan sumber daya desa.</li>
+                        <li class="mt-2"><span class="fw-semibold" style="letter-spacing: .6px; line-height: 2;">Mengoptimalkan potensi desa : </span>melalui pengembangan usaha berbasis sumber daya lokal secara inovatif dan berkelanjutan.</li>
+                        <li class="mt-2"><span class="fw-semibold" style="letter-spacing: .6px; line-height: 2;">Meningkatkan kesejahteraan masyarakat : </span>dengan membuka lapangan kerja, mendukung UMKM desa, dan menciptakan nilai tambah ekonomi.</li>
+                        <li class="mt-2"><span class="fw-semibold" style="letter-spacing: .6px; line-height: 2;">Membangun tata kelola usaha : </span>yang transparan, profesional, dan akuntabel untuk mendorong kepercayaan masyarakat.</li>
+                        <li class="mt-2"><span class="fw-semibold" style="letter-spacing: .6px; line-height: 2;">Mendorong partisipasi aktif masyarakat desa: </span>dalam perencanaan, pelaksanaan, dan pengawasan kegiatan BUMDesa.</li>
+                        <li class="mt-2"><span class="fw-semibold" style="letter-spacing: .6px; line-height: 2;">Membina kemitraan strategis : </span>dengan pemerintah, swasta, dan lembaga lain untuk memperkuat posisi BUMDesa dalam perekonomian lokal dan regional.</li>
+                        <li class="mt-2"><span class="fw-semibold" style="letter-spacing: .6px; line-height: 2;">Meningkatkan kapasitas SDM Desa  : </span>melalui pelatihan, pendampingan, dan inovasi berkelanjutan.</li>
+                        <li class="mt-2"><span class="fw-semibold" style="letter-spacing: .6px; line-height: 2;">Menjaga nilai budaya dan kearifan lokal  : </span>sebagai dasar pengembangan usaha desa yang berkarakter.</li>
                     </ol>
                     <!-- <p style="letter-spacing: .6px;">Menjadi Badan Usaha Milik Desa yang berdaya saing tinggi, mandiri, dan inovatif dalam mengelola potensi lokal untuk mewujudkan kesejahteraan masyarakat Desa Bantaran yang berkelanjutan.</p> -->
                 </div>

@@ -33,21 +33,77 @@
                 <h2>Struktur Organisasi</h2>
                 <p>Struktur Organisasi BUMDes Bantaran, Kecamatan Bantaran, Kabupaten Probolinggo</p>
             </div>
-
             <div class="container">
-                <div class="row gy-5">
-                    <?php foreach ($pengurus as $item): ?>
-                        <div class="col-lg-4 col-md-6 member" data-aos="fade-up" data-aos-delay="100">
-                            <div class="member-img rounded shadow">
-                                <img src="<?= base_url("file/$item->foto"); ?>" style="background-position: center; background-size: cover;" class="img-fluid" alt="">
-                            </div>
-                            <div class="member-info text-center">
-                                <h4><?= $item->nama ?></h4>
-                                <span><?= $item->jabatan ?></span>
-                            </div>
+                <div class="row gy-5 mb-5 justify-content-center">
+                    <div class="col-lg-4 col-md-6 member" data-aos="fade-up" data-aos-delay="100">
+                        <div class="member-img rounded shadow">
+                            <img src="<?= base_url("file/" . $pengurus[0]->foto); ?>" style="background-position: center; background-size: cover;" class="img-fluid" alt="">
                         </div>
-                    <?php endforeach ?>
+                        <div class="member-info text-center">
+                            <h4><?= $pengurus[0]->nama ?></h4>
+                            <span><?= $pengurus[0]->jabatan ?></span>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 member" data-aos="fade-up" data-aos-delay="100">
+                        <div class="member-img rounded shadow">
+                            <img src="<?= base_url("file/" . $pengurus[1]->foto); ?>" style="background-position: center; background-size: cover;" class="img-fluid" alt="">
+                        </div>
+                        <div class="member-info text-center">
+                            <h4><?= $pengurus[1]->nama ?></h4>
+                            <span><?= $pengurus[1]->jabatan ?></span>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 member" data-aos="fade-up" data-aos-delay="100">
+                        <div class="member-img rounded shadow">
+                            <img src="<?= base_url("file/" . $pengurus[2]->foto); ?>" style="background-position: center; background-size: cover;" class="img-fluid" alt="">
+                        </div>
+                        <div class="member-info text-center">
+                            <h4><?= $pengurus[2]->nama ?></h4>
+                            <span><?= $pengurus[2]->jabatan ?></span>
+                        </div>
+                    </div>
                 </div>
+                <div class="row gy-5 mb-5 justify-content-center">
+                    <div class="col-lg-4 col-md-6 member" data-aos="fade-up" data-aos-delay="100">
+                        <div class="member-img rounded shadow">
+                            <img src="<?= base_url("file/" . $pengurus[3]->foto); ?>" style="background-position: center; background-size: cover;" class="img-fluid" alt="">
+                        </div>
+                        <div class="member-info text-center">
+                            <h4><?= $pengurus[3]->nama ?></h4>
+                            <span><?= $pengurus[3]->jabatan ?></span>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 member" data-aos="fade-up" data-aos-delay="100">
+                        <div class="member-img rounded shadow">
+                            <img src="<?= base_url("file/" . $pengurus[4]->foto); ?>" style="background-position: center; background-size: cover;" class="img-fluid" alt="">
+                        </div>
+                        <div class="member-info text-center">
+                            <h4><?= $pengurus[4]->nama ?></h4>
+                            <span><?= $pengurus[4]->jabatan ?></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row gy-5 justify-content-center">
+                    <div class="col-lg-4 col-md-6 member" data-aos="fade-up" data-aos-delay="100">
+                        <div class="member-img rounded shadow">
+                            <img src="<?= base_url("file/" . $pengurus[5]->foto); ?>" style="background-position: center; background-size: cover;" class="img-fluid" alt="">
+                        </div>
+                        <div class="member-info text-center">
+                            <h4><?= $pengurus[5]->nama ?></h4>
+                            <span><?= $pengurus[5]->jabatan ?></span>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 member" data-aos="fade-up" data-aos-delay="100">
+                        <div class="member-img rounded shadow">
+                            <img src="<?= base_url("file/" . $pengurus[6]->foto); ?>" style="background-position: center; background-size: cover;" class="img-fluid" alt="">
+                        </div>
+                        <div class="member-info text-center">
+                            <h4><?= $pengurus[6]->nama ?></h4>
+                            <span><?= $pengurus[6]->jabatan ?></span>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </section>
     </main>
