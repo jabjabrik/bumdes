@@ -29,6 +29,7 @@ class Properti extends CI_Controller
         $data = [
             'nama_properti' => trim($this->input->post('nama_properti', true)),
             'jenis' => trim($this->input->post('jenis', true)),
+            'ukuran' => trim($this->input->post('ukuran', true)),
             'alamat_properti' => trim($this->input->post('alamat_properti', true)),
             'harga' => trim($this->input->post('harga', true)),
         ];
@@ -44,6 +45,7 @@ class Properti extends CI_Controller
         $data = [
             'nama_properti' => trim($this->input->post('nama_properti', true)),
             'jenis' => trim($this->input->post('jenis', true)),
+            'ukuran' => trim($this->input->post('ukuran', true)),
             'alamat_properti' => trim($this->input->post('alamat_properti', true)),
             'harga' => trim($this->input->post('harga', true)),
         ];

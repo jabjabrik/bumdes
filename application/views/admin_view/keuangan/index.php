@@ -20,7 +20,7 @@
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-12">
-                            <h3 class="mb-0"><i class="bi bi-cash-stack me-1"></i> Laporan Sewa BUMDes <?= $tahun == 'all' ? "Semua Tahun" : "Tahun $tahun"  ?></h3>
+                            <h3 class="mb-0"><i class="bi bi-cash-stack me-1"></i> Laporan Transaksi BUMDes <?= $tahun == 'all' ? "Semua Tahun" : "Tahun $tahun"  ?></h3>
                         </div>
                     </div>
                 </div>
@@ -233,7 +233,7 @@
                                     </select>
                                 </div>
                                 <div class="form-group col-md-6 col-12">
-                                    <label for="jumlah" class="form-label">Jumlah</label>
+                                    <label for="jumlah" class="form-label">Nominal (Rp)</label>
                                     <input type="number" name="jumlah" id="jumlah" class="form-control" required>
                                 </div>
                             </div>

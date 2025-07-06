@@ -36,6 +36,7 @@
                                 <th>No</th>
                                 <th>Nama Properti</th>
                                 <th>Jenis</th>
+                                <th>Ukuran</th>
                                 <th>Alamat</th>
                                 <th>Foto</th>
                                 <th>Harga</th>
@@ -49,6 +50,7 @@
                                     <td><?= $no++ ?></td>
                                     <td><?= $item->nama_properti ?></td>
                                     <td><?= $item->jenis ?></td>
+                                    <td><?= $item->ukuran ?></td>
                                     <td><?= $item->alamat_properti ?></td>
                                     <td>
                                         <a href="<?= base_url("file/$item->foto"); ?>" target="_blank">
@@ -57,7 +59,7 @@
                                     </td>
                                     <td>Rp.<?= number_format($item->harga, 0, ',', '.')  ?></td>
                                     <td>
-                                        <?php $params = "[`$item->id_properti`,`$item->nama_properti`,`$item->jenis`,`$item->alamat_properti`,`$item->harga`]" ?>
+                                        <?php $params = "[`$item->id_properti`,`$item->nama_properti`,`$item->jenis`,`$item->ukuran`,`$item->alamat_properti`,`$item->harga`]" ?>
                                         <div class="btn-group btn-group-sm" role="group">
                                             <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modal_form" onclick="setForm('edit', <?= $params ?>)">
                                                 <i class="bi bi-pencil-square"></i> Edit
@@ -97,6 +99,10 @@
                                     </select>
                                 </div>
                                 <div class="form-group col-md-6 col-12">
+                                    <label for="ukuran" class="form-label">Ukuran Properti (m2)</label>
+                                    <input type="text" name="ukuran" id="ukuran" class="form-control" required>
+                                </div>
+                                <div class="form-group col-md-6 col-12">
                                     <label for="alamat_properti" class="form-label">Alamat</label>
                                     <input type="text" name="alamat_properti" id="alamat_properti" class="form-control" required>
                                 </div>
@@ -104,7 +110,7 @@
                                     <label for="harga" class="form-label">Harga Sewa</label>
                                     <input type="number" name="harga" id="harga" class="form-control" required>
                                 </div>
-                                <div class="form-group col-12">
+                                <div class="form-group col-md-6 col-12">
                                     <label for="foto" class="form-label">Unggah Foto</label>
                                     <input class="form-control" type="file" id="foto" name="foto" accept="image/*" required>
                                 </div>
@@ -127,7 +133,7 @@
 
             const setForm = (title, data) => {
                 modal_form.querySelector('form').setAttribute('action', `<?= base_url('properti/') ?>${title}`)
-                const fields = ['id_properti', 'nama_properti', 'jenis', 'alamat_properti', 'harga'];
+                const fields = ['id_properti', 'nama_properti', 'jenis', 'ukuran', 'alamat_properti', 'harga'];
                 fields.forEach((e, i) => {
                     const element = modal_form.querySelector(`#${e}`);
                     element.value = title == 'insert' ? '' : data[i];

@@ -40,8 +40,8 @@
                                     <div class="portfolio-content h-100 bg-secondary">
                                         <img src="<?= base_url("file/$item->foto"); ?>" class="img-fluid" alt="">
                                         <div class="portfolio-info">
-                                            <h4>Harga Sewa : Rp <?= number_format($item->harga, 0, ',', '.') ?>/bulan <br> Satus : <?= $item->nama_penyewa ? 'Telah Disewa' : 'Belum Disewa' ?></h4>
-                                            <a href="<?= base_url("file/$item->foto"); ?>" title="<?= "Nama Ruko : $item->nama_properti | harga Rp." . number_format($item->harga, 0, ',', '.') . " | Nama Penyewa : " . ($item->nama_penyewa ?? '(belum disewa)') ?>" data-gallery="portfolio-gallery-app" class="glightbox preview-link"><i class="bi bi-zoom-in"></i></a>
+                                            <h4>Harga Sewa : Rp <?= number_format($item->harga, 0, ',', '.') ?>/bulan <br> Satus : <?= $item->nama_penyewa ? 'Telah Disewa' : 'Belum Disewa' ?> <br>Ukuran : <?= $item->ukuran ?></h4>
+                                            <a href="<?= base_url("file/$item->foto"); ?>" title="<?= "Nama Ruko : $item->nama_properti | harga Rp." . number_format($item->harga, 0, ',', '.') . " | Ukuran : " . $item->ukuran . " | Alamat : $item->alamat_properti | Nama Penyewa : " . ($item->nama_penyewa ?? '(belum disewa)') ?>" data-gallery="portfolio-gallery-app" class="glightbox preview-link"><i class="bi bi-zoom-in"></i></a>
                                         </div>
                                     </div>
                                 </div>

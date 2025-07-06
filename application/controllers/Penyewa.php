@@ -26,6 +26,7 @@ class Penyewa extends CI_Controller
     public function insert()
     {
         $data = [
+            'nik' => trim($this->input->post('nik', true)),
             'nama_penyewa' => trim($this->input->post('nama_penyewa', true)),
             'no_telepon' => trim($this->input->post('no_telepon', true)),
             'alamat' => trim($this->input->post('alamat', true)),
@@ -39,6 +40,7 @@ class Penyewa extends CI_Controller
     {
         $id_penyewa = trim($this->input->post('id_penyewa', true));
         $data = [
+            'nik' => trim($this->input->post('nik', true)),
             'nama_penyewa' => trim($this->input->post('nama_penyewa', true)),
             'no_telepon' => trim($this->input->post('no_telepon', true)),
             'alamat' => trim($this->input->post('alamat', true)),

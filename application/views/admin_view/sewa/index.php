@@ -79,6 +79,15 @@
                                             <hr>
                                             <div class="row">
                                                 <div class="col-6 mb-0">
+                                                    <h6 class="mb-0 fw-bold">Ukuran Properti</h6>
+                                                </div>
+                                                <div class="col-6 mb-0">
+                                                    <span><?= $data_result->ukuran ?></span>
+                                                </div>
+                                            </div>
+                                            <hr>
+                                            <div class="row">
+                                                <div class="col-6 mb-0">
                                                     <h6 class="mb-0 fw-bold">Alamat</h6>
                                                 </div>
                                                 <div class="col-6 mb-0">
@@ -125,6 +134,15 @@
                                         </div>
                                         <div class="row">
                                             <div class="col">
+                                                <div class="row">
+                                                    <div class="col-6 mb-0">
+                                                        <h6 class="mb-0 fw-bold">NIK</h6>
+                                                    </div>
+                                                    <div class="col-6 mb-0">
+                                                        <span><?= $data_result->nik ?></span>
+                                                    </div>
+                                                </div>
+                                                <hr>
                                                 <div class="row">
                                                     <div class="col-6 mb-0">
                                                         <h6 class="mb-0 fw-bold">Nama Lengkap</h6>
@@ -212,15 +230,17 @@
                                                         <span><?= $data_result->tanggal_selesai < date('Y-m-d') ? '-' : $sisa_waktu_sewa  ?></span>
                                                     </div>
                                                 </div>
-                                                <hr>
-                                                <div class="row">
-                                                    <div class="col-6 mb-0">
-                                                        <h6 class="mb-0 fw-bold">Dokumen Perjanjian</h6>
+                                                <?php if ($user_role == 'admin'): ?>
+                                                    <hr>
+                                                    <div class="row">
+                                                        <div class="col-6 mb-0">
+                                                            <h6 class="mb-0 fw-bold">Dokumen Perjanjian</h6>
+                                                        </div>
+                                                        <div class="col-6 mb-0">
+                                                            <span><a href="<?= base_url("file/$data_result->dokumen_perjanjian_sewa"); ?>" target="_blank">Lihat dokumen perjanjian</a></span>
+                                                        </div>
                                                     </div>
-                                                    <div class="col-6 mb-0">
-                                                        <span><a href="<?= base_url("file/$data_result->dokumen_perjanjian_sewa"); ?>" target="_blank">Lihat dokumen perjanjian</a></span>
-                                                    </div>
-                                                </div>
+                                                <?php endif; ?>
                                                 <hr>
                                                 <div class="row">
                                                     <div class="col-6 mb-0">

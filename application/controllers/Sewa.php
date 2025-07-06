@@ -166,17 +166,18 @@ class Sewa extends CI_Controller
         $tanggal_selesai = $date->format('Y-m-d');
 
         $nama_penyewa = $this->base_model->get_one_data_by('penyewa', 'id_penyewa', $id_penyewa)->nama_penyewa;
-        $jenis_properti = $this->base_model->get_one_data_by('properti', 'id_properti', $id_properti)->jenis;
+        $properti = $this->base_model->get_one_data_by('properti', 'id_properti', $id_properti);
         $data_perjanjian = [
             'nama_penyewa' => strtoupper($nama_penyewa),
-            'jenis_properti' => strtoupper($jenis_properti),
+            'jenis_properti' => strtoupper($properti->jenis),
+            'nama_properti' => strtoupper($properti->nama_properti),
             'jenis_usaha' => strtoupper($jenis_usaha),
-            'lama_sewa' => strtoupper($lama_sewa . " " . ($jenis_properti == 'ruko' ? 'tahun' : 'bulan')),
+            'lama_sewa' => strtoupper($lama_sewa . " " . ($properti->jenis == 'ruko' ? 'tahun' : 'bulan')),
             'tanggal_mulai' => date('d-m-Y', strtotime($tanggal_mulai)),
             'tanggal_selesai' => date('d-m-Y', strtotime($tanggal_selesai)),
         ];
 
-        $dokumen_perjanjian_sewa = generate_perjanjian($data_perjanjian, $jenis_properti);
+        $dokumen_perjanjian_sewa = generate_perjanjian($data_perjanjian, $properti->jenis);
 
         $data = [
             'id_properti' => $id_properti,
@@ -215,7 +216,6 @@ class Sewa extends CI_Controller
         $this->base_model->delete('sewa', $id_sewa);
         redirect("sewa/properti/$id_properti");
     }
-
 
     public function sewa_selesai($id_sewa = null)
     {

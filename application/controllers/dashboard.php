@@ -24,7 +24,7 @@ class Dashboard extends CI_Controller
         $data['lapak'] = $this->base_model->get_all_properti('lapak');
 
         $data['id_properti'] = '';
-
+        $data['user_role'] = $this->session->userdata('user_role');
         $this->load->view('admin_view/dashboard/index', $data);
     }
 }

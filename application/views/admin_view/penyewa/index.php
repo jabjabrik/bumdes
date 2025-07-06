@@ -34,6 +34,7 @@
                         <thead>
                             <tr>
                                 <th>No</th>
+                                <th>NIK</th>
                                 <th>Nama</th>
                                 <th>No Telepon</th>
                                 <th>Alamat</th>
@@ -45,11 +46,12 @@
                             <?php foreach ($data_result as $item) : ?>
                                 <tr>
                                     <td><?= $no++ ?></td>
+                                    <td><?= $item->nik ?></td>
                                     <td><?= $item->nama_penyewa ?></td>
                                     <td><?= $item->no_telepon ?></td>
                                     <td><?= $item->alamat ?></td>
                                     <td>
-                                        <?php $params = "[`$item->id_penyewa`, `$item->nama_penyewa`, `$item->no_telepon`, `$item->alamat`]" ?>
+                                        <?php $params = "[`$item->id_penyewa`, `$item->nik`,`$item->nama_penyewa`, `$item->no_telepon`, `$item->alamat`]" ?>
                                         <div class="btn-group btn-group-sm" role="group">
                                             <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modal_form" onclick="setForm('edit', <?= $params ?>)">
                                                 <i class="bi bi-pencil-square"></i> Edit
@@ -80,6 +82,10 @@
                             <div class="row g-3">
                                 <input type="text" name="id_penyewa" id="id_penyewa" hidden>
                                 <div class="form-group col-md-6 col-12">
+                                    <label for="nik" class="form-label">NIK</label>
+                                    <input type="text" name="nik" id="nik" class="form-control" required>
+                                </div>
+                                <div class="form-group col-md-6 col-12">
                                     <label for="nama_penyewa" class="form-label">Nama Lengkap</label>
                                     <input type="text" name="nama_penyewa" id="nama_penyewa" class="form-control" required>
                                 </div>
@@ -108,7 +114,7 @@
             const modal_form = document.querySelector('#modal_form');
             const setForm = (title, data) => {
                 modal_form.querySelector('form').setAttribute('action', `<?= base_url('penyewa/') ?>${title}`)
-                const fields = ['id_penyewa', 'nama_penyewa', 'no_telepon', 'alamat'];
+                const fields = ['id_penyewa', 'nik', 'nama_penyewa', 'no_telepon', 'alamat'];
                 fields.forEach((e, i) => {
                     const element = modal_form.querySelector(`#${e}`);
                     element.value = title == 'insert' ? '' : data[i];
