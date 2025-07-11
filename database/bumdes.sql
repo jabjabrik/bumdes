@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 06, 2025 at 07:23 PM
+-- Generation Time: Jul 11, 2025 at 04:54 AM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 7.3.33
 
@@ -123,6 +123,7 @@ CREATE TABLE `properti` (
   `alamat_properti` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `foto` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `harga` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `keterangan` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `is_active` enum('0','1') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -130,38 +131,38 @@ CREATE TABLE `properti` (
 -- Dumping data for table `properti`
 --
 
-INSERT INTO `properti` (`id_properti`, `nama_properti`, `jenis`, `ukuran`, `alamat_properti`, `foto`, `harga`, `is_active`) VALUES
-(1, 'Ruko 1', 'ruko', '23m2', 'Jl Bantaran', '1750568762.jpg', '5000000', '1'),
-(2, 'ruko 2', 'ruko', '20m2', 'Jl Bantaran', '1750578405.jpg', '5000000', '1'),
-(3, 'ruko 3', 'ruko', '24m2', 'Jl Bantaran', '1750578432.jpg', '5000000', '1'),
-(4, 'ruko 4', 'ruko', '20m2', 'Jl Bantaran', '1750578456.jpg', '5000000', '1'),
-(5, 'ruko 5', 'ruko', '20m2', 'Jl Bantaran', '1750578476.jpg', '5000000', '1'),
-(6, 'ruko 6', 'ruko', '20m2', 'Jl Bantaran', '1750578500.jpg', '5000000', '1'),
-(7, 'ruko 7', 'ruko', '20m2', 'Jl Bantaran', '1750578518.jpg', '5000000', '1'),
-(8, 'ruko 8', 'ruko', '20m2', 'Jl Bantaran', '1750578537.jpg', '5000000', '1'),
-(9, 'lapak 1', 'lapak', '20m2', 'Jl Bantaran', '1750579145.jpg', '500000', '1'),
-(10, 'lapak 2', 'lapak', '20m2', 'Jl Bantaran', '1750579166.jpg', '500000', '1'),
-(11, 'lapak 3', 'lapak', '20m2', 'Jl Bantaran', '1750579216.jpg', '500000', '1'),
-(12, 'lapak 4', 'lapak', '20m2', 'Jl Bantaran', '1750579237.jpg', '500000', '1'),
-(13, 'lapak 5', 'lapak', '20m2', 'Jl Bantaran', '1750579256.jpg', '500000', '1'),
-(14, 'lapak 6', 'lapak', '20m2', 'Jl Bantaran', '1750579377.jpg', '500000', '1'),
-(15, 'lapak 7', 'lapak', '20m2', 'Jl Bantaran', '1750579402.jpg', '500000', '1'),
-(16, 'lapak 8', 'lapak', '20m2', 'Jl Bantaran', '1750579434.jpg', '500000', '1'),
-(17, 'Ruko 14', 'ruko', '20m2', 'Jl Bantaran', '1750578642.jpg', '5000000', '1'),
-(18, 'Ruko 13', 'ruko', '20m2', 'Jl Bantaran', '1750578605.jpg', '5000000', '1'),
-(19, 'Ruko 12', 'ruko', '20m2', 'Jl bantaran', '1750578383.jpg', '5000000', '1'),
-(20, 'Ruko 11', 'ruko', '20m2', 'Jl Bantaran', '1750578326.jpg', '5000000', '1'),
-(21, 'ruko 9', 'ruko', '20m2', 'jl bantaran', '1750568497.jpg', '5000000', '1'),
-(22, 'Ruko 10', 'ruko', '20m2', 'Jl Bantaran', '1750568734.jpg', '5000000', '1'),
-(23, 'Ruko 15', 'ruko', '20m2', 'Jl Bantaran', '1750578704.jpg', '5000000', '1'),
-(24, 'Ruko 16', 'ruko', '20m2', 'Jl Bantaran', '1750578745.jpg', '5000000', '1'),
-(25, 'Ruko 17', 'ruko', '20m2', 'Jl Bantaran', '1750578777.jpg', '5000000', '1'),
-(26, 'Ruko 18', 'ruko', '20m2', 'Jl Bantaran', '1750578814.jpg', '5000000', '1'),
-(27, 'Ruko 19', 'ruko', '20m2', 'Jl Bantaran', '1750578842.jpg', '5000000', '1'),
-(28, 'Ruko 20', 'ruko', '20m2', 'Jl Bantaran', '1750578876.jpg', '5000000', '1'),
-(29, 'Ruko 21', 'ruko', '20m2', 'Jl Bantaran', '1750578932.jpg', '5000000', '1'),
-(30, 'Ruko 22', 'ruko', '20m2', 'Jl Bantaran', '1750578964.jpg', '5000000', '1'),
-(31, 'Ruko 23', 'ruko', '20m2', 'Jl Bantaran', '1750578992.jpg', '5000000', '1');
+INSERT INTO `properti` (`id_properti`, `nama_properti`, `jenis`, `ukuran`, `alamat_properti`, `foto`, `harga`, `keterangan`, `is_active`) VALUES
+(1, 'Ruko 1', 'ruko', '20m2', 'Jl Bantaran', '1750568762.jpg', '5000000', '1. Dinding tembok lantai keramik \n 2. Listrik (Bayar pribadi) \n 3. Air (Dari BUMdes)', '1'),
+(2, 'ruko 2', 'ruko', '20m2', 'Jl Bantaran', '1750578405.jpg', '5000000', '1. Dinding tembok lantai keramik \n 2. Listrik (Bayar pribadi) \n 3. Air (Dari BUMdes)', '1'),
+(3, 'ruko 3', 'ruko', '20m2', 'Jl Bantaran', '1750578432.jpg', '5000000', '1. Dinding tembok lantai keramik \n 2. Listrik (Bayar pribadi) \n 3. Air (Dari BUMdes)', '1'),
+(4, 'ruko 4', 'ruko', '20m2', 'Jl Bantaran', '1750578456.jpg', '5000000', '1. Dinding tembok lantai keramik \n 2. Listrik (Bayar pribadi) \n 3. Air (Dari BUMdes)', '1'),
+(5, 'ruko 5', 'ruko', '20m2', 'Jl Bantaran', '1750578476.jpg', '5000000', '1. Dinding tembok lantai keramik \n 2. Listrik (Bayar pribadi) \n 3. Air (Dari BUMdes)', '1'),
+(6, 'ruko 6', 'ruko', '20m2', 'Jl Bantaran', '1750578500.jpg', '5000000', '1. Dinding tembok lantai keramik \n 2. Listrik (Bayar pribadi) \n 3. Air (Dari BUMdes)', '1'),
+(7, 'ruko 7', 'ruko', '20m2', 'Jl Bantaran', '1750578518.jpg', '5000000', '1. Dinding tembok lantai keramik \n 2. Listrik (Bayar pribadi) \n 3. Air (Dari BUMdes)', '1'),
+(8, 'ruko 8', 'ruko', '20m2', 'Jl Bantaran', '1750578537.jpg', '5000000', '1. Dinding tembok lantai keramik \n 2. Listrik (Bayar pribadi) \n 3. Air (Dari BUMdes)', '1'),
+(9, 'lapak 1', 'lapak', '20m2', 'Jl Bantaran', '1750579145.jpg', '500000', '1. Dinding kayu lantai semen \n 2. Listrik (Bayar pribadi) \n 3. Air (Dari BUMdes)', '1'),
+(10, 'lapak 2', 'lapak', '20m2', 'Jl Bantaran', '1750579166.jpg', '500000', '1. Dinding kayu lantai semen \n 2. Listrik (Bayar pribadi) \n 3. Air (Dari BUMdes)', '1'),
+(11, 'lapak 3', 'lapak', '20m2', 'Jl Bantaran', '1750579216.jpg', '500000', '1. Dinding kayu lantai semen \n 2. Listrik (Bayar pribadi) \n 3. Air (Dari BUMdes)', '1'),
+(12, 'lapak 4', 'lapak', '20m2', 'Jl Bantaran', '1750579237.jpg', '500000', '1. Dinding kayu lantai semen \n 2. Listrik (Bayar pribadi) \n 3. Air (Dari BUMdes)', '1'),
+(13, 'lapak 5', 'lapak', '20m2', 'Jl Bantaran', '1750579256.jpg', '500000', '1. Dinding kayu lantai semen \n 2. Listrik (Bayar pribadi) \n 3. Air (Dari BUMdes)', '1'),
+(14, 'lapak 6', 'lapak', '20m2', 'Jl Bantaran', '1750579377.jpg', '500000', '1. Dinding kayu lantai semen \n 2. Listrik (Bayar pribadi) \n 3. Air (Dari BUMdes)', '1'),
+(15, 'lapak 7', 'lapak', '20m2', 'Jl Bantaran', '1750579402.jpg', '500000', '1. Dinding kayu lantai semen \n 2. Listrik (Bayar pribadi) \n 3. Air (Dari BUMdes)', '1'),
+(16, 'lapak 8', 'lapak', '20m2', 'Jl Bantaran', '1750579434.jpg', '500000', '1. Dinding kayu lantai semen \n 2. Listrik (Bayar pribadi) \n 3. Air (Dari BUMdes)', '1'),
+(17, 'Ruko 14', 'ruko', '20m2', 'Jl Bantaran', '1750578642.jpg', '5000000', '1. Dinding tembok lantai keramik \n 2. Listrik (Bayar pribadi) \n 3. Air (Dari BUMdes)', '1'),
+(18, 'Ruko 13', 'ruko', '20m2', 'Jl Bantaran', '1750578605.jpg', '5000000', '1. Dinding tembok lantai keramik \n 2. Listrik (Bayar pribadi) \n 3. Air (Dari BUMdes)', '1'),
+(19, 'Ruko 12', 'ruko', '20m2', 'Jl bantaran', '1750578383.jpg', '5000000', '1. Dinding tembok lantai keramik \n 2. Listrik (Bayar pribadi) \n 3. Air (Dari BUMdes)', '1'),
+(20, 'Ruko 11', 'ruko', '20m2', 'Jl Bantaran', '1750578326.jpg', '5000000', '1. Dinding tembok lantai keramik \n 2. Listrik (Bayar pribadi) \n 3. Air (Dari BUMdes)', '1'),
+(21, 'ruko 9', 'ruko', '20m2', 'jl bantaran', '1750568497.jpg', '5000000', '1. Dinding tembok lantai keramik \n 2. Listrik (Bayar pribadi) \n 3. Air (Dari BUMdes)', '1'),
+(22, 'Ruko 10', 'ruko', '20m2', 'Jl Bantaran', '1750568734.jpg', '5000000', '1. Dinding tembok lantai keramik \n 2. Listrik (Bayar pribadi) \n 3. Air (Dari BUMdes)', '1'),
+(23, 'Ruko 15', 'ruko', '20m2', 'Jl Bantaran', '1750578704.jpg', '5000000', '1. Dinding tembok lantai keramik \n 2. Listrik (Bayar pribadi) \n 3. Air (Dari BUMdes)', '1'),
+(24, 'Ruko 16', 'ruko', '20m2', 'Jl Bantaran', '1750578745.jpg', '5000000', '1. Dinding tembok lantai keramik \n 2. Listrik (Bayar pribadi) \n 3. Air (Dari BUMdes)', '1'),
+(25, 'Ruko 17', 'ruko', '20m2', 'Jl Bantaran', '1750578777.jpg', '5000000', '1. Dinding tembok lantai keramik \n 2. Listrik (Bayar pribadi) \n 3. Air (Dari BUMdes)', '1'),
+(26, 'Ruko 18', 'ruko', '20m2', 'Jl Bantaran', '1750578814.jpg', '5000000', '1. Dinding tembok lantai keramik \n 2. Listrik (Bayar pribadi) \n 3. Air (Dari BUMdes)', '1'),
+(27, 'Ruko 19', 'ruko', '20m2', 'Jl Bantaran', '1750578842.jpg', '5000000', '1. Dinding tembok lantai keramik \n 2. Listrik (Bayar pribadi) \n 3. Air (Dari BUMdes)', '1'),
+(28, 'Ruko 20', 'ruko', '20m2', 'Jl Bantaran', '1750578876.jpg', '5000000', '1. Dinding tembok lantai keramik \n 2. Listrik (Bayar pribadi) \n 3. Air (Dari BUMdes)', '1'),
+(29, 'Ruko 21', 'ruko', '20m2', 'Jl Bantaran', '1750578932.jpg', '5000000', '1. Dinding tembok lantai keramik \n 2. Listrik (Bayar pribadi) \n 3. Air (Dari BUMdes)', '1'),
+(30, 'Ruko 22', 'ruko', '20m2', 'Jl Bantaran', '1750578964.jpg', '5000000', '1. Dinding tembok lantai keramik \n 2. Listrik (Bayar pribadi) \n 3. Air (Dari BUMdes)', '1'),
+(31, 'Ruko 23', 'ruko', '20m2', 'Jl Bantaran', '1750578992.jpg', '5000000', '1. Dinding tembok lantai keramik \n 2. Listrik (Bayar pribadi) \n 3. Air (Dari BUMdes)', '1');
 
 -- --------------------------------------------------------
 
@@ -301,7 +302,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `pembayaran`
 --
 ALTER TABLE `pembayaran`
-  MODIFY `id_pembayaran` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id_pembayaran` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `pengurus`
@@ -319,13 +320,13 @@ ALTER TABLE `penyewa`
 -- AUTO_INCREMENT for table `properti`
 --
 ALTER TABLE `properti`
-  MODIFY `id_properti` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `id_properti` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT for table `sewa`
 --
 ALTER TABLE `sewa`
-  MODIFY `id_sewa` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id_sewa` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `transaksi_keuangan`

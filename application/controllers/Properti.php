@@ -32,6 +32,7 @@ class Properti extends CI_Controller
             'ukuran' => trim($this->input->post('ukuran', true)),
             'alamat_properti' => trim($this->input->post('alamat_properti', true)),
             'harga' => trim($this->input->post('harga', true)),
+            'keterangan' => trim($this->input->post('keterangan', true)),
         ];
 
         $data['foto'] = upload_file('foto');
@@ -48,6 +49,7 @@ class Properti extends CI_Controller
             'ukuran' => trim($this->input->post('ukuran', true)),
             'alamat_properti' => trim($this->input->post('alamat_properti', true)),
             'harga' => trim($this->input->post('harga', true)),
+            'keterangan' => trim($this->input->post('keterangan', true)),
         ];
 
         $foto = $this->base_model->get_one_data_by('properti', 'id_properti', $id_properti)->foto;
@@ -58,6 +60,15 @@ class Properti extends CI_Controller
         }
 
         $this->base_model->update('properti', $data, $id_properti);
+        redirect('properti');
+    }
+
+    public function delete($id_properti = null)
+    {
+        if (is_null($id_properti)) show_404();
+        $foto = $this->base_model->get_one_data_by('properti', 'id_properti', $id_properti)->foto;
+        unlink("./file/$foto");
+        $this->base_model->delete('properti', $id_properti);
         redirect('properti');
     }
 }

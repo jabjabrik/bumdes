@@ -34,12 +34,13 @@
                         <thead>
                             <tr>
                                 <th>No</th>
-                                <th>Nama Properti</th>
+                                <th>Nama</th>
                                 <th>Jenis</th>
                                 <th>Ukuran</th>
                                 <th>Alamat</th>
                                 <th>Foto</th>
                                 <th>Harga</th>
+                                <th>Keterangan</th>
                                 <th class="no-sort">Aksi</th>
                             </tr>
                         </thead>
@@ -58,12 +59,16 @@
                                         </a>
                                     </td>
                                     <td>Rp.<?= number_format($item->harga, 0, ',', '.')  ?></td>
+                                    <td><?= str_replace("\n", "<br>", $item->keterangan); ?></td>
                                     <td>
-                                        <?php $params = "[`$item->id_properti`,`$item->nama_properti`,`$item->jenis`,`$item->ukuran`,`$item->alamat_properti`,`$item->harga`]" ?>
+                                        <?php $params = "[`$item->id_properti`,`$item->nama_properti`,`$item->jenis`,`$item->ukuran`,`$item->alamat_properti`,`$item->harga`,`$item->keterangan`]" ?>
                                         <div class="btn-group btn-group-sm" role="group">
                                             <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modal_form" onclick="setForm('edit', <?= $params ?>)">
                                                 <i class="bi bi-pencil-square"></i> Edit
                                             </button>
+                                            <a href="<?= base_url("properti/delete/$item->id_properti"); ?>" class="btn btn-outline-danger" onclick="return confirm('Anda yakin ingin menghapus data?')">
+                                                <i class="bi bi-trash-fill"></i> Hapus
+                                            </a>
                                         </div>
                                     </td>
                                 </tr>
@@ -114,6 +119,10 @@
                                     <label for="foto" class="form-label">Unggah Foto</label>
                                     <input class="form-control" type="file" id="foto" name="foto" accept="image/*" required>
                                 </div>
+                                <div class="form-group  col-12">
+                                    <label for="keterangan" class="form-label">Keterangan</label>
+                                    <textarea name="keterangan" id="keterangan" rows="5" class="form-control" required></textarea>
+                                </div>
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -133,7 +142,7 @@
 
             const setForm = (title, data) => {
                 modal_form.querySelector('form').setAttribute('action', `<?= base_url('properti/') ?>${title}`)
-                const fields = ['id_properti', 'nama_properti', 'jenis', 'ukuran', 'alamat_properti', 'harga'];
+                const fields = ['id_properti', 'nama_properti', 'jenis', 'ukuran', 'alamat_properti', 'harga', 'keterangan'];
                 fields.forEach((e, i) => {
                     const element = modal_form.querySelector(`#${e}`);
                     element.value = title == 'insert' ? '' : data[i];
