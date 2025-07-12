@@ -14,11 +14,6 @@ class Sewa_model extends CI_Model
             $where .= "AND properti.jenis = '$jenis_properti'";
         }
 
-        // $query = "SELECT properti.id_properti AS id_properti_, properti.*, penyewa.*, sewa.*
-        // FROM properti
-        // LEFT JOIN sewa ON properti.id_properti = sewa.id_properti
-        // LEFT JOIN penyewa ON sewa.id_penyewa = penyewa.id_penyewa
-        // WHERE 1=1 $where";
         $query = "SELECT properti.id_properti,properti.nama_properti, properti.jenis, properti.alamat_properti, sewa.id_sewa, penyewa.nama_penyewa
         FROM properti
         LEFT JOIN (
@@ -56,8 +51,6 @@ class Sewa_model extends CI_Model
 
         return $this->db->query($query)->row();
     }
-
-
 
     public function check_status_sewa($id_properti)
     {
@@ -121,5 +114,15 @@ class Sewa_model extends CI_Model
         } else {
             $this->db->insert('pembayaran', ['id_sewa' => $id_sewa]);
         }
+    }
+
+    public function get_report_sewa()
+    {
+        $query = "SELECT properti.*, sewa.*, penyewa.*
+        FROM sewa
+        JOIN properti ON sewa.id_properti = properti.id_properti
+        JOIN penyewa ON sewa.id_penyewa = penyewa.id_penyewa
+        ORDER BY sewa.id_sewa";
+        return $this->db->query($query)->result();
     }
 }

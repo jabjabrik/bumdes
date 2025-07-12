@@ -21,6 +21,9 @@
                     <div class="row">
                         <div class="col-sm-6">
                             <h3 class="mb-0">Daftar Data sewa Ruko / Lapak</h3>
+                            <a href="<?= base_url("sewa/report"); ?>" target="_blank" class="pt-2 btn btn-sm btn-success">
+                                <i class="bi bi-file-text me-1"></i> Cetak Laporan
+                            </a>
                         </div>
                     </div>
                 </div>

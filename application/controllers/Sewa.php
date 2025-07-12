@@ -8,6 +8,7 @@ class Sewa extends CI_Controller
         parent::__construct();
         $this->load->model('base_model');
         $this->load->model('sewa_model');
+        $this->load->library('Dompdf_lib');
         authorize_user(['bendahara', 'kepala lapak', 'kepala ruko']);
     }
 
@@ -335,5 +336,19 @@ class Sewa extends CI_Controller
         $this->base_model->update('pembayaran', $data, $id_pembayaran);
         $this->base_model->delete('transaksi_keuangan', $id_transaksi_keuangan);
         redirect("sewa/properti/$id_properti");
+    }
+
+    public function report($tahun = null)
+    {
+        $data['data_result'] = $this->sewa_model->get_report_sewa();
+        $html = $this->load->view('admin_view/sewa/report', $data, TRUE);
+
+        // Atur DOMPDF
+        $this->dompdf_lib->loadHtml($html);
+        $this->dompdf_lib->setPaper('A4', 'landscape');
+        $this->dompdf_lib->render();
+
+        // Output file PDF
+        $this->dompdf_lib->stream("laporan-sewa.pdf", array("Attachment" => 0));
     }
 }
