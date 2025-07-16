@@ -30,11 +30,15 @@ class Keuangan_model extends CI_Model
         return $this->db->query($query)->row();
     }
 
-    public function get_transaksi_keuangan($tahun): array
+    public function get_transaksi_keuangan($tahun, $bulan): array
     {
         $where = "";
         if ($tahun != 'all') {
             $where .= "AND YEAR(transaksi_keuangan.tanggal_transaksi) = '$tahun'";
+        }
+
+        if ($bulan != '') {
+            $where .= "AND MONTH(transaksi_keuangan.tanggal_transaksi) = '$bulan'";
         }
 
         $query = "SELECT 
@@ -51,6 +55,7 @@ class Keuangan_model extends CI_Model
         ORDER BY transaksi_keuangan.tanggal_transaksi";
 
         $this->db->query("SET @total := 0;");
+
         return $this->db->query($query)->result();
     }
 }

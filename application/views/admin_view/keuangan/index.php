@@ -20,7 +20,7 @@
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-12">
-                            <h3 class="mb-0"><i class="bi bi-cash-stack me-1"></i> Laporan Transaksi BUMDes <?= $tahun == 'all' ? "Semua Tahun" : "Tahun $tahun"  ?></h3>
+                            <h3 class="mb-0"><i class="bi bi-cash-stack me-1"></i> Laporan Transaksi BUMDes <?= $tahun == 'all' ? "Semua Tahun" : ($bulan == '' ? "Tahun $tahun" : "Tahun $tahun Bulan $bulan")  ?></h3>
                         </div>
                     </div>
                 </div>
@@ -30,7 +30,7 @@
                     <div class="row gy-2">
                         <div class="col-12">
                             <div class="btn-group mb-2" role="group" aria-label="Button group with nested dropdown">
-                                <button type="button" disabled class="btn btn-secondary">Menampilkan Data <?= $tahun == 'all' ? "Semua Tahun" : "Tahun $tahun"  ?></button>
+                                <button type="button" disabled class="btn btn-secondary">Menampilkan Data <?= $tahun == 'all' ? "Semua Tahun" : ($bulan == '' ? "Tahun $tahun" : "Tahun $tahun Bulan $bulan")  ?></button>
                                 <!-- <button type="button" disabled class="btn btn-secondary">Tahun 2024</button> -->
                                 <div class="btn-group" role="group">
                                     <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
@@ -43,6 +43,19 @@
                                         <?php foreach ($tahun_pembayaran as $item): ?>
                                             <li>
                                                 <a class="dropdown-item" href="<?= base_url("keuangan/laporan/$item"); ?>"><?= $item ?></a>
+                                            </li>
+                                        <?php endforeach; ?>
+                                    </ul>
+                                </div>
+                                <div class="btn-group" role="group" <?= $tahun == 'all' ? 'hidden' : '' ?>>
+                                    <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Pilih Bulan
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <?php $list_bulan = ['januari', 'februari', 'maret', 'april', 'mei', 'juni', 'juli', 'agustus', 'september', 'oktober', 'november', 'desember']; ?>
+                                        <?php foreach ($list_bulan as $i => $item): ?>
+                                            <li>
+                                                <a class="dropdown-item" href="<?= base_url("keuangan/laporan/$tahun/" . (str_pad($i + 1, 2, '0', STR_PAD_LEFT))); ?>"><?= $item ?></a>
                                             </li>
                                         <?php endforeach; ?>
                                     </ul>
@@ -110,7 +123,7 @@
                                                             <h6 class="fw-bold mt-2">JANGKA WAKTU</h6>
                                                         </div>
                                                         <div class="col-6 mb-0">
-                                                            <h6 class="fw-bold mt-2"><?= $tahun == 'all' ? "Semua Tahun" : "Tahun $tahun"  ?></h6>
+                                                            <h6 class="fw-bold mt-2"><?= $tahun == 'all' ? "Semua Tahun" : ($bulan == '' ? "Tahun $tahun" : "Tahun $tahun Bulan $bulan")   ?></h6>
                                                         </div>
                                                     </div>
                                                     <hr>
@@ -130,7 +143,7 @@
                                                     <hr>
                                                     <div class="row">
                                                         <div class="col-6 mb-0">
-                                                            <a href="<?= base_url("keuangan/report/$tahun"); ?>" target="_blank" class="pt-2 btn btn-sm btn-success">
+                                                            <a href="<?= base_url("keuangan/report/$tahun/" . ($tahun != 'all' && $bulan != '' ?  $bulan : '')); ?>" target="_blank" class="pt-2 btn btn-sm btn-success">
                                                                 <i class="bi bi-file-text me-1"></i> Buat Laporan
                                                             </a>
                                                         </div>

@@ -17,7 +17,7 @@ class Keuangan extends CI_Controller
         redirect('keuangan/laporan', 'refresh');
     }
 
-    public function laporan($tahun = null)
+    public function laporan($tahun = '', $bulan = '')
     {
         if (is_null($tahun)) redirect('keuangan/laporan/all');
 
@@ -27,10 +27,11 @@ class Keuangan extends CI_Controller
             redirect('keuangan/laporan/all');
         }
 
-        $data['data_result'] = $this->keuangan_model->get_transaksi_keuangan($tahun);
+        $data['data_result'] = $this->keuangan_model->get_transaksi_keuangan($tahun, $bulan);
         $data['transaksi_kas'] = $this->keuangan_model->get_transaksi_kas($tahun);
         $data['tahun_pembayaran'] = $tahun_pembayaran;
         $data['tahun'] = $tahun;
+        $data['bulan'] = $bulan;
         $data['user_role'] = $this->session->userdata('user_role');
 
         $data['title'] = 'Keuangan';
@@ -68,7 +69,7 @@ class Keuangan extends CI_Controller
         redirect("keuangan/laporan");
     }
 
-    public function report($tahun = null)
+    public function report($tahun = null, $bulan = null)
     {
         if (is_null($tahun)) redirect('keuangan/laporan');
 
@@ -78,7 +79,7 @@ class Keuangan extends CI_Controller
             redirect('keuangan/laporan');
         }
 
-        $data['data_result'] = $this->keuangan_model->get_transaksi_keuangan($tahun);
+        $data['data_result'] = $this->keuangan_model->get_transaksi_keuangan($tahun, $bulan);
         $data['tahun'] = $tahun;
 
         $html = $this->load->view('admin_view/keuangan/report', $data, TRUE);
