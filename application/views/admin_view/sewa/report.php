@@ -95,7 +95,7 @@
         <h2>Laporan Sewa BUMDES</h2>
     </div>
 
-    <div class="report-info">
+    <div class="report-info" style="font-size: 18px; font-weight: bold;">
         Laporan periode: <?= date('d F Y') ?>
     </div>
 
@@ -139,9 +139,10 @@
         </tbody>
     </table>
 
-    <div class="footer">
+    <div class="footer" style="font-size: 16px; font-style: italic;">
         Dicetak pada: <?= date('d/m/Y H:i:s') ?>
     </div>
+
 </body>
 
 </html>

@@ -13,7 +13,7 @@
     <main class="main">
 
         <!-- Page Title -->
-        <div class="page-title dark-background" style="background-image: url(<?= base_url('assets/profile/img/background/produk.jpg'); ?>); ">
+        <div class="page-title dark-background" style="background-image: url(<?= base_url('assets/profile/img/background/logo_garuda.jpg'); ?>); ">
             <div class="container position-relative">
                 <h1>BUMDes Bantaran</h1>
                 <nav class="breadcrumbs">

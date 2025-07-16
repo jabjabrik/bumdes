@@ -45,7 +45,7 @@
 </head>
 
 <body>
-    <h2>Laporan Transaksi Keuangan <?= $tahun == 'all' ? "Semua Tahun" : "Tahun $tahun"  ?></h2>
+    <h2>Laporan Transaksi Keuangan <?= $tahun == 'all' ? "Semua Tahun" : ($bulan == '' ? "Tahun $tahun" : "Tahun $tahun Bulan $bulan") ?></h2>
     <h5>Total Saldo Rp <?= empty($data_result) ? 0 : number_format(end($data_result)->total_saldo, '0', ',', '.') ?></h5>
     <table style="font-size: .85em;">
         <thead>

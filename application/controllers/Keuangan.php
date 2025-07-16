@@ -81,6 +81,7 @@ class Keuangan extends CI_Controller
 
         $data['data_result'] = $this->keuangan_model->get_transaksi_keuangan($tahun, $bulan);
         $data['tahun'] = $tahun;
+        $data['bulan'] = $bulan;
 
         $html = $this->load->view('admin_view/keuangan/report', $data, TRUE);
 
